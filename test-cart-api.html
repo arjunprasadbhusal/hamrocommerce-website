@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Cart API</title>
+</head>
+<body>
+    <h1>Cart API Test</h1>
+    <button onclick="testCartAPI()">Test Add to Cart</button>
+    <pre id="output"></pre>
+
+    <script>
+        async function testCartAPI() {
+            const output = document.getElementById('output');
+            output.textContent = 'Testing...';
+
+            // Get token from localStorage (you need to login first)
+            const token = prompt('Enter your token (or login first in the main app):', '');
+            
+            if (!token) {
+                output.textContent = 'No token provided. Please login first in the main app.';
+                return;
+            }
+
+            try {
+                const response = await fetch('http://192.168.1.68:8000/api/v1/cart', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        product_id: 6,  // First product ID
+                        quantity: 1,
+                        size: 'M',
+                        color: 'White'
+                    })
+                });
+
+                const data = await response.json();
+                
+                output.textContent = JSON.stringify({
+                    status: response.status,
+                    statusText: response.statusText,
+                    data: data
+                }, null, 2);
+            } catch (error) {
+                output.textContent = 'Error: ' + error.message + '\n\n' + error.stack;
+            }
+        }
+    </script>
+</body>
+</html>

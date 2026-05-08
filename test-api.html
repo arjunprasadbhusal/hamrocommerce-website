@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-result {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>API Connectivity Test</h1>
+    
+    <div>
+        <button onclick="testConnection()">Test Connection</button>
+        <button onclick="testAuth()">Test Auth Endpoint</button>
+        <button onclick="testOrder()">Test Order Creation</button>
+    </div>
+
+    <div id="results"></div>
+
+    <script>
+        const API_BASE = 'http://192.168.1.75:8000/api/v1';
+        
+        function addResult(title, success, data) {
+            const div = document.createElement('div');
+            div.className = 'test-result ' + (success ? 'success' : 'error');
+            div.innerHTML = `
+                <h3>${title}</h3>
+                <pre>${JSON.stringify(data, null, 2)}</pre>
+            `;
+            document.getElementById('results').appendChild(div);
+        }
+
+        async function testConnection() {
+            document.getElementById('results').innerHTML = '';
+            try {
+                const response = await fetch(`${API_BASE}/products`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    addResult('Connection Test', true, { 
+                        status: response.status, 
+                        message: 'Successfully connected to API',
+                        productCount: data.products?.length || 0
+                    });
+                } else {
+                    addResult('Connection Test', false, { 
+                        status: response.status, 
+                        message: await response.text()
+                    });
+                }
+            } catch (error) {
+                addResult('Connection Test', false, { 
+                    error: error.message 
+                });
+            }
+        }
+
+        async function testAuth() {
+            const token = prompt('Enter your auth token:');
+            if (!token) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/mycart`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    addResult('Auth Test', true, data);
+                } else {
+                    const text = await response.text();
+                    addResult('Auth Test', false, { 
+                        status: response.status,
+                        contentType: response.headers.get('content-type'),
+                        response: text.substring(0, 500)
+                    });
+                }
+            } catch (error) {
+                addResult('Auth Test', false, { 
+                    error: error.message 
+                });
+            }
+        }
+
+        async function testOrder() {
+            const token = prompt('Enter your auth token:');
+            if (!token) return;
+
+            const orderData = {
+                product_id: 1,
+                price: 100,
+                quantity: 1,
+                payment_method: 'eSewa',
+                name: 'Test User',
+                phone: '9801234567',
+                address: 'Test Address',
+                city: 'Kathmandu',
+                district: 'Kathmandu'
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/orders`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(orderData)
+                });
+                
+                const contentType = response.headers.get('content-type');
+                
+                if (contentType && contentType.includes('application/json')) {
+                    const data = await response.json();
+                    addResult('Order Test', response.ok, data);
+                } else {
+                    const text = await response.text();
+                    addResult('Order Test', false, { 
+                        status: response.status,
+                        contentType: contentType,
+                        message: 'Received non-JSON response',
+                        response: text.substring(0, 500)
+                    });
+                }
+            } catch (error) {
+                addResult('Order Test', false, { 
+                    error: error.message,
+                    stack: error.stack
+                });
+            }
+        }
+    </script>
+</body>
+</html>
