@@ -43,12 +43,12 @@ const Alert = ({
   };
 
   const positionStyles = {
-    'top-right': 'fixed top-4 right-4 z-50',
-    'top-left': 'fixed top-4 left-4 z-50',
-    'top-center': 'fixed top-4 left-1/2 transform -translate-x-1/2 z-50',
-    'bottom-right': 'fixed bottom-4 right-4 z-50',
-    'bottom-left': 'fixed bottom-4 left-4 z-50',
-    'bottom-center': 'fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50',
+    'top-right': 'fixed top-4 right-4 z-[70]',
+    'top-left': 'fixed top-4 left-4 z-[70]',
+    'top-center': 'fixed top-4 left-1/2 transform -translate-x-1/2 z-[70]',
+    'bottom-right': 'fixed bottom-4 right-4 z-[70]',
+    'bottom-left': 'fixed bottom-4 left-4 z-[70]',
+    'bottom-center': 'fixed bottom-4 left-1/2 transform -translate-x-1/2 z-[70]',
   };
 
   const currentStyle = alertStyles[type] || alertStyles.info;
@@ -93,7 +93,7 @@ const Alert = ({
 // Toast notification component for stacking alerts
 export const Toast = ({ alerts = [], removeAlert }) => {
   return (
-    <div className="fixed top-4 right-4 z-50 space-y-2">
+    <div className="fixed top-4 right-4 z-[70] space-y-2">
       {alerts.map((alert, index) => (
         <div
           key={alert.id || index}
