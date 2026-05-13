@@ -89,6 +89,9 @@ class ProductController extends Controller
         $data = $validator->validated();
 
         if ($request->hasFile('photopath')) {
+            if ($product->photopath) {
+                Storage::disk('public')->delete($product->photopath);
+            }
             $data['photopath'] = $request->file('photopath')->store('products', 'public');
         }
 
@@ -164,9 +167,6 @@ class ProductController extends Controller
         $data = $validator->validated();
 
         if ($request->hasFile('photopath')) {
-            if ($product->photopath) {
-                Storage::disk('public')->delete($product->photopath);
-            }
             $data['photopath'] = $request->file('photopath')->store('products', 'public');
         }
 

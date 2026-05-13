@@ -89,6 +89,11 @@ class BannerController extends Controller
 
             // Handle file upload
             if ($request->hasFile('image')) {
+                // Delete old image if exists
+                if ($banner->image && Storage::disk('public')->exists($banner->image)) {
+                    Storage::disk('public')->delete($banner->image);
+                }
+
                 $file = $request->file('image');
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $path = $file->storeAs('banners', $filename, 'public');
@@ -179,11 +184,6 @@ class BannerController extends Controller
 
             // Handle file upload
             if ($request->hasFile('image')) {
-                // Delete old image if exists
-                if ($banner->image && Storage::disk('public')->exists($banner->image)) {
-                    Storage::disk('public')->delete($banner->image);
-                }
-
                 $file = $request->file('image');
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $path = $file->storeAs('banners', $filename, 'public');

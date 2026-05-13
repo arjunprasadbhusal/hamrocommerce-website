@@ -40,6 +40,10 @@ export const API_ENDPOINTS = {
   DASHBOARD_SALES: `${API_BASE_URL}/dashboard/sales`,
   DASHBOARD_USERS: `${API_BASE_URL}/dashboard/users`,
   DASHBOARD_PRODUCTS: `${API_BASE_URL}/dashboard/products`,
+
+  // Leaderships
+  LEADERSHIPS: `${API_BASE_URL}/leaderships`,
+  LEADERSHIP_DETAIL: (id: number) => `${API_BASE_URL}/leaderships/${id}`,
 };
 
 // Helper function to get auth headers

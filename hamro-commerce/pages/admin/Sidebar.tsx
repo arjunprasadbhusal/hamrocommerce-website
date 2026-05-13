@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Package, FolderTree, ShoppingCart, Video, ImageIcon, FileText, Users, Mail, LogOut, X } from 'lucide-react';
+import { LayoutDashboard, Package, FolderTree, ShoppingCart, Video, ImageIcon, FileText, Users, Mail, LogOut, X, MessageSquare, Crown } from 'lucide-react';
 import { API_ENDPOINTS } from '../../src/constant/api';
 
 const ADMIN_SIDEBAR_EVENT = 'admin-sidebar:set-open';
@@ -83,6 +83,16 @@ const Sidebar = () => {
       title: 'Banners',
       path: '/admin/banners',
       icon: <ImageIcon className="w-5 h-5" />,
+    },
+    {
+      title: 'Testimonials',
+      path: '/admin/testimonials',
+      icon: <MessageSquare className="w-5 h-5" />,
+    },
+    {
+      title: 'Leadership',
+      path: '/admin/leaderships',
+      icon: <Crown className="w-5 h-5" />,
     },
     {
       title: 'Blogs',

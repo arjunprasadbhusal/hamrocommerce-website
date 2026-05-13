@@ -19,6 +19,8 @@ use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\MessageController;
 use App\Http\Controllers\Api\V1\NotificationController;
 use App\Http\Controllers\Api\V1\WishlistController;
+use App\Http\Controllers\Api\V1\TestimonialController;
+use App\Http\Controllers\Api\V1\LeadershipController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -54,6 +56,14 @@ Route::prefix('v1')->group(function () {
     Route::get('banners', [BannerController::class, 'index']);
     Route::get('banners/active', [BannerController::class, 'active']);
     Route::get('banners/{id}', [BannerController::class, 'show']);
+
+    // Public Testimonial API Routes
+    Route::get('testimonials', [TestimonialController::class, 'index']);
+    Route::get('testimonials/{id}', [TestimonialController::class, 'show']);
+
+    // Public Leadership API Routes
+    Route::get('leaderships', [LeadershipController::class, 'index']);
+    Route::get('leaderships/{id}', [LeadershipController::class, 'show']);
 
     // Public Message API Route (Contact Form)
     Route::post('messages', [MessageController::class, 'store']);
@@ -125,6 +135,16 @@ Route::prefix('v1')->middleware(['auth:sanctum', 'isAdmin'])->group(function () 
     Route::put('banners/{id}/status', [BannerController::class, 'updateStatus']);
     Route::put('banners/{id}/priority', [BannerController::class, 'updatePriority']);
     Route::delete('banners/{id}', [BannerController::class, 'destroy']);
+
+    // Testimonial Management (Admin Only)
+    Route::post('testimonials', [TestimonialController::class, 'store']);
+    Route::put('testimonials/{id}', [TestimonialController::class, 'update']);
+    Route::delete('testimonials/{id}', [TestimonialController::class, 'destroy']);
+
+    // Leadership Management (Admin Only)
+    Route::post('leaderships', [LeadershipController::class, 'store']);
+    Route::put('leaderships/{id}', [LeadershipController::class, 'update']);
+    Route::delete('leaderships/{id}', [LeadershipController::class, 'destroy']);
     
     // Order Management (Admin Only)
     Route::get('orders', [OrderController::class, 'index']);

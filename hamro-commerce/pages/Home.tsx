@@ -196,7 +196,7 @@ const Home = () => {
           `}</style>
 
           <div
-            className="relative w-full max-w-5xl overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 shadow-2xl"
+            className="relative w-full max-w-3xl overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
             style={{ animation: 'scaleUp 0.5s cubic-bezier(0.34, 1.2, 0.64, 1) forwards' }}
           >
@@ -209,7 +209,7 @@ const Home = () => {
               <X className="h-5 w-5" />
             </button>
 
-            <div className="relative group aspect-[4/3] sm:aspect-[16/9] w-full bg-gradient-to-br from-slate-800 to-slate-900 overflow-hidden">
+            <div className="relative group aspect-[16/10] sm:aspect-[16/9] w-full bg-gradient-to-br from-slate-800 to-slate-900 overflow-hidden">
               <img
                 key={activeBannerIndex}
                 src={getBannerImageUrl(banners[activeBannerIndex]?.image)}
@@ -226,14 +226,14 @@ const Home = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-red-600/20 via-transparent to-transparent" />
 
               {/* Content */}
-              <div className="absolute bottom-0 left-0 w-full p-6 sm:p-10 pointer-events-none">
+              <div className="absolute bottom-0 left-0 w-full p-4 sm:p-6 pointer-events-none">
                 <div className="transform transition-all duration-700 translate-y-8 group-hover:translate-y-0">
-                  <span className="inline-flex items-center gap-2 px-4 py-1.5 mb-4 text-xs font-black tracking-wider text-white bg-gradient-to-r from-red-500 to-red-600 rounded-full shadow-lg shadow-red-500/30">
+                  <span className="inline-flex items-center gap-2 px-3 py-1 mb-3 text-[11px] font-black tracking-wider text-white bg-gradient-to-r from-red-500 to-red-600 rounded-full shadow-lg shadow-red-500/30">
                     <Sparkles className="w-3.5 h-3.5" />
                     {t("specialOffer") || "Special Offer"}
                   </span>
 
-                  <h3 className="text-3xl sm:text-5xl md:text-6xl font-black text-white leading-tight drop-shadow-2xl mb-6 max-w-3xl">
+                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-white leading-tight drop-shadow-2xl mb-4 max-w-2xl">
                     {banners[activeBannerIndex]?.title}
                   </h3>
 
@@ -241,10 +241,10 @@ const Home = () => {
                     <Link
                       to="/shop"
                       onClick={closeBanner}
-                      className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-white to-slate-100 text-slate-900 px-8 sm:px-10 py-3.5 sm:py-4 rounded-full font-bold text-sm sm:text-base transition-all shadow-2xl hover:shadow-xl hover:-translate-y-1 active:translate-y-0 group"
+                      className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-white to-slate-100 text-slate-900 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full font-bold text-sm transition-all shadow-2xl hover:shadow-xl hover:-translate-y-1 active:translate-y-0 group"
                     >
                       {t("shopNow") || "Shop Now"} 
-                      <ArrowRight className="w-4 sm:w-5 h-4 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </div>
                 </div>
@@ -255,15 +255,15 @@ const Home = () => {
                 <>
                   <button
                     onClick={prevSlide}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md transition-all hover:bg-white/40 hover:scale-110 active:scale-95 opacity-0 group-hover:opacity-100"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md transition-all hover:bg-white/40 hover:scale-110 active:scale-95 opacity-0 group-hover:opacity-100"
                   >
-                    <ChevronLeft className="h-6 w-6" />
+                    <ChevronLeft className="h-5 w-5" />
                   </button>
                   <button
                     onClick={nextSlide}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md transition-all hover:bg-white/40 hover:scale-110 active:scale-95 opacity-0 group-hover:opacity-100"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md transition-all hover:bg-white/40 hover:scale-110 active:scale-95 opacity-0 group-hover:opacity-100"
                   >
-                    <ChevronRight className="h-6 w-6" />
+                    <ChevronRight className="h-5 w-5" />
                   </button>
                 </>
               )}
@@ -541,7 +541,7 @@ const Home = () => {
                 Level Up Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-400">Style</span>
               </h2>
               <p className="text-slate-300 mb-6">
-                Get up to <span className="text-white font-bold text-2xl">50% OFF</span> on premium fashion
+                Get up to <span className="text-white font-bold text-2xl">20% OFF</span> on premium fashion
               </p>
               <Link
                 to="/shop"
@@ -561,7 +561,7 @@ const Home = () => {
                 />
               </div>
               <div className="absolute -top-4 -right-4 bg-gradient-to-r from-red-500 to-orange-500 text-white w-20 h-20 rounded-full flex flex-col items-center justify-center font-black shadow-xl animate-bounce">
-                <span className="text-2xl">50%</span>
+                <span className="text-2xl">20%</span>
                 <span className="text-[10px] uppercase">Off</span>
               </div>
             </div>

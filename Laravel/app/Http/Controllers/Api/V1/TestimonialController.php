@@ -3,48 +3,48 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Blog;
+use App\Models\Testimonial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-class BlogController extends Controller
+class TestimonialController extends Controller
 {
     /**
-     * Display a listing of blogs.
+     * Display a listing of testimonials.
      */
     public function index()
     {
         try {
-            $blogs = Cache::remember('blogs_all', 300, function () {
-                return Blog::orderBy('created_at', 'desc')
-                    ->paginate(10);
+            $testimonials = Cache::remember('testimonials_all', 300, function () {
+                return Testimonial::orderBy('created_at', 'desc')->get();
             });
 
             return response()->json([
                 'success' => true,
-                'data' => $blogs
+                'data' => $testimonials
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to fetch blogs',
+                'message' => 'Failed to fetch testimonials',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
 
     /**
-     * Store a newly created blog.
+     * Store a newly created testimonial.
      */
     public function store(Request $request)
     {
         try {
             $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
                 'title' => 'required|string|max:255',
                 'description' => 'required|string',
-                'photopath' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:2048'
+                'photopath' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:5120'
             ]);
 
             if ($validator->fails()) {
@@ -55,89 +55,86 @@ class BlogController extends Controller
                 ], 422);
             }
 
-            $data = $request->only(['title', 'description']);
+            $data = $request->only(['name', 'title', 'description']);
 
-            // Handle file upload
             if ($request->hasFile('photopath')) {
-                // Delete old file if exists
-                if ($blog->photopath && Storage::disk('public')->exists($blog->photopath)) {
-                    Storage::disk('public')->delete($blog->photopath);
+                if ($testimonial->photopath && Storage::disk('public')->exists($testimonial->photopath)) {
+                    Storage::disk('public')->delete($testimonial->photopath);
                 }
 
                 $file = $request->file('photopath');
                 $filename = time() . '_' . $file->getClientOriginalName();
-                $path = $file->storeAs('blogs', $filename, 'public');
+                $path = $file->storeAs('testimonials', $filename, 'public');
                 $data['photopath'] = $path;
             }
 
-            $blog = Blog::create($data);
+            $testimonial = Testimonial::create($data);
 
-            // Clear cache
-            Cache::forget('blogs_all');
-
+            Cache::forget('testimonials_all');
             return response()->json([
                 'success' => true,
-                'message' => 'Blog created successfully',
-                'data' => $blog
+                'message' => 'Testimonial created successfully',
+                'data' => $testimonial
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to create blog',
+                'message' => 'Failed to create testimonial',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
 
     /**
-     * Display the specified blog.
+     * Display the specified testimonial.
      */
     public function show($id)
     {
         try {
-            $blog = Cache::remember("blog_{$id}", 300, function () use ($id) {
-                return Blog::find($id);
+            $testimonial = Cache::remember("testimonial_{$id}", 300, function () use ($id) {
+                return Testimonial::find($id);
             });
 
-            if (!$blog) {
+            if (!$testimonial) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Blog not found'
+                    'message' => 'Testimonial not found'
                 ], 404);
             }
 
             return response()->json([
                 'success' => true,
-                'data' => $blog
+                'data' => $testimonial
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to fetch blog',
+                'message' => 'Failed to fetch testimonial',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
 
     /**
-     * Update the specified blog.
+     * Update the specified testimonial.
      */
     public function update(Request $request, $id)
     {
         try {
-            $blog = Blog::find($id);
+            $testimonial = Testimonial::find($id);
 
-            if (!$blog) {
+            if (!$testimonial) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Blog not found'
+                    'message' => 'Testimonial not found'
                 ], 404);
             }
 
             $validator = Validator::make($request->all(), [
+                'name' => 'sometimes|required|string|max:255',
                 'title' => 'sometimes|required|string|max:255',
                 'description' => 'sometimes|required|string',
-                'photopath' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:2048'
+                'photopath' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:5120'
             ]);
 
             if ($validator->fails()) {
@@ -148,70 +145,70 @@ class BlogController extends Controller
                 ], 422);
             }
 
-            $data = $request->only(['title', 'description']);
+            $data = $request->only(['name', 'title', 'description']);
 
-            // Handle file upload
             if ($request->hasFile('photopath')) {
+                if ($testimonial->photopath && Storage::disk('public')->exists($testimonial->photopath)) {
+                    Storage::disk('public')->delete($testimonial->photopath);
+                }
+
                 $file = $request->file('photopath');
                 $filename = time() . '_' . $file->getClientOriginalName();
-                $path = $file->storeAs('blogs', $filename, 'public');
+                $path = $file->storeAs('testimonials', $filename, 'public');
                 $data['photopath'] = $path;
             }
 
-            $blog->update($data);
+            $testimonial->update($data);
 
-            // Clear cache
-            Cache::forget('blogs_all');
-            Cache::forget("blog_{$id}");
+            Cache::forget('testimonials_all');
+            Cache::forget("testimonial_{$id}");
 
             return response()->json([
                 'success' => true,
-                'message' => 'Blog updated successfully',
-                'data' => $blog->fresh()
+                'message' => 'Testimonial updated successfully',
+                'data' => $testimonial->fresh()
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to update blog',
+                'message' => 'Failed to update testimonial',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
 
     /**
-     * Remove the specified blog.
+     * Remove the specified testimonial.
      */
     public function destroy($id)
     {
         try {
-            $blog = Blog::find($id);
+            $testimonial = Testimonial::find($id);
 
-            if (!$blog) {
+            if (!$testimonial) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Blog not found'
+                    'message' => 'Testimonial not found'
                 ], 404);
             }
 
-            // Delete photo if exists
-            if ($blog->photopath && Storage::disk('public')->exists($blog->photopath)) {
-                Storage::disk('public')->delete($blog->photopath);
+            if ($testimonial->photopath && Storage::disk('public')->exists($testimonial->photopath)) {
+                Storage::disk('public')->delete($testimonial->photopath);
             }
 
-            $blog->delete();
+            $testimonial->delete();
 
-            // Clear cache
-            Cache::forget('blogs_all');
-            Cache::forget("blog_{$id}");
+            Cache::forget('testimonials_all');
+            Cache::forget("testimonial_{$id}");
 
             return response()->json([
                 'success' => true,
-                'message' => 'Blog deleted successfully'
+                'message' => 'Testimonial deleted successfully'
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to delete blog',
+                'message' => 'Failed to delete testimonial',
                 'error' => $e->getMessage()
             ], 500);
         }

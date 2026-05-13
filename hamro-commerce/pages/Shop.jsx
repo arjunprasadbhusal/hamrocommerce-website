@@ -121,30 +121,6 @@ const Shop = () => {
 
   return (
     <div className="bg-gradient-to-br from-slate-50 via-white to-slate-50/40 min-h-screen">
-      {/* Hero Banner */}
-      <section className="relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-red-500 rounded-full blur-3xl" />
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-orange-500 rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.1),transparent_70%)]" />
-        </div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-          <div className="text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-4">
-              <Sparkles className="w-4 h-4 text-yellow-400" />
-              <span className="text-xs font-bold tracking-wide uppercase">{t('shopCollection') || 'Shop Collection'}</span>
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-4 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
-              {getCategoryName()}
-            </h1>
-            <p className="text-slate-300 text-base md:text-lg max-w-2xl mx-auto">
-              {t('shopDescription') || 'Discover our premium collection of products handpicked just for you'}
-            </p>
-          </div>
-        </div>
-      </section>
-
       <div id="products" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Categories Sidebar - Desktop */}
@@ -353,7 +329,7 @@ const Shop = () => {
               </div>
             ) : filteredProducts.length > 0 ? (
               <div className={viewMode === 'grid' 
-                ? "grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
+                ? "grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"
                 : "space-y-4"
               }>
                 {filteredProducts.map(product => (

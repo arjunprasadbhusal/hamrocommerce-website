@@ -1,9 +1,49 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Target, Heart, Users, ArrowRight, Truck, ShieldCheck, HeadphonesIcon } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { LEADERSHIP_ENDPOINTS } from '../src/constants/api/leadership.js';
 
 const About: React.FC = () => {
   const { t } = useLanguage();
+    const [leaders, setLeaders] = useState<any[]>([]);
+    const [leadersLoading, setLeadersLoading] = useState(true);
+
+    useEffect(() => {
+        const loadLeaderships = async () => {
+            try {
+                const response = await fetch(LEADERSHIP_ENDPOINTS.GET_ALL, {
+                    headers: { Accept: 'application/json' },
+                });
+                const data = await response.json();
+                if (response.ok && data?.success) {
+                    setLeaders(data.data || []);
+                } else {
+                    setLeaders([]);
+                }
+            } catch (error) {
+                console.error('Failed to fetch leaderships:', error);
+                setLeaders([]);
+            } finally {
+                setLeadersLoading(false);
+            }
+        };
+
+        loadLeaderships();
+    }, []);
+
+    const getLeaderImageUrl = (imagePath: string | null | undefined) => {
+        if (!imagePath) return '';
+        return imagePath.startsWith('http')
+            ? imagePath
+            : `http://192.168.1.64:8000/storage/${imagePath}`;
+    };
+
+    const sortedLeaders = [...leaders].sort((a, b) => {
+        const aIsCeo = /\bceo\b/i.test(a?.title || '');
+        const bIsCeo = /\bceo\b/i.test(b?.title || '');
+        if (aIsCeo === bIsCeo) return 0;
+        return aIsCeo ? -1 : 1;
+    });
   
   return (
         <div className="bg-slate-50">
@@ -146,22 +186,32 @@ const About: React.FC = () => {
         {/* Team Section */}
         <div className="bg-white rounded-3xl p-8 md:p-16 border border-gray-100 shadow-sm">
             <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-8 md:mb-12 text-center">{t('meetLeadership')}</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-                {[
-                    {name: "Aarav Sharma", role: "CEO & Founder", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400"},
-                    {name: "Priya Gurung", role: "Head of Operations", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400"},
-                    {name: "Bijay Thapa", role: "Tech Lead", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400"},
-                    {name: "Sunita Rai", role: "Customer Success", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=400"}
-                ].map((member, idx) => (
-                    <div key={idx} className="text-center group">
-                        <div className="mb-4 relative mx-auto w-32 h-32 md:w-40 md:h-40 overflow-hidden rounded-full border-4 border-white shadow-lg">
-                            <img src={member.img} alt={member.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+            {leadersLoading ? (
+                <div className="flex justify-center py-10">
+                    <div className="w-12 h-12 border-4 border-red-500 border-t-transparent rounded-full animate-spin" />
+                </div>
+            ) : leaders.length === 0 ? (
+                <div className="text-center text-slate-500">No leadership team members found.</div>
+            ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+                    {sortedLeaders.map((member, idx) => (
+                        <div key={member.id || idx} className="text-center group">
+                            <div className="mb-4 relative mx-auto w-32 h-32 md:w-40 md:h-40 overflow-hidden rounded-full border-4 border-white shadow-lg">
+                                <img
+                                    src={getLeaderImageUrl(member.photopath)}
+                                    alt={member.name}
+                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                    onError={(e) => {
+                                        (e.currentTarget as HTMLImageElement).src = '/image/image.jpg';
+                                    }}
+                                />
+                            </div>
+                            <h3 className="text-lg font-bold text-slate-900">{member.name}</h3>
+                            <p className="text-red-600 text-sm font-medium">{member.title}</p>
                         </div>
-                        <h3 className="text-lg font-bold text-slate-900">{member.name}</h3>
-                        <p className="text-red-600 text-sm font-medium">{member.role}</p>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            )}
         </div>
       </div>
     </div>

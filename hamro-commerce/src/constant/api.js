@@ -65,4 +65,12 @@ export const API_ENDPOINTS = {
   BANNERS: `${API_BASE_URL}/banners`,
   BANNERS_ACTIVE: `${API_BASE_URL}/banners/active`,
   BANNER_BY_ID: (id) => `${API_BASE_URL}/banners/${id}`,
+
+  // Testimonials
+  TESTIMONIALS: `${API_BASE_URL}/testimonials`,
+  TESTIMONIAL_BY_ID: (id) => `${API_BASE_URL}/testimonials/${id}`,
+
+  // Leaderships
+  LEADERSHIPS: `${API_BASE_URL}/leaderships`,
+  LEADERSHIP_BY_ID: (id) => `${API_BASE_URL}/leaderships/${id}`,
 };

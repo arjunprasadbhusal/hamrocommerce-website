@@ -24,6 +24,7 @@ const Checkout = lazy(() => import('./pages/Checkout'));
 const OrderSuccess = lazy(() => import('./pages/OrderSuccess'));
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
+const Testimonials = lazy(() => import('./pages/Testimonials'));
 const EsewaSuccess = lazy(() => import('./pages/EsewaSuccess'));
 const EsewaFailure = lazy(() => import('./pages/EsewaFailure'));
 
@@ -52,6 +53,12 @@ const EditBlog = lazy(() => import('./pages/admin/blogs/Editblog'));
 const BannerList = lazy(() => import('./pages/admin/banners/Bannerlist'));
 const AddBanner = lazy(() => import('./pages/admin/banners/Addbanner'));
 const EditBanner = lazy(() => import('./pages/admin/banners/Editbanner'));
+const TestimonialList = lazy(() => import('./pages/admin/testimonials/Testimoniallist'));
+const AddTestimonial = lazy(() => import('./pages/admin/testimonials/Addtestimonial'));
+const EditTestimonial = lazy(() => import('./pages/admin/testimonials/Edittestimonial'));
+const LeadershipList = lazy(() => import('./pages/admin/leaderships/Leadershiplist'));
+const AddLeadership = lazy(() => import('./pages/admin/leaderships/Addleadership'));
+const EditLeadership = lazy(() => import('./pages/admin/leaderships/Editleadership'));
 const UserList = lazy(() => import('./pages/admin/users/Userlist'));
 const MessageList = lazy(() => import('./pages/admin/messages/Messagelist'));
 
@@ -76,6 +83,7 @@ const AppContent = () => {
           <Route path="/wishlist" element={<Layout><Wishlist /></Layout>} />
           <Route path="/checkout" element={<Layout><Checkout /></Layout>} />
           <Route path="/order-success" element={<Layout><OrderSuccess /></Layout>} />
+          <Route path="/testimonials" element={<Layout><Testimonials /></Layout>} />
           
           {/* eSewa Payment Routes without Layout */}
           <Route path="/esewa/success" element={<EsewaSuccess />} />
@@ -116,6 +124,14 @@ const AppContent = () => {
           <Route path="/admin/banners" element={<BannerList />} />
           <Route path="/admin/banners/add" element={<AddBanner />} />
           <Route path="/admin/banners/:id/edit" element={<EditBanner />} />
+
+          <Route path="/admin/testimonials" element={<TestimonialList />} />
+          <Route path="/admin/testimonials/add" element={<AddTestimonial />} />
+          <Route path="/admin/testimonials/:id/edit" element={<EditTestimonial />} />
+
+          <Route path="/admin/leaderships" element={<LeadershipList />} />
+          <Route path="/admin/leaderships/add" element={<AddLeadership />} />
+          <Route path="/admin/leaderships/:id/edit" element={<EditLeadership />} />
 
           <Route path="/admin/users" element={<UserList />} />
           <Route path="/admin/messages" element={<MessageList />} />
