@@ -72,12 +72,12 @@ const Contact: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div className="max-w-xl">
-              <p className="text-red-500 font-bold uppercase tracking-widest text-[10px] mb-3">Get In Touch</p>
+              <p className="text-red-500 font-bold uppercase tracking-widest text-[10px] mb-3">{t('getInTouch')}</p>
               <h1 className="text-3xl md:text-5xl font-black mb-4 leading-tight">
-                Contact Our Team
+                {t('contactHeroTitle')}
               </h1>
               <p className="text-slate-400 text-sm md:text-base leading-relaxed mb-6">
-                Have questions about our products or services? We're here to help. Reach out to us through any of the channels below.
+                {t('contactHeroSubtitle')}
               </p>
               <div className="flex items-center gap-3">
                 <div className="flex -space-x-2">
@@ -88,7 +88,7 @@ const Contact: React.FC = () => {
                   ))}
                 </div>
                 <p className="text-xs text-slate-400 font-medium">
-                  <span className="text-white font-bold">24/7</span> Online Support
+                  <span className="text-white font-bold">24/7</span> {t('onlineSupport')}
                 </p>
               </div>
             </div>
@@ -115,7 +115,7 @@ const Contact: React.FC = () => {
           {/* Contact Info Sidebar */}
           <div className="lg:col-span-1 space-y-6">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
-              <h3 className="text-xl font-bold text-slate-900 mb-8">Contact Information</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-8">{t('contactInformation')}</h3>
               
               <div className="space-y-8">
                 <div className="flex items-start gap-4">
@@ -123,9 +123,9 @@ const Contact: React.FC = () => {
                     <Phone size={20} />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Phone</p>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">{t('phone')}</p>
                     <p className="text-base font-bold text-slate-900">+977 9800000000</p>
-                    <p className="text-xs text-slate-500">Sun - Fri, 10am - 6pm</p>
+                    <p className="text-xs text-slate-500">{t('contactOfficeHours')}</p>
                   </div>
                 </div>
 
@@ -134,7 +134,7 @@ const Contact: React.FC = () => {
                     <Mail size={20} />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Email</p>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">{t('email')}</p>
                     <p className="text-base font-bold text-slate-900">support@hamro.com</p>
                   </div>
                 </div>
@@ -144,9 +144,9 @@ const Contact: React.FC = () => {
                     <MapPin size={20} />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Location</p>
-                    <p className="text-base font-bold text-slate-900">Kawasoti, Nawalpur</p>
-                    <p className="text-xs text-slate-500">Main Market Area</p>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">{t('location')}</p>
+                    <p className="text-base font-bold text-slate-900">{t('contactCity')}</p>
+                    <p className="text-xs text-slate-500">{t('contactArea')}</p>
                   </div>
                 </div>
               </div>
@@ -179,11 +179,11 @@ const Contact: React.FC = () => {
           {/* Contact Form Section */}
           <div className="lg:col-span-2">
             <div className="bg-white p-6 md:p-10 rounded-2xl shadow-sm border border-slate-200">
-              <h3 className="text-xl font-bold text-slate-900 mb-8">Send Us a Message</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-8">{t('sendMessage')}</h3>
               
               {success && (
                 <div className="mb-6 p-4 bg-green-50 border border-green-100 rounded-xl text-green-700 text-sm">
-                  Message sent successfully! We'll get back to you soon.
+                  {t('messageSentSuccess')}
                 </div>
               )}
               
@@ -196,7 +196,7 @@ const Contact: React.FC = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-slate-700 uppercase">First Name</label>
+                    <label className="text-xs font-bold text-slate-700 uppercase">{t('firstName')}</label>
                     <input 
                       type="text" 
                       name="first_name"
@@ -208,7 +208,7 @@ const Contact: React.FC = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-slate-700 uppercase">Last Name</label>
+                    <label className="text-xs font-bold text-slate-700 uppercase">{t('lastName')}</label>
                     <input 
                       type="text" 
                       name="last_name"
@@ -222,7 +222,7 @@ const Contact: React.FC = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-700 uppercase">Email Address</label>
+                  <label className="text-xs font-bold text-slate-700 uppercase">{t('emailAddress')}</label>
                   <input 
                     type="email" 
                     name="email"
@@ -235,7 +235,7 @@ const Contact: React.FC = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-700 uppercase">Subject</label>
+                  <label className="text-xs font-bold text-slate-700 uppercase">{t('subject')}</label>
                   <select 
                     name="subject"
                     value={formData.subject}
@@ -243,15 +243,15 @@ const Contact: React.FC = () => {
                     required
                     className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-red-600 focus:bg-white focus:ring-0 text-slate-900 transition-all outline-none text-sm font-medium cursor-pointer"
                   >
-                      <option value="General Inquiry">General Inquiry</option>
-                      <option value="Order Status">Order Status</option>
-                      <option value="Returns & Refund">Returns & Refund</option>
-                      <option value="Business Partnership">Business Partnership</option>
+                      <option value="General Inquiry">{t('generalInquiry')}</option>
+                      <option value="Order Status">{t('orderStatus')}</option>
+                      <option value="Returns & Refund">{t('returnsRefund')}</option>
+                      <option value="Business Partnership">{t('businessPartnership')}</option>
                   </select>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-700 uppercase">Message</label>
+                  <label className="text-xs font-bold text-slate-700 uppercase">{t('message')}</label>
                   <textarea 
                     name="message"
                     value={formData.message}
@@ -268,7 +268,7 @@ const Contact: React.FC = () => {
                   disabled={loading}
                   className="w-full md:w-auto px-10 py-4 bg-red-600 text-white rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-red-700 transition-all shadow-lg shadow-red-200 disabled:bg-slate-400 disabled:shadow-none flex items-center justify-center gap-2"
                 >
-                    {loading ? 'Sending...' : 'Send Message'} <Send size={16} />
+                    {loading ? t('sending') : t('sendMessageBtn')} <Send size={16} />
                 </button>
               </form>
             </div>
@@ -278,10 +278,10 @@ const Contact: React.FC = () => {
         {/* Support Features */}
         <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { icon: Clock, title: 'Quick Response', desc: 'Replies within 24 hours' },
-            { icon: ShieldCheck, title: 'Secure Communication', desc: 'Your data is protected' },
-            { icon: Globe, title: 'Nationwide Support', desc: 'Serving all of Nepal' },
-            { icon: HeadphonesIcon, title: 'Expert Guidance', desc: 'Dedicated support team' },
+            { icon: Clock, title: t('quickResponseTitle'), desc: t('quickResponseDesc') },
+            { icon: ShieldCheck, title: t('secureCommunicationTitle'), desc: t('secureCommunicationDesc') },
+            { icon: Globe, title: t('nationwideSupportTitle'), desc: t('nationwideSupportDesc') },
+            { icon: HeadphonesIcon, title: t('expertGuidanceTitle'), desc: t('expertGuidanceDesc') },
           ].map((item, idx) => (
             <div key={idx} className="bg-white p-6 rounded-2xl border border-slate-200 text-center">
               <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center text-red-600 mx-auto mb-4">
@@ -296,7 +296,7 @@ const Contact: React.FC = () => {
 
       <div className="bg-white py-12 border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">© 2026 Hamro Commerce • Kawasoti, Nawalpur</p>
+          <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">{t('contactFooter')}</p>
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { Calendar, ArrowLeft, Clock } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { BLOG_ENDPOINTS } from '../src/constants/api/blog';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { BASE_URL } from '../src/constant/api';
 
 interface Blog {
   id: number;
@@ -43,11 +44,11 @@ const BlogDetail: React.FC = () => {
       if (data.success) {
         setBlog(data.data);
       } else {
-        setError('Blog not found');
+        setError(t('blogNotFound'));
       }
     } catch (error) {
       console.error('Failed to fetch blog:', error);
-      setError('Failed to load blog. Please try again.');
+      setError(t('blogLoadError'));
     } finally {
       setLoading(false);
     }
@@ -72,7 +73,7 @@ const BlogDetail: React.FC = () => {
 
   const getImageUrl = (photopath: string | null) => {
     if (!photopath) return 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop';
-    return photopath.startsWith('http') ? photopath : `http://192.168.1.64:8000/storage/${photopath}`;
+    return photopath.startsWith('http') ? photopath : `${BASE_URL}/storage/${photopath}`;
   };
 
   const formatDate = (dateString: string) => {
@@ -104,17 +105,17 @@ const BlogDetail: React.FC = () => {
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="text-center bg-white p-8 rounded-xl shadow-sm border border-gray-100">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            {error || 'Blog not found'}
+            {error || t('blogNotFound')}
           </h2>
           <p className="text-gray-600 mb-6">
-            The blog you're looking for doesn't exist or has been removed.
+            {t('blogNotFoundDesc')}
           </p>
           <Link 
             to="/blog" 
             className="inline-flex items-center gap-2 px-6 py-3 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors font-bold"
           >
             <ArrowLeft size={20} />
-            Back to Blogs
+            {t('backToBlogs')}
           </Link>
         </div>
       </div>
@@ -133,7 +134,7 @@ const BlogDetail: React.FC = () => {
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
             <div className="text-white max-w-2xl">
               <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase font-['Sora']">
-                Editorial
+                {t('editorialLabel')}
               </div>
               <h1 className="mt-4 text-3xl md:text-4xl font-semibold leading-tight font-['Cormorant_Garamond']">
                 {blog.title}
@@ -148,7 +149,7 @@ const BlogDetail: React.FC = () => {
                 </span>
                 <span className="flex items-center gap-2">
                   <Clock size={16} />
-                  {calculateReadingTime(blog.description)} min read
+                  {calculateReadingTime(blog.description)} {t('minRead')}
                 </span>
               </div>
             </div>
@@ -174,11 +175,11 @@ const BlogDetail: React.FC = () => {
             <article className="bg-white rounded-[28px] shadow-lg border border-[#f0e7dc] p-7 md:p-10">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
                 <div className="font-['Sora'] text-xs uppercase tracking-[0.3em] text-amber-700/80">
-                  Editorial
+                  {t('editorialLabel')}
                 </div>
                 <div className="flex items-center gap-3 text-xs text-slate-500 font-['Sora']">
                   <span className="inline-flex items-center gap-2 bg-amber-50 text-amber-700 px-3 py-1 rounded-full border border-amber-100">
-                    <Clock size={12} /> {calculateReadingTime(blog.description)} min read
+                    <Clock size={12} /> {calculateReadingTime(blog.description)} {t('minRead')}
                   </span>
                   <span className="inline-flex items-center gap-2 bg-slate-50 text-slate-700 px-3 py-1 rounded-full border border-slate-100">
                     <Calendar size={12} /> {formatDate(blog.created_at)}
@@ -188,15 +189,15 @@ const BlogDetail: React.FC = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div className="md:col-span-2 bg-[#fdf4e7] border border-[#f3e5cf] rounded-2xl p-5">
-                  <p className="text-xs uppercase tracking-[0.25em] text-amber-700/80 font-['Sora'] mb-2">Key takeaway</p>
+                  <p className="text-xs uppercase tracking-[0.25em] text-amber-700/80 font-['Sora'] mb-2">{t('keyTakeaway')}</p>
                   <p className="text-slate-700 text-sm md:text-base font-['Sora'] leading-relaxed">
                     {getExcerpt(blog.description)}
                   </p>
                 </div>
                 <div className="bg-slate-900 text-white rounded-2xl p-5">
-                  <p className="text-xs uppercase tracking-[0.25em] text-white/70 font-['Sora'] mb-2">Reading guide</p>
+                  <p className="text-xs uppercase tracking-[0.25em] text-white/70 font-['Sora'] mb-2">{t('readingGuide')}</p>
                   <p className="text-white/90 text-sm font-['Sora']">
-                    Best enjoyed with a warm drink and a slow scroll.
+                    {t('readingGuideDesc')}
                   </p>
                 </div>
               </div>
@@ -220,8 +221,8 @@ const BlogDetail: React.FC = () => {
               {relatedBlogs.length > 0 && (
                 <div className="bg-white rounded-[24px] shadow-md border border-[#f0e7dc] p-6">
                   <div className="flex items-center justify-between mb-5">
-                    <h2 className="text-lg font-semibold text-slate-900 font-['Sora']">More Like This</h2>
-                    <span className="text-xs text-slate-500 font-['Sora']">{relatedBlogs.length} picks</span>
+                    <h2 className="text-lg font-semibold text-slate-900 font-['Sora']">{t('moreLikeThis')}</h2>
+                    <span className="text-xs text-slate-500 font-['Sora']">{relatedBlogs.length} {t('picks')}</span>
                   </div>
 
                   <div className="space-y-4">

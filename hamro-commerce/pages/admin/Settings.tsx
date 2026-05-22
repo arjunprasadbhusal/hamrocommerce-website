@@ -10,7 +10,9 @@ import {
   Database,
   Paintbrush,
   Clock,
-  Monitor
+  Monitor,
+  CheckCircle2,
+  AlertCircle
 } from 'lucide-react';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
@@ -39,19 +41,14 @@ const Settings = () => {
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState('notifications');
   const [settings, setSettings] = useState<SettingsData>({
-    // Notifications
     email_notifications: true,
     order_notifications: true,
     product_notifications: true,
     message_notifications: true,
-    
-    // Display
     items_per_page: 10,
     theme: 'light',
     language: 'en',
     timezone: 'Asia/Kathmandu',
-    
-    // Security
     two_factor_auth: false,
     session_timeout: 30,
     ip_whitelist: false,
@@ -63,7 +60,6 @@ const Settings = () => {
   }, []);
 
   const loadSettings = () => {
-    // Load settings from localStorage
     const savedSettings = localStorage.getItem('adminSettings');
     if (savedSettings) {
       setSettings(JSON.parse(savedSettings));
@@ -87,11 +83,8 @@ const Settings = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
-
     try {
-      // Save settings to localStorage (in real app, send to API)
       localStorage.setItem('adminSettings', JSON.stringify(settings));
-      
       showNotification('Settings saved successfully!', 'success');
     } catch (error) {
       console.error('Error saving settings:', error);
@@ -107,351 +100,292 @@ const Settings = () => {
   };
 
   const tabs = [
-    { id: 'notifications', label: 'Notifications', icon: Bell },
-    { id: 'display', label: 'Display', icon: Monitor },
-    { id: 'security', label: 'Security', icon: Shield },
+    { id: 'notifications', label: 'Notifications', icon: Bell, description: 'Choose how you receive updates' },
+    { id: 'display', label: 'Appearance', icon: Monitor, description: 'Customize your dashboard view' },
+    { id: 'security', label: 'Security', icon: Shield, description: 'Protect your account data' },
   ];
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-[#F8FAFC]">
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <Topbar />
-        <div className="flex-1 overflow-auto p-8">
-          {/* Notification */}
+        <div className="flex-1 overflow-auto p-4 md:p-8">
+          {/* Notification Toast */}
           {notification.show && (
-            <div className={`mb-4 p-4 rounded-lg ${notification.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-              {notification.message}
+            <div className={`fixed top-20 right-8 z-50 animate-fade-in-up p-4 rounded-xl shadow-2xl flex items-center gap-3 border ${
+              notification.type === 'success' 
+                ? 'bg-emerald-50 border-emerald-200 text-emerald-800' 
+                : 'bg-rose-50 border-rose-200 text-rose-800'
+            }`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                notification.type === 'success' ? 'bg-emerald-200' : 'bg-rose-200'
+              }`}>
+                {notification.type === 'success' ? <CheckCircle2 className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
+              </div>
+              <p className="font-semibold">{notification.message}</p>
             </div>
           )}
 
           {/* Header */}
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => navigate('/admin/dashboard')}
-                className="p-2 hover:bg-gray-200 rounded-lg transition-colors"
-              >
-                <ArrowLeft className="w-5 h-5" />
-              </button>
-              <div>
-                <h1 className="text-3xl font-bold text-gray-800">Settings</h1>
-                <p className="text-gray-600 mt-1">Manage your application preferences</p>
-              </div>
+          <div className="flex items-center gap-4 mb-8">
+            <button
+              onClick={() => navigate('/admin/dashboard')}
+              className="group p-2.5 bg-white border border-slate-200 hover:border-blue-300 hover:bg-blue-50 rounded-xl transition-all duration-300 shadow-sm"
+            >
+              <ArrowLeft className="w-5 h-5 text-slate-600 group-hover:text-blue-600 group-hover:-translate-x-1 transition-transform" />
+            </button>
+            <div>
+              <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">System Settings</h1>
+              <p className="text-slate-500 text-sm mt-1 font-medium">Configure and personalize your administrative environment</p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            {/* Tabs Sidebar */}
-            <div className="lg:col-span-1">
-              <div className="bg-white rounded-lg shadow p-4 space-y-2">
-                {tabs.map((tab) => {
-                  const Icon = tab.icon;
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id)}
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                        activeTab === tab.id
-                          ? 'bg-blue-50 text-blue-600 font-semibold'
-                          : 'text-gray-700 hover:bg-gray-50'
-                      }`}
-                    >
-                      <Icon className="w-5 h-5" />
-                      {tab.label}
-                    </button>
-                  );
-                })}
-              </div>
+          <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
+            {/* Sidebar Tabs */}
+            <div className="xl:col-span-3 space-y-3">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`w-full text-left p-4 rounded-2xl transition-all duration-300 group ${
+                    activeTab === tab.id
+                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-200 translate-x-2'
+                      : 'bg-white border border-slate-100 text-slate-600 hover:bg-slate-50 hover:border-slate-200'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`p-2 rounded-xl transition-colors ${
+                      activeTab === tab.id ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-500'
+                    }`}>
+                      <tab.icon className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="font-bold text-sm leading-tight">{tab.label}</p>
+                      <p className={`text-[10px] mt-0.5 leading-tight ${activeTab === tab.id ? 'text-blue-100' : 'text-slate-400'}`}>
+                        {tab.description}
+                      </p>
+                    </div>
+                  </div>
+                </button>
+              ))}
             </div>
 
-            {/* Settings Content */}
-            <div className="lg:col-span-3">
-              <div className="bg-white rounded-lg shadow p-6">
+            {/* Main Content Card */}
+            <div className="xl:col-span-9">
+              <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
                 <form onSubmit={handleSubmit}>
-                  {/* Notifications Tab */}
-                  {activeTab === 'notifications' && (
-                    <div className="space-y-6">
-                      <div>
-                        <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                          <Bell className="w-5 h-5" />
-                          Notification Preferences
-                        </h3>
-                        <p className="text-gray-600 mb-6">Choose what notifications you want to receive</p>
-                      </div>
-
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                          <div className="flex items-center gap-3">
-                            <Mail className="w-5 h-5 text-gray-600" />
-                            <div>
-                              <p className="font-semibold text-gray-800">Email Notifications</p>
-                              <p className="text-sm text-gray-600">Receive notifications via email</p>
-                            </div>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => handleToggle('email_notifications')}
-                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                              settings.email_notifications ? 'bg-blue-600' : 'bg-gray-300'
-                            }`}
-                          >
-                            <span
-                              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                                settings.email_notifications ? 'translate-x-6' : 'translate-x-1'
-                              }`}
-                            />
-                          </button>
+                  <div className="p-8 md:p-10">
+                    {activeTab === 'notifications' && (
+                      <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                        <div>
+                          <h3 className="text-xl font-bold text-slate-900">Notifications</h3>
+                          <p className="text-slate-500 text-sm">Manage how you want to be alerted about store activities</p>
                         </div>
 
-                        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                          <div className="flex items-center gap-3">
-                            <Database className="w-5 h-5 text-gray-600" />
-                            <div>
-                              <p className="font-semibold text-gray-800">Order Notifications</p>
-                              <p className="text-sm text-gray-600">Get notified about new orders</p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {[
+                            { id: 'email_notifications', label: 'Email Alerts', sub: 'Receive daily summary via email', icon: Mail },
+                            { id: 'order_notifications', label: 'New Orders', sub: 'Instant alerts for every new order', icon: Database },
+                            { id: 'product_notifications', label: 'Inventory', sub: 'Low stock and restocking alerts', icon: Paintbrush },
+                            { id: 'message_notifications', label: 'Messages', sub: 'Notification for customer inquiries', icon: Mail },
+                          ].map((item) => (
+                            <div key={item.id} className="flex items-center justify-between p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:border-slate-200 transition-all group">
+                              <div className="flex items-center gap-4">
+                                <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-slate-400 group-hover:text-blue-500 transition-colors">
+                                  <item.icon className="w-5 h-5" />
+                                </div>
+                                <div>
+                                  <p className="font-bold text-slate-700 text-sm">{item.label}</p>
+                                  <p className="text-[11px] text-slate-400 font-medium">{item.sub}</p>
+                                </div>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => handleToggle(item.id as keyof SettingsData)}
+                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all duration-300 ${
+                                  settings[item.id as keyof SettingsData] ? 'bg-blue-600' : 'bg-slate-300'
+                                }`}
+                              >
+                                <span
+                                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${
+                                    settings[item.id as keyof SettingsData] ? 'translate-x-6' : 'translate-x-1'
+                                  }`}
+                                />
+                              </button>
                             </div>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => handleToggle('order_notifications')}
-                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                              settings.order_notifications ? 'bg-blue-600' : 'bg-gray-300'
-                            }`}
-                          >
-                            <span
-                              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                                settings.order_notifications ? 'translate-x-6' : 'translate-x-1'
-                              }`}
-                            />
-                          </button>
-                        </div>
-
-                        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                          <div className="flex items-center gap-3">
-                            <Paintbrush className="w-5 h-5 text-gray-600" />
-                            <div>
-                              <p className="font-semibold text-gray-800">Product Notifications</p>
-                              <p className="text-sm text-gray-600">Low stock and product updates</p>
-                            </div>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => handleToggle('product_notifications')}
-                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                              settings.product_notifications ? 'bg-blue-600' : 'bg-gray-300'
-                            }`}
-                          >
-                            <span
-                              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                                settings.product_notifications ? 'translate-x-6' : 'translate-x-1'
-                              }`}
-                            />
-                          </button>
-                        </div>
-
-                        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                          <div className="flex items-center gap-3">
-                            <Mail className="w-5 h-5 text-gray-600" />
-                            <div>
-                              <p className="font-semibold text-gray-800">Message Notifications</p>
-                              <p className="text-sm text-gray-600">New customer messages</p>
-                            </div>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => handleToggle('message_notifications')}
-                            className={`relative inline-flex h-6 w-11 items-centers rounded-full transition-colors ${
-                              settings.message_notifications ? 'bg-blue-600' : 'bg-gray-300'
-                            }`}
-                          >
-                            <span
-                              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                                settings.message_notifications ? 'translate-x-6' : 'translate-x-1'
-                              }`}
-                            />
-                          </button>
+                          ))}
                         </div>
                       </div>
+                    )}
+
+                    {activeTab === 'display' && (
+                      <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                        <div>
+                          <h3 className="text-xl font-bold text-slate-900">Appearance</h3>
+                          <p className="text-slate-500 text-sm">Control how the dashboard looks and feels to you</p>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                          <div className="space-y-2">
+                            <label className="text-sm font-bold text-slate-700 ml-1">Items Per Page</label>
+                            <select
+                              value={settings.items_per_page}
+                              onChange={(e) => handleChange('items_per_page', parseInt(e.target.value))}
+                              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all font-medium text-slate-700 appearance-none cursor-pointer"
+                            >
+                              <option value={10}>10 Items</option>
+                              <option value={25}>25 Items</option>
+                              <option value={50}>50 Items</option>
+                              <option value={100}>100 Items</option>
+                            </select>
+                          </div>
+
+                          <div className="space-y-2">
+                            <label className="text-sm font-bold text-slate-700 ml-1">UI Theme</label>
+                            <select
+                              value={settings.theme}
+                              onChange={(e) => handleChange('theme', e.target.value)}
+                              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all font-medium text-slate-700 appearance-none cursor-pointer"
+                            >
+                              <option value="light">☀️ Light Mode</option>
+                              <option value="dark">🌙 Dark Mode</option>
+                              <option value="auto">💻 System Default</option>
+                            </select>
+                          </div>
+
+                          <div className="space-y-2">
+                            <label className="text-sm font-bold text-slate-700 ml-1">Language</label>
+                            <select
+                              value={settings.language}
+                              onChange={(e) => handleChange('language', e.target.value)}
+                              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all font-medium text-slate-700 appearance-none cursor-pointer"
+                            >
+                              <option value="en">🇺🇸 English (US)</option>
+                              <option value="ne">🇳🇵 Nepali (नेपाली)</option>
+                            </select>
+                          </div>
+
+                          <div className="space-y-2">
+                            <label className="text-sm font-bold text-slate-700 ml-1">Timezone</label>
+                            <select
+                              value={settings.timezone}
+                              onChange={(e) => handleChange('timezone', e.target.value)}
+                              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all font-medium text-slate-700 appearance-none cursor-pointer"
+                            >
+                              <option value="Asia/Kathmandu">Kathmandu (GMT+5:45)</option>
+                              <option value="Asia/Kolkata">New Delhi (GMT+5:30)</option>
+                              <option value="Europe/London">London (GMT+0:00)</option>
+                              <option value="America/New_York">New York (GMT-5:00)</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {activeTab === 'security' && (
+                      <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                        <div>
+                          <h3 className="text-xl font-bold text-slate-900">Security</h3>
+                          <p className="text-slate-500 text-sm">Enhance your administrative account protection</p>
+                        </div>
+
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between p-6 rounded-3xl bg-slate-900 text-white shadow-xl shadow-slate-200/50 group">
+                            <div className="flex items-center gap-4">
+                              <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-blue-400">
+                                <Shield className="w-6 h-6" />
+                              </div>
+                              <div>
+                                <p className="font-bold text-lg">Two-Factor Authentication</p>
+                                <p className="text-xs text-slate-400 font-medium">Add an extra layer of security to your logins</p>
+                              </div>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleToggle('two_factor_auth')}
+                              className={`relative inline-flex h-7 w-12 items-center rounded-full transition-all duration-300 ${
+                                settings.two_factor_auth ? 'bg-blue-500' : 'bg-white/20'
+                              }`}
+                            >
+                              <span
+                                className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform duration-300 ${
+                                  settings.two_factor_auth ? 'translate-x-6' : 'translate-x-1'
+                                }`}
+                              />
+                            </button>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-100">
+                               <div className="flex items-center justify-between mb-4">
+                                  <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-slate-400">
+                                     <Globe className="w-5 h-5" />
+                                  </div>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleToggle('ip_whitelist')}
+                                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all duration-300 ${
+                                      settings.ip_whitelist ? 'bg-blue-600' : 'bg-slate-300'
+                                    }`}
+                                  >
+                                    <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${settings.ip_whitelist ? 'translate-x-6' : 'translate-x-1'}`} />
+                                  </button>
+                               </div>
+                               <p className="font-bold text-slate-700 text-sm">IP Restriction</p>
+                               <p className="text-[11px] text-slate-400 font-medium">Only allow access from specific IP addresses</p>
+                            </div>
+
+                            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-100">
+                               <div className="flex items-center justify-between mb-4">
+                                  <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-slate-400">
+                                     <Clock className="w-5 h-5" />
+                                  </div>
+                               </div>
+                               <p className="font-bold text-slate-700 text-sm mb-2">Session Timeout</p>
+                               <select
+                                  value={settings.session_timeout}
+                                  onChange={(e) => handleChange('session_timeout', parseInt(e.target.value))}
+                                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl outline-none text-xs font-bold text-slate-600 appearance-none cursor-pointer"
+                                >
+                                  <option value={15}>15 Minutes</option>
+                                  <option value={30}>30 Minutes</option>
+                                  <option value={60}>1 Hour</option>
+                                  <option value={120}>2 Hours</option>
+                                </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Footer */}
+                  <div className="p-8 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between">
+                    <p className="text-xs text-slate-400 font-medium hidden md:block">
+                      Changes will be saved locally to your browser profile.
+                    </p>
+                    <div className="flex gap-4 w-full md:w-auto">
+                      <button
+                        type="button"
+                        onClick={() => navigate('/admin/dashboard')}
+                        className="flex-1 md:flex-none px-8 py-3 bg-white border border-slate-200 text-slate-600 font-bold rounded-2xl hover:bg-slate-50 transition-all duration-300"
+                      >
+                        Discard
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={saving}
+                        className="flex-1 md:flex-none flex items-center justify-center gap-2 px-8 py-3 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-200 transition-all duration-300"
+                      >
+                        {saving ? (
+                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        ) : (
+                          <Save className="w-5 h-5" />
+                        )}
+                        {saving ? 'Saving...' : 'Apply Changes'}
+                      </button>
                     </div>
-                  )}
-
-                  {/* Display Tab */}
-                  {activeTab === 'display' && (
-                    <div className="space-y-6">
-                      <div>
-                        <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                          <Monitor className="w-5 h-5" />
-                          Display Settings
-                        </h3>
-                        <p className="text-gray-600 mb-6">Customize your dashboard appearance</p>
-                      </div>
-
-                      <div className="space-y-6">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Items Per Page
-                          </label>
-                          <select
-                            value={settings.items_per_page}
-                            onChange={(e) => handleChange('items_per_page', parseInt(e.target.value))}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          >
-                            <option value={5}>5 items</option>
-                            <option value={10}>10 items</option>
-                            <option value={25}>25 items</option>
-                            <option value={50}>50 items</option>
-                            <option value={100}>100 items</option>
-                          </select>
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Theme
-                          </label>
-                          <select
-                            value={settings.theme}
-                            onChange={(e) => handleChange('theme', e.target.value)}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          >
-                            <option value="light">Light</option>
-                            <option value="dark">Dark</option>
-                            <option value="auto">Auto (System)</option>
-                          </select>
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Language
-                          </label>
-                          <select
-                            value={settings.language}
-                            onChange={(e) => handleChange('language', e.target.value)}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          >
-                            <option value="en">English</option>
-                            <option value="ne">Nepali (नेपाली)</option>
-                          </select>
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Timezone
-                          </label>
-                          <select
-                            value={settings.timezone}
-                            onChange={(e) => handleChange('timezone', e.target.value)}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          >
-                            <option value="Asia/Kathmandu">Asia/Kathmandu (GMT+5:45)</option>
-                            <option value="Asia/Kolkata">Asia/Kolkata (GMT+5:30)</option>
-                            <option value="Asia/Dubai">Asia/Dubai (GMT+4:00)</option>
-                            <option value="Europe/London">Europe/London (GMT+0:00)</option>
-                            <option value="America/New_York">America/New York (GMT-5:00)</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Security Tab */}
-                  {activeTab === 'security' && (
-                    <div className="space-y-6">
-                      <div>
-                        <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                          <Shield className="w-5 h-5" />
-                          Security Settings
-                        </h3>
-                        <p className="text-gray-600 mb-6">Manage your account security</p>
-                      </div>
-
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                          <div className="flex items-center gap-3">
-                            <Shield className="w-5 h-5 text-gray-600" />
-                            <div>
-                              <p className="font-semibold text-gray-800">Two-Factor Authentication</p>
-                              <p className="text-sm text-gray-600">Add an extra layer of security</p>
-                            </div>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => handleToggle('two_factor_auth')}
-                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                              settings.two_factor_auth ? 'bg-blue-600' : 'bg-gray-300'
-                            }`}
-                          >
-                            <span
-                              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                                settings.two_factor_auth ? 'translate-x-6' : 'translate-x-1'
-                              }`}
-                            />
-                          </button>
-                        </div>
-
-                        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                          <div className="flex items-center gap-3">
-                            <Globe className="w-5 h-5 text-gray-600" />
-                            <div>
-                              <p className="font-semibold text-gray-800">IP Whitelist</p>
-                              <p className="text-sm text-gray-600">Restrict access to specific IPs</p>
-                            </div>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => handleToggle('ip_whitelist')}
-                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                              settings.ip_whitelist ? 'bg-blue-600' : 'bg-gray-300'
-                            }`}
-                          >
-                            <span
-                              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                                settings.ip_whitelist ? 'translate-x-6' : 'translate-x-1'
-                              }`}
-                            />
-                          </button>
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Session Timeout (minutes)
-                          </label>
-                          <select
-                            value={settings.session_timeout}
-                            onChange={(e) => handleChange('session_timeout', parseInt(e.target.value))}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          >
-                            <option value={15}>15 minutes</option>
-                            <option value={30}>30 minutes</option>
-                            <option value={60}>1 hour</option>
-                            <option value={120}>2 hours</option>
-                            <option value={240}>4 hours</option>
-                          </select>
-                          <p className="text-sm text-gray-500 mt-2">
-                            You will be automatically logged out after this period of inactivity
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Submit Button */}
-                  <div className="flex gap-4 pt-6 border-t mt-8">
-                    <button
-                      type="submit"
-                      disabled={saving}
-                      className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                    >
-                      <Save className="w-4 h-4" />
-                      {saving ? 'Saving...' : 'Save Settings'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => navigate('/admin/dashboard')}
-                      className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                    >
-                      Cancel
-                    </button>
                   </div>
                 </form>
               </div>

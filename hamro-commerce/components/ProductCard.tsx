@@ -5,7 +5,8 @@ import { Product } from '../types';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useAlert } from '../context/AlertContext';
-import { API_ENDPOINTS } from '../src/constant/api';
+import { API_ENDPOINTS, resolveImageUrl } from '../src/constant/api';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ProductCardProps {
   product: Product;
@@ -15,11 +16,12 @@ const ProductCard: React.FC<ProductCardProps> = memo(({ product }) => {
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const { showAlert } = useAlert();
+  const { t } = useLanguage();
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isTogglingWishlist, setIsTogglingWishlist] = useState(false);
 
   // Handle both API and mock data formats
-  const productImage = product.photo_url || product.image || '/image/image.jpg';
+  const productImage = resolveImageUrl(product.photo_url || product.image) || '/image/image.jpg';
   const productPrice = parseFloat(product.price) || 0;
 
   const handleAddToCart = useCallback(async () => {
@@ -28,8 +30,8 @@ const ProductCard: React.FC<ProductCardProps> = memo(({ product }) => {
     if (!token) {
       showAlert({
         type: 'warning',
-        title: 'Login Required',
-        message: 'Please login to add products to cart'
+        title: t('loginRequiredTitle'),
+        message: t('loginRequiredCartMessage')
       });
       window.location.href = '/login';
       return;
@@ -48,28 +50,28 @@ const ProductCard: React.FC<ProductCardProps> = memo(({ product }) => {
       if (addResult?.alreadyInCart) {
         showAlert({
           type: 'info',
-          title: 'Already in Cart',
-          message: 'This product is already in your cart'
+          title: t('alreadyInCartTitle'),
+          message: t('alreadyInCartMessage')
         });
       } else if (addResult?.success) {
         showAlert({
           type: 'success',
-          title: 'Added to Cart',
-          message: `${product.name} has been added to your cart`
+          title: t('addedToCartTitle'),
+          message: `${product.name} ${t('addedToCartMessageSuffix')}`
         });
       } else {
         showAlert({
           type: 'error',
-          title: 'Error',
-          message: addResult?.message || 'Failed to add product to cart'
+          title: t('errorTitle'),
+          message: addResult?.message || t('addToCartFailedMessage')
         });
       }
     } catch (error) {
       console.error('Error fetching product:', error);
       showAlert({
         type: 'error',
-        title: 'Error',
-        message: 'Failed to add product to cart. Please try again.'
+        title: t('errorTitle'),
+        message: t('addToCartFailedMessage')
       });
     } finally {
       setIsAddingToCart(false);
@@ -82,8 +84,8 @@ const ProductCard: React.FC<ProductCardProps> = memo(({ product }) => {
     if (!token) {
       showAlert({
         type: 'warning',
-        title: 'Login Required',
-        message: 'Please login to manage your wishlist'
+        title: t('loginRequiredTitle'),
+        message: t('loginRequiredWishlistMessage')
       });
       window.location.href = '/login';
       return;
@@ -97,8 +99,8 @@ const ProductCard: React.FC<ProductCardProps> = memo(({ product }) => {
         await removeFromWishlist(product.id);
         showAlert({
           type: 'success',
-          title: 'Removed from Wishlist',
-          message: `${product.name} has been removed from your wishlist`
+          title: t('removedFromWishlistTitle'),
+          message: `${product.name} ${t('removedFromWishlistMessageSuffix')}`
         });
       } else {
         // Add to wishlist
@@ -106,20 +108,20 @@ const ProductCard: React.FC<ProductCardProps> = memo(({ product }) => {
         if (result?.success) {
           showAlert({
             type: 'success',
-            title: 'Added to Wishlist',
-            message: `${product.name} has been added to your wishlist`
+            title: t('addedToWishlistTitle'),
+            message: `${product.name} ${t('addedToWishlistMessageSuffix')}`
           });
         } else if (result?.alreadyInWishlist) {
           showAlert({
             type: 'info',
-            title: 'Already in Wishlist',
-            message: 'This product is already in your wishlist'
+            title: t('alreadyInWishlistTitle'),
+            message: t('alreadyInWishlistMessage')
           });
         } else {
           showAlert({
             type: 'error',
-            title: 'Error',
-            message: result?.message || 'Failed to add product to wishlist'
+            title: t('errorTitle'),
+            message: result?.message || t('wishlistUpdateFailedMessage')
           });
         }
       }
@@ -127,8 +129,8 @@ const ProductCard: React.FC<ProductCardProps> = memo(({ product }) => {
       console.error('Error toggling wishlist:', error);
       showAlert({
         type: 'error',
-        title: 'Error',
-        message: 'Failed to update wishlist. Please try again.'
+        title: t('errorTitle'),
+        message: t('wishlistUpdateFailedMessage')
       });
     } finally {
       setIsTogglingWishlist(false);
@@ -155,7 +157,7 @@ const ProductCard: React.FC<ProductCardProps> = memo(({ product }) => {
           <Link
             to={`/product/${product.id}`}
             className="bg-white text-slate-900 hover:bg-slate-900 hover:text-white p-1.5 rounded-full shadow-lg transition-colors"
-            title="View Details"
+            title={t('viewDetails')}
           >
             <Eye size={14} />
           </Link>
@@ -165,7 +167,7 @@ const ProductCard: React.FC<ProductCardProps> = memo(({ product }) => {
                 ? 'bg-red-600 text-white hover:bg-red-700'
                 : 'bg-white text-slate-900 hover:bg-red-600 hover:text-white'
               }`}
-            title={isInWishlist(product.id) ? 'Remove from Wishlist' : 'Add to Wishlist'}
+            title={isInWishlist(product.id) ? t('removeFromWishlist') : t('addToWishlist')}
             disabled={isTogglingWishlist}
           >
             <Heart size={14} fill={isInWishlist(product.id) ? 'currentColor' : 'none'} />
@@ -173,7 +175,7 @@ const ProductCard: React.FC<ProductCardProps> = memo(({ product }) => {
           <button
             onClick={handleAddToCart}
             className="bg-white text-slate-900 hover:bg-red-600 hover:text-white p-1.5 rounded-full shadow-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            title="Add to Cart"
+            title={t('addToCart')}
             disabled={!product.stock || product.stock === 0 || isAddingToCart}
           >
             <ShoppingBag size={14} />
@@ -223,10 +225,10 @@ const ProductCard: React.FC<ProductCardProps> = memo(({ product }) => {
                   ? 'text-orange-500'
                   : 'text-red-600'
               }`}>
-              {product.stock > 10 ? 'In Stock' : `Only ${product.stock} left`}
+              {product.stock > 10 ? t('inStock') : `${t('only')} ${product.stock} ${t('left')}`}
             </span>
           ) : (
-            <span className="text-xs font-medium text-red-600">Out of Stock</span>
+            <span className="text-xs font-medium text-red-600">{t('outOfStock')}</span>
           )}
         </div>
 

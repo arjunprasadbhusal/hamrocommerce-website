@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAlert } from '../context/AlertContext';
-import { API_ENDPOINTS } from '../src/constant/api';
+import { API_ENDPOINTS, BASE_URL } from '../src/constant/api';
 import { Loader2 } from 'lucide-react';
 
 const EsewaSuccess = () => {
@@ -105,7 +105,7 @@ const EsewaSuccess = () => {
                     console.log('API connectivity test: Success');
                 } catch (apiError) {
                     console.error('API connectivity test failed:', apiError);
-                    throw new Error('Cannot connect to backend API server at http://192.168.1.64:8000. Please ensure the Laravel server is running.');
+                    throw new Error(`Cannot connect to backend API server at ${BASE_URL}. Please ensure the Laravel server is running.`);
                 }
 
                 // Verify payment status

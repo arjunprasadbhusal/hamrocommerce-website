@@ -57,10 +57,6 @@ class LeadershipController extends Controller
             $data = $request->only(['name', 'title']);
 
             if ($request->hasFile('photopath')) {
-                if ($leadership->photopath && Storage::disk('public')->exists($leadership->photopath)) {
-                    Storage::disk('public')->delete($leadership->photopath);
-                }
-
                 $file = $request->file('photopath');
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $path = $file->storeAs('leaderships', $filename, 'public');

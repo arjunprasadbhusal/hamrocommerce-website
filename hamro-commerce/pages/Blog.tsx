@@ -4,6 +4,7 @@ import { Calendar, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { BLOG_ENDPOINTS } from '../src/constants/api/blog';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { BASE_URL } from '../src/constant/api';
 
 interface Blog {
   id: number;
@@ -39,7 +40,7 @@ const Blog: React.FC = () => {
 
   const getImageUrl = (photopath: string | null) => {
     if (!photopath) return 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop';
-    return photopath.startsWith('http') ? photopath : `http://192.168.1.64:8000/storage/${photopath}`;
+    return photopath.startsWith('http') ? photopath : `${BASE_URL}/storage/${photopath}`;
   };
 
   const truncateText = (text: string, maxLength: number) => {
@@ -93,8 +94,8 @@ const Blog: React.FC = () => {
       <div id="blogs" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {blogs.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-600 text-lg">No blogs available at the moment</p>
-            <p className="text-gray-400 text-sm mt-2">Check back later for new content</p>
+            <p className="text-gray-600 text-lg">{t('blogsEmptyTitle')}</p>
+            <p className="text-gray-400 text-sm mt-2">{t('blogsEmptyDesc')}</p>
           </div>
         ) : (
           <>

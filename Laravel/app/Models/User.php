@@ -23,8 +23,34 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
+        'profile_image',
         'role',
     ];
+
+    protected $appends = ['profile_image_url'];
+
+    public function getProfileImageUrlAttribute(): ?string
+    {
+        if (!$this->profile_image) {
+            return null;
+        }
+
+        if (filter_var($this->profile_image, FILTER_VALIDATE_URL)) {
+            return $this->profile_image;
+        }
+
+        $baseUrl = config('app.url') ?: request()->getSchemeAndHttpHost();
+        
+        // Handle cases where profile_image already starts with /storage
+        $path = $this->profile_image;
+        if (str_starts_with($path, '/storage/')) {
+            $path = substr($path, 9);
+        } elseif (str_starts_with($path, 'storage/')) {
+            $path = substr($path, 8);
+        }
+        
+        return $baseUrl . '/storage/' . $path;
+    }
 
     /**
      * The attributes that should be hidden for serialization.

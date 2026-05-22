@@ -5,7 +5,7 @@ import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useAlert } from '../context/AlertContext';
 import ProductCard from '../components/ProductCard';
-import { API_ENDPOINTS } from '../src/constant/api';
+import { API_ENDPOINTS, resolveImageUrl } from '../src/constant/api';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -68,7 +68,7 @@ const ProductDetail = () => {
       }
 
       if (product.photo_url) {
-        setActiveImage(product.photo_url);
+        setActiveImage(resolveImageUrl(product.photo_url));
       }
     }
   }, [product]);
@@ -280,7 +280,12 @@ const ProductDetail = () => {
 
             {/* Thumbnail Navigation */}
             <div className="grid grid-cols-4 sm:grid-cols-5 gap-4">
-              {[product.photo_url, ...productVariants.map(v => v.photo_url)].filter(url => url).slice(0, 5).map((url, i) => (
+              {[product.photo_url, ...productVariants.map(v => v.photo_url)]
+                .filter((url) => url)
+                .map((url) => resolveImageUrl(url))
+                .filter((url) => url)
+                .slice(0, 5)
+                .map((url, i) => (
                 <button
                   key={i}
                   onClick={() => setActiveImage(url)}

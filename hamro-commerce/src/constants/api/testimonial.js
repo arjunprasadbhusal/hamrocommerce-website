@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'http://192.168.1.64:8000/api/v1';
+export const API_BASE_URL = 'http://127.0.0.1:8000/api/v1';
 
 export const TESTIMONIAL_ENDPOINTS = {
 	GET_ALL: `${API_BASE_URL}/testimonials`,

@@ -312,35 +312,33 @@ export default function VedioList() {
           {/* Delete Confirmation Modal */}
           {deleteConfirm.show && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={cancelDelete}>
-              <div className="bg-white rounded-xl shadow-2xl p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
-                <div className="flex items-start gap-4 mb-4">
+              <div className="relative bg-white rounded-xl shadow-2xl p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
+                <button
+                  className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+                  onClick={cancelDelete}
+                >
+                  <XCircle size={24} />
+                </button>
+                <div className="flex flex-col items-center text-center gap-2 mb-4">
                   <div className="p-2 bg-red-100 rounded-lg">
                     <Trash2 className="text-red-600" size={24} />
                   </div>
-                  <div className="flex-1">
-                    <h2 className="text-xl font-bold text-gray-800 mb-1">Confirm Delete</h2>
-                    <p className="text-sm text-gray-600">This action cannot be undone</p>
-                  </div>
-                  <button 
-                    className="text-gray-400 hover:text-gray-600 transition-colors" 
-                    onClick={cancelDelete}
-                  >
-                    <XCircle size={24} />
-                  </button>
+                  <h2 className="text-xl font-bold text-gray-800">Confirm Delete</h2>
+                  <p className="text-sm text-gray-600">This action cannot be undone</p>
                 </div>
-                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-center">
                   <p className="text-sm text-gray-700">Are you sure you want to delete <strong className="text-red-600">{deleteConfirm.title}</strong>?</p>
                   <p className="text-red-700 text-sm mt-2 font-medium">The video file will be permanently deleted.</p>
                 </div>
-                <div className="flex gap-3 justify-end">
-                  <button 
-                    className="px-5 py-2.5 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all font-medium" 
+                <div className="flex gap-3 justify-center">
+                  <button
+                    className="px-6 py-2.5 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all font-medium"
                     onClick={cancelDelete}
                   >
                     Cancel
                   </button>
-                  <button 
-                    className="flex items-center gap-2 px-5 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all font-medium shadow-lg shadow-red-200" 
+                  <button
+                    className="flex items-center gap-2 px-6 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all font-medium shadow-lg shadow-red-200"
                     onClick={confirmDelete}
                   >
                     <Trash2 size={18} />

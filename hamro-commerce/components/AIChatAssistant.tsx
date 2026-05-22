@@ -3,11 +3,13 @@ import { MessageCircle, X, Send, Sparkles, ShoppingBag } from 'lucide-react';
 import { createChatSession, sendMessageToGemini } from '../services/geminiService';
 import { ChatMessage } from '../types';
 import { Chat } from '@google/genai';
+import { useLanguage } from '../context/LanguageContext';
 
 const AIChatAssistant: React.FC = () => {
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'model', text: 'Namaste! Welcome to Hamro Commerce. How can I help you find the perfect product today?', timestamp: new Date() }
+    { role: 'model', text: t('aiAssistantGreeting'), timestamp: new Date() }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -50,8 +52,8 @@ const AIChatAssistant: React.FC = () => {
             <div className="flex items-center gap-2">
               <Sparkles size={20} className="text-yellow-300" />
               <div>
-                <h3 className="font-bold text-sm">Hamro AI Assistant</h3>
-                <p className="text-xs text-red-100 opacity-90">Powered by Gemini</p>
+                <h3 className="font-bold text-sm">{t('aiAssistantTitle')}</h3>
+                <p className="text-xs text-red-100 opacity-90">{t('aiAssistantSubtitle')}</p>
               </div>
             </div>
             <button onClick={() => setIsOpen(false)} className="hover:bg-white/20 p-1 rounded-full transition-colors">
@@ -94,7 +96,7 @@ const AIChatAssistant: React.FC = () => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                placeholder="Ask about products, shipping..."
+                placeholder={t('aiAssistantPlaceholder')}
                 className="flex-1 px-4 py-2 bg-gray-100 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20"
               />
               <button 
@@ -116,7 +118,7 @@ const AIChatAssistant: React.FC = () => {
       >
         <MessageCircle size={28} className="group-hover:scale-110 transition-transform" />
         <span className="absolute right-full mr-4 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-          Chat with AI
+          {t('chatWithAi')}
         </span>
       </button>
     </div>

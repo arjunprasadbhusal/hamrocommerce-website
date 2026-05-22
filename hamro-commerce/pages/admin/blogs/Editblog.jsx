@@ -5,6 +5,7 @@ import Sidebar from '../Sidebar'
 import Topbar from '../Topbar'
 import { useAlert } from '../../../context/AlertContext'
 import { BLOG_ENDPOINTS } from '../../../src/constants/api/blog'
+import { BASE_URL } from '../../../src/constant/api'
 
 export default function Editblog() {
   const { showAlert } = useAlert()
@@ -131,7 +132,7 @@ export default function Editblog() {
 
   const getImageUrl = (photopath) => {
     if (!photopath) return null
-    return photopath.startsWith('http') ? photopath : `http://192.168.1.64:8000/storage/${photopath}`
+    return photopath.startsWith('http') ? photopath : `${BASE_URL}/storage/${photopath}`
   }
 
   if (loading) {

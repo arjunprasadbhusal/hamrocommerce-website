@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
@@ -45,6 +46,7 @@ class UserController extends Controller
                 'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $user->id,
                 'phone' => 'sometimes|nullable|string|max:20',
                 'address' => 'sometimes|nullable|string|max:500',
+                'profile_image' => 'sometimes|file|image|max:2048',
                 'current_password' => 'sometimes|required_with:password|string',
                 'password' => 'sometimes|nullable|string|min:8|confirmed',
             ];
@@ -60,6 +62,11 @@ class UserController extends Controller
             }
 
             $data = $validator->validated();
+
+            if ($request->hasFile('profile_image')) {
+                $path = $request->file('profile_image')->store('profile-images', 'public');
+                $data['profile_image'] = $path;
+            }
             
             // If password change is requested, verify current password
             if (isset($data['password']) && !empty($data['password'])) {

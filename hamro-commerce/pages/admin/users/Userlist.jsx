@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Users, Trash2, Shield, User as UserIcon, Mail, Phone, Calendar } from 'lucide-react'
+import { Users, Trash2, Shield, User as UserIcon, Mail, Phone, Calendar, AlertTriangle, X } from 'lucide-react'
 import Sidebar from '../Sidebar'
 import Topbar from '../Topbar'
 import { fetchUsers, deleteUser } from '../../../src/constants/api/user'
@@ -10,6 +10,7 @@ const Userlist = () => {
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
   const [deleting, setDeleting] = useState(null)
+  const [deleteConfirm, setDeleteConfirm] = useState({ show: false, id: null, name: '' })
   const navigate = useNavigate()
   const { showAlert } = useAlert()
 
@@ -71,17 +72,20 @@ const Userlist = () => {
     }
   }
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this user?')) {
-      return
-    }
+  const handleDeleteRequest = (id, name) => {
+    setDeleteConfirm({ show: true, id, name })
+  }
+
+  const confirmDelete = async () => {
+    if (!deleteConfirm.id) return
 
     try {
-      setDeleting(id)
-      const response = await deleteUser(id, token)
+      setDeleting(deleteConfirm.id)
+      const response = await deleteUser(deleteConfirm.id, token)
       
       if (response.success) {
-        setUsers(users.filter(user => user.id !== id))
+        setUsers(users.filter(user => user.id !== deleteConfirm.id))
+        setDeleteConfirm({ show: false, id: null, name: '' })
         showAlert({
           type: 'success',
           title: 'User Deleted',
@@ -231,7 +235,7 @@ const Userlist = () => {
                           <td className="px-4 py-4">
                             <div className="flex justify-center">
                               <button
-                                onClick={() => handleDelete(user.id)}
+                                onClick={() => handleDeleteRequest(user.id, user.name)}
                                 className="p-2 text-red-600 hover:bg-red-50 rounded-lg disabled:opacity-50 transition-colors"
                                 disabled={deleting === user.id || user.id === currentUser.id}
                                 title="Delete user"
@@ -249,6 +253,53 @@ const Userlist = () => {
             </div>
           </div>
         </div>
+        {deleteConfirm.show && (
+          <>
+            <div
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 animate-fadeIn"
+              onClick={() => setDeleteConfirm({ show: false, id: null, name: '' })}
+            />
+            <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+              <div className="relative bg-white rounded-xl shadow-2xl max-w-md w-full p-6 animate-slideIn">
+                <button
+                  onClick={() => setDeleteConfirm({ show: false, id: null, name: '' })}
+                  className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  <X size={24} />
+                </button>
+                <div className="flex flex-col items-center text-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+                    <AlertTriangle className="text-red-600" size={24} />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900">Confirm Delete</h3>
+                </div>
+                <div className="mb-6 text-center">
+                  <p className="text-gray-600 mb-2">
+                    Are you sure you want to delete <strong className="text-gray-900">{deleteConfirm.name}</strong>?
+                  </p>
+                  <p className="text-red-600 text-sm font-medium flex items-center justify-center gap-2">
+                    <AlertTriangle size={16} />
+                    This action cannot be undone.
+                  </p>
+                </div>
+                <div className="flex gap-3 justify-center">
+                  <button
+                    onClick={() => setDeleteConfirm({ show: false, id: null, name: '' })}
+                    className="px-6 py-2.5 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all font-medium"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={confirmDelete}
+                    className="px-6 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium shadow-lg shadow-red-200"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

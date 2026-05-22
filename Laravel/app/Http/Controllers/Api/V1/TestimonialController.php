@@ -58,10 +58,6 @@ class TestimonialController extends Controller
             $data = $request->only(['name', 'title', 'description']);
 
             if ($request->hasFile('photopath')) {
-                if ($testimonial->photopath && Storage::disk('public')->exists($testimonial->photopath)) {
-                    Storage::disk('public')->delete($testimonial->photopath);
-                }
-
                 $file = $request->file('photopath');
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $path = $file->storeAs('testimonials', $filename, 'public');

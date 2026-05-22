@@ -59,11 +59,6 @@ class BlogController extends Controller
 
             // Handle file upload
             if ($request->hasFile('photopath')) {
-                // Delete old file if exists
-                if ($blog->photopath && Storage::disk('public')->exists($blog->photopath)) {
-                    Storage::disk('public')->delete($blog->photopath);
-                }
-
                 $file = $request->file('photopath');
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $path = $file->storeAs('blogs', $filename, 'public');

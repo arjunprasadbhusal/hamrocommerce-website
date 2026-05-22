@@ -5,7 +5,7 @@ import { Package, Plus, Search, X, Edit2, Trash2, AlertTriangle } from 'lucide-r
 import Sidebar from '../Sidebar';
 import Topbar from '../Topbar';
 import LoadingSpinner from '../../../components/LoadingSpinner';
-import { API_ENDPOINTS } from '../../../src/constant/api';
+import { API_ENDPOINTS, resolveImageUrl } from '../../../src/constant/api';
 
 const initialNotification = { show: false, message: '', type: 'success' }
 const initialDeleteState = { show: false, id: null, name: '' }
@@ -147,7 +147,7 @@ export default function ProductList() {
       name: 'Image',
       cell: row => (
         row.photo_url ? (
-          <img src={row.photo_url} alt={row.name} className="w-12 h-12 object-cover rounded my-1" />
+          <img src={resolveImageUrl(row.photo_url)} alt={row.name} className="w-12 h-12 object-cover rounded my-1" />
         ) : (
           <div className="w-12 h-12 bg-gray-200 rounded flex items-center justify-center my-1">📦</div>
         )
@@ -430,31 +430,29 @@ export default function ProductList() {
             {/* Delete Confirmation Modal */}
             {deleteConfirm.show && (
               <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm" onClick={cancelDelete}>
-                <div className="bg-white rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 animate-fadeIn" onClick={(e) => e.stopPropagation()}>
-                  <div className="flex items-start gap-4 mb-4">
+                <div className="relative bg-white rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 animate-fadeIn" onClick={(e) => e.stopPropagation()}>
+                  <button className="absolute top-4 right-4 text-gray-400 hover:text-gray-600" onClick={cancelDelete}>
+                    <X size={20} />
+                  </button>
+                  <div className="flex flex-col items-center text-center gap-3 mb-4">
                     <div className="p-3 bg-red-100 rounded-lg">
                       <AlertTriangle className="text-red-600" size={24} />
                     </div>
-                    <div className="flex-1">
-                      <h2 className="text-xl font-bold text-gray-800">Confirm Delete</h2>
-                      <button className="absolute top-4 right-4 text-gray-400 hover:text-gray-600" onClick={cancelDelete}>
-                        <X size={20} />
-                      </button>
-                    </div>
+                    <h2 className="text-xl font-bold text-gray-800">Confirm Delete</h2>
                   </div>
-                  <div className="mb-6 ml-16">
+                  <div className="mb-6 text-center">
                     <p className="mb-2 text-gray-700">Are you sure you want to delete <strong className="text-gray-900">{deleteConfirm.name}</strong>?</p>
                     <p className="text-red-600 text-sm font-medium">⚠️ This action cannot be undone.</p>
                   </div>
-                  <div className="flex gap-3 justify-end">
-                    <button 
-                      className="px-4 py-2 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all font-medium"
+                  <div className="flex gap-3 justify-center">
+                    <button
+                      className="px-6 py-2 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all font-medium"
                       onClick={cancelDelete}
                     >
                       Cancel
                     </button>
-                    <button 
-                      className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all font-medium shadow-lg"
+                    <button
+                      className="flex items-center gap-2 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all font-medium shadow-lg"
                       onClick={confirmDelete}
                     >
                       <Trash2 size={16} />

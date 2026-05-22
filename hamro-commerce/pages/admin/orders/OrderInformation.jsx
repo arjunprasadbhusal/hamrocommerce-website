@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { API_ENDPOINTS } from '../../../src/constant/api';
+import { API_ENDPOINTS, resolveImageUrl } from '../../../src/constant/api';
 import { ArrowLeft, Package, User, MapPin, Phone, CreditCard, Calendar, DollarSign, Hash } from 'lucide-react';
 import Sidebar from '../Sidebar';
 import Topbar from '../Topbar';
@@ -178,7 +178,7 @@ const OrderInformation = () => {
                 {order.product?.photo_url && (
                   <div className="w-full sm:w-24 h-24 flex-shrink-0">
                     <img
-                      src={order.product.photo_url}
+                      src={resolveImageUrl(order.product.photo_url) || '/image/image.jpg'}
                       alt={order.product.name}
                       className="w-full h-full object-cover rounded-lg"
                       onError={(e) => {

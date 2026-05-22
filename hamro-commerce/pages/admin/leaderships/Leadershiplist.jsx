@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Pencil, Trash2, Plus, Image as ImageIcon } from 'lucide-react';
+import { Pencil, Trash2, Plus, Image as ImageIcon, AlertTriangle, X } from 'lucide-react';
 import Sidebar from '../Sidebar';
 import Topbar from '../Topbar';
 import { useAlert } from '../../../context/AlertContext';
 import { LEADERSHIP_ENDPOINTS } from '../../../src/constants/api/leadership.js';
+import { BASE_URL } from '../../../src/constant/api';
 
 const getImageUrl = (imagePath) => {
 	if (!imagePath) return null;
 	return imagePath.startsWith('http')
 		? imagePath
-		: `http://192.168.1.64:8000/storage/${imagePath}`;
+		: `${BASE_URL}/storage/${imagePath}`;
 };
 
 export default function Leadershiplist() {
@@ -18,6 +19,7 @@ export default function Leadershiplist() {
 	const [leaders, setLeaders] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [deleting, setDeleting] = useState(null);
+	const [deleteConfirm, setDeleteConfirm] = useState({ show: false, id: null, name: '' });
 
 	useEffect(() => {
 		loadLeaderships();
@@ -49,12 +51,16 @@ export default function Leadershiplist() {
 		}
 	};
 
-	const handleDelete = async (id) => {
-		if (!window.confirm('Are you sure you want to delete this leader?')) return;
+	const handleDeleteRequest = (id, name) => {
+		setDeleteConfirm({ show: true, id, name });
+	};
 
-		setDeleting(id);
+	const confirmDelete = async () => {
+		if (!deleteConfirm.id) return;
+
+		setDeleting(deleteConfirm.id);
 		try {
-			const response = await fetch(LEADERSHIP_ENDPOINTS.DELETE(id), {
+			const response = await fetch(LEADERSHIP_ENDPOINTS.DELETE(deleteConfirm.id), {
 				method: 'DELETE',
 				headers: buildHeaders(),
 			});
@@ -63,6 +69,7 @@ export default function Leadershiplist() {
 				throw new Error(data.message || 'Failed to delete leader');
 			}
 			showAlert({ type: 'success', title: 'Success', message: 'Leader deleted successfully!' });
+			setDeleteConfirm({ show: false, id: null, name: '' });
 			await loadLeaderships();
 		} catch (err) {
 			showAlert({ type: 'error', title: 'Error', message: err.message || 'Failed to delete leader' });
@@ -164,7 +171,7 @@ export default function Leadershiplist() {
 																<Pencil size={18} />
 															</Link>
 															<button
-																onClick={() => handleDelete(item.id)}
+																onClick={() => handleDeleteRequest(item.id, item.name)}
 																disabled={deleting === item.id}
 																className="p-2 text-red-600 hover:bg-red-50 rounded-lg disabled:opacity-50 transition-colors"
 																title="Delete leader"
@@ -181,6 +188,53 @@ export default function Leadershiplist() {
 							)}
 						</div>
 					</div>
+					{deleteConfirm.show && (
+						<>
+							<div
+								className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 animate-fadeIn"
+								onClick={() => setDeleteConfirm({ show: false, id: null, name: '' })}
+							/>
+							<div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+								<div className="relative bg-white rounded-xl shadow-2xl max-w-md w-full p-6 animate-slideIn">
+									<button
+										onClick={() => setDeleteConfirm({ show: false, id: null, name: '' })}
+										className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+									>
+										<X size={24} />
+									</button>
+									<div className="flex flex-col items-center text-center gap-3 mb-4">
+										<div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+											<AlertTriangle className="text-red-600" size={24} />
+										</div>
+										<h3 className="text-xl font-bold text-gray-900">Confirm Delete</h3>
+									</div>
+									<div className="mb-6 text-center">
+										<p className="text-gray-600 mb-2">
+											Are you sure you want to delete <strong className="text-gray-900">{deleteConfirm.name}</strong>?
+										</p>
+										<p className="text-red-600 text-sm font-medium flex items-center justify-center gap-2">
+											<AlertTriangle size={16} />
+											This action cannot be undone.
+										</p>
+									</div>
+									<div className="flex gap-3 justify-center">
+										<button
+											onClick={() => setDeleteConfirm({ show: false, id: null, name: '' })}
+											className="px-6 py-2.5 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all font-medium"
+										>
+											Cancel
+										</button>
+										<button
+											onClick={confirmDelete}
+											className="px-6 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium shadow-lg shadow-red-200"
+										>
+											Delete
+										</button>
+									</div>
+								</div>
+							</div>
+						</>
+					)}
 				</div>
 			</div>
 		</div>

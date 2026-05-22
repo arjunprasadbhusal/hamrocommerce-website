@@ -1,6 +1,8 @@
 import React from 'react';
+import { useLanguage } from '../context/LanguageContext';
 
 const LoadingSpinner = () => {
+  const { t } = useLanguage();
   return (
     <div className="flex h-screen items-center justify-center bg-white">
       <div className="text-center">
@@ -12,7 +14,7 @@ const LoadingSpinner = () => {
 
         {/* Loading Text */}
         <p className="text-gray-600 text-sm font-medium">
-          Loading...
+          {t('loading')}
         </p>
       </div>
     </div>

@@ -5,12 +5,13 @@ import Sidebar from '../Sidebar';
 import Topbar from '../Topbar';
 import { useAlert } from '../../../context/AlertContext';
 import { TESTIMONIAL_ENDPOINTS } from '../../../src/constants/api/testimonial.js';
+import { BASE_URL } from '../../../src/constant/api';
 
 const getImageUrl = (imagePath) => {
   if (!imagePath) return null;
   return imagePath.startsWith('http')
     ? imagePath
-    : `http://192.168.1.64:8000/storage/${imagePath}`;
+    : `${BASE_URL}/storage/${imagePath}`;
 };
 
 export default function EditTestimonial() {

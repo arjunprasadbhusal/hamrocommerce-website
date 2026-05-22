@@ -347,23 +347,21 @@ const OrderList = () => {
             onClick={() => setDeleteConfirm(null)}
           />
           <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 animate-slideIn">
-              <div className="flex items-start gap-4 mb-4">
+            <div className="relative bg-white rounded-xl shadow-2xl max-w-md w-full p-6 animate-slideIn">
+              <button
+                onClick={() => setDeleteConfirm(null)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X size={24} />
+              </button>
+              <div className="flex flex-col items-center text-center gap-2 mb-4">
                 <div className="p-2 bg-red-100 rounded-lg">
                   <AlertTriangle className="text-red-600" size={24} />
                 </div>
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold text-gray-800 mb-1">Confirm Delete</h3>
-                  <p className="text-sm text-gray-600">This action cannot be undone</p>
-                </div>
-                <button 
-                  onClick={() => setDeleteConfirm(null)}
-                  className="text-gray-400 hover:text-gray-600 transition-colors"
-                >
-                  <X size={24} />
-                </button>
+                <h3 className="text-xl font-bold text-gray-800">Confirm Delete</h3>
+                <p className="text-sm text-gray-600">This action cannot be undone</p>
               </div>
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-center">
                 <p className="text-sm text-gray-700">
                   Are you sure you want to delete order <strong className="text-red-600">#{deleteConfirm.id}</strong> for <strong className="text-gray-900">{deleteConfirm.name}</strong>?
                 </p>
@@ -371,16 +369,16 @@ const OrderList = () => {
                   ⚠️ This will restore {deleteConfirm.quantity} unit(s) to the product stock.
                 </p>
               </div>
-              <div className="flex gap-3 justify-end">
+              <div className="flex gap-3 justify-center">
                 <button
                   onClick={() => setDeleteConfirm(null)}
-                  className="px-5 py-2.5 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all font-medium"
+                  className="px-6 py-2.5 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all font-medium"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleDeleteConfirm}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all font-medium shadow-lg shadow-red-200"
+                  className="flex items-center gap-2 px-6 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all font-medium shadow-lg shadow-red-200"
                 >
                   <Trash2 size={18} />
                   Delete Order

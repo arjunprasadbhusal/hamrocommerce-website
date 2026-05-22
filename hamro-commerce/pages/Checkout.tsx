@@ -3,7 +3,7 @@ import { useCart } from '../context/CartContext';
 import { useAlert } from '../context/AlertContext';
 import { useNavigate } from 'react-router-dom';
 import { Truck, CreditCard, MapPin, ShieldCheck, CheckCircle } from 'lucide-react';
-import { API_ENDPOINTS } from '../src/constant/api';
+import { API_ENDPOINTS, resolveImageUrl } from '../src/constant/api';
 import { useLanguage } from '../context/LanguageContext';
 import CryptoJS from 'crypto-js';
 
@@ -562,7 +562,7 @@ const Checkout = () => {
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded bg-gray-100 overflow-hidden">
                           <img
-                            src={item.photo_url || item.image || '/image/image.jpg'}
+                            src={resolveImageUrl(item.photo_url || item.image) || '/image/image.jpg'}
                             alt=""
                             className="w-full h-full object-cover"
                           />

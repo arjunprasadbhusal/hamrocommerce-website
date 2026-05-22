@@ -89,15 +89,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="max-w-7xl mx-auto px-6 flex justify-center items-center gap-8 flex-wrap">
           <div className="flex items-center gap-2">
             <Truck className="w-3.5 h-3.5 animate-pulse" />
-            <span className="font-medium">Free Shipping on Orders $50+</span>
+            <span className="font-medium">{t('freeShippingTopBar')}</span>
           </div>
           <div className="flex items-center gap-2">
             <Tag className="w-3.5 h-3.5" />
-            <span className="font-medium">Up to 40% Off Summer Sale</span>
+            <span className="font-medium">{t('summerSaleTopBar')}</span>
           </div>
           <div className="hidden sm:flex items-center gap-2">
             <Shield className="w-3.5 h-3.5" />
-            <span className="font-medium">2 Years Warranty</span>
+            <span className="font-medium">{t('warrantyTopBar')}</span>
           </div>
         </div>
         <div className="absolute right-4 top-0 bottom-0 hidden lg:flex items-center">
@@ -157,7 +157,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 />
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-red-500 transition-colors" />
                 <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1 text-xs font-medium text-slate-500 hover:text-red-600">
-                  Search
+                  {t('searchBtn')}
                 </button>
               </form>
             </div>
@@ -207,14 +207,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                       onClick={() => { setLanguage('en'); setIsLangDropdownOpen(false); }}
                       className="w-full px-4 py-3 text-left text-sm hover:bg-red-50 transition-all flex items-center justify-between group"
                     >
-                      <span className="font-medium text-slate-700">English</span>
+                      <span className="font-medium text-slate-700">{t('english')}</span>
                       {language === 'en' && <Check size={16} className="text-red-500" />}
                     </button>
                     <button
                       onClick={() => { setLanguage('ne'); setIsLangDropdownOpen(false); }}
                       className="w-full px-4 py-3 text-left text-sm hover:bg-red-50 transition-all flex items-center justify-between group"
                     >
-                      <span className="font-medium text-slate-700">नेपाली</span>
+                      <span className="font-medium text-slate-700">{t('nepali')}</span>
                       {language === 'ne' && <Check size={16} className="text-red-500" />}
                     </button>
                   </div>
@@ -245,7 +245,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
                   </div>
                   <div className="flex flex-col">
-                    <span className="font-semibold text-slate-800 text-xs">{t('hi')}, {user.name?.split(' ')[0] || 'User'}</span>
+                    <span className="font-semibold text-slate-800 text-xs">{t('hi')}, {user.name?.split(' ')[0] || t('userLabel')}</span>
                     <button
                       onClick={() => {
                         localStorage.removeItem('token');
@@ -322,7 +322,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <div className="bg-slate-50 rounded-xl p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <Globe size={18} className="text-red-500" />
-                  <span className="font-semibold text-slate-700">Language</span>
+                  <span className="font-semibold text-slate-700">{t('languageLabel')}</span>
                 </div>
                 <div className="flex gap-3">
                   <button
@@ -331,7 +331,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                       language === 'en' ? 'bg-red-500 text-white shadow-md' : 'bg-white text-slate-700 border border-slate-200'
                     }`}
                   >
-                    English
+                    {t('english')}
                   </button>
                   <button
                     onClick={() => setLanguage('ne')}
@@ -339,7 +339,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                       language === 'ne' ? 'bg-red-500 text-white shadow-md' : 'bg-white text-slate-700 border border-slate-200'
                     }`}
                   >
-                    नेपाली
+                    {t('nepali')}
                   </button>
                 </div>
               </div>
@@ -375,7 +375,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                       {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
                     </div>
                     <div>
-                      <span className="font-bold text-slate-800 block">{t('hi')}, {user.name || 'User'}</span>
+                      <span className="font-bold text-slate-800 block">{t('hi')}, {user.name || t('userLabel')}</span>
                       <span className="text-xs text-slate-500">{user.email}</span>
                     </div>
                   </div>
@@ -430,7 +430,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <span className="text-white font-bold text-xl">Hamro Commerce</span>
               </div>
               <p className="text-sm text-slate-400 leading-relaxed">
-                Your trusted partner for online shopping in Nepal. We bring authentic local products and global brands right to your doorstep.
+                {t('footerTagline')}
               </p>
               <div className="flex gap-3">
                 {['Fb', 'Ig', 'Tw', 'Ln'].map((social, i) => (
@@ -465,15 +465,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <li className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center flex-shrink-0 text-red-400">📍</div>
                   <div>
-                    <span className="block text-white text-sm font-medium">New Baneshwor, Kathmandu</span>
-                    <span className="text-xs text-slate-400">Nepal</span>
+                    <span className="block text-white text-sm font-medium">{t('addressLine')}</span>
+                    <span className="text-xs text-slate-400">{t('countryNepal')}</span>
                   </div>
                 </li>
                 <li className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center flex-shrink-0 text-red-400"><Phone size={16} /></div>
                   <div>
                     <span className="block text-white text-sm font-medium">+977 9800000000</span>
-                    <span className="text-xs text-slate-400">Mon-Fri, 9AM-6PM</span>
+                    <span className="text-xs text-slate-400">{t('officeHours')}</span>
                   </div>
                 </li>
               </ul>

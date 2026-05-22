@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'http://192.168.1.64:8000/api/v1';
+import { API_BASE_URL } from '../../constant/api';
 
 export const BANNER_ENDPOINTS = {
   // Public endpoints

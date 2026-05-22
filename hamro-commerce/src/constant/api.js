@@ -1,5 +1,40 @@
-// API Base URL
-export const API_BASE_URL = 'http://192.168.1.64:8000/api/v1';
+export const BASE_URL = 'http://127.0.0.1:8000';
+export const API_BASE_URL = `${BASE_URL}/api/v1`;
+
+// Convert backend-provided image paths to usable URLs.
+// Supports: absolute URLs, "storage/...", "/storage/..." and DB paths like "products/x.jpg".
+export const resolveImageUrl = (value) => {
+  if (!value || typeof value !== 'string') return '';
+
+  const url = value.trim();
+  if (!url) return '';
+
+  // If the backend returned a full absolute URL but it contains /storage/,
+  // force it to use our BASE_URL instead of the backend's IP (like 192.168.x.x)
+  if (url.includes('/storage/')) {
+    const pathAfterStorage = url.split('/storage/')[1];
+    return `${BASE_URL}/storage/${pathAfterStorage}`;
+  }
+
+  // Same for things that might just have 'storage/' without the leading slash
+  if (url.startsWith('storage/')) {
+    return `${BASE_URL}/${url}`;
+  }
+
+  // Keep external legit HTTP URLs like AWS S3 or Unsplash (if they don't have '/storage/')
+  if (/^https?:\/\//i.test(url)) return url;
+
+  // Frontend public assets.
+  if (url.startsWith('/image/') || url.startsWith('image/')) {
+    return url.startsWith('/') ? url : `/${url}`;
+  }
+
+  // Any other absolute path -> treat as frontend path.
+  if (url.startsWith('/')) return url;
+
+  // Plain DB path/filename -> assume stored under /storage.
+  return `${BASE_URL}/storage/${url}`;
+};
 
 // API Endpoints
 export const API_ENDPOINTS = {

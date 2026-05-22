@@ -5,6 +5,7 @@ import Sidebar from '../Sidebar'
 import Topbar from '../Topbar'
 import { useAlert } from '../../../context/AlertContext'
 import { BANNER_ENDPOINTS } from '../../../src/constants/api/banner'
+import { BASE_URL, resolveImageUrl } from '../../../src/constant/api'
 
 export default function Editbanner() {
   const { showAlert } = useAlert()
@@ -123,11 +124,6 @@ export default function Editbanner() {
 
   const handleCancel = () => navigate('/admin/banners')
 
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return null
-    return imagePath.startsWith('http') ? imagePath : `http://192.168.1.64:8000/storage/${imagePath}`
-  }
-
   if (loading) {
     return (
       <div className="flex h-screen bg-gradient-to-br from-gray-50 to-gray-100">
@@ -240,7 +236,7 @@ export default function Editbanner() {
                       <div className="mb-4">
                         <p className="text-sm font-medium text-gray-700 mb-2">Current Image:</p>
                         <img 
-                          src={getImageUrl(currentImage)} 
+                            src={resolveImageUrl(currentImage)} 
                           alt="Current" 
                           className="w-full max-w-2xl h-64 object-cover rounded-lg border border-gray-200 shadow-sm" 
                         />

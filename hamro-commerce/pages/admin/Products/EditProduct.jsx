@@ -5,7 +5,7 @@ import Sidebar from '../Sidebar';
 import Topbar from '../Topbar';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import { useAlert } from '../../../context/AlertContext';
-import { API_ENDPOINTS } from '../../../src/constant/api';
+import { API_ENDPOINTS, resolveImageUrl } from '../../../src/constant/api';
 
 const initialFormData = {
   name: '',
@@ -95,7 +95,7 @@ export default function EditProduct() {
           subcategory_id: product.subcategory_id || '',
           brand: product.brand || '',
         })
-        setPhotoPreview(product.photo_url || '')
+        setPhotoPreview(resolveImageUrl(product.photo_url) || '')
       } else {
         showAlert({ type: 'error', title: 'Error', message: 'Failed to load product' })
       }

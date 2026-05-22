@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAlert } from '../context/AlertContext';
 import { useLanguage } from '../context/LanguageContext';
+import { resolveImageUrl } from '../src/constant/api';
 
 const Cart = () => {
   const { cart, loading, updateQuantity, removeFromCart, clearCart, cartTotal, fetchCart } = useCart();
@@ -52,8 +53,8 @@ const Cart = () => {
     if (selectedItems.length === 0) {
       showAlert({
         type: 'warning',
-        title: 'No Items Selected',
-        message: 'Please select at least one item to checkout'
+        title: t('noItemsSelected'),
+        message: t('selectAtLeastOne')
       });
       return;
     }
@@ -82,8 +83,8 @@ const Cart = () => {
             </div>
             <div className="absolute -top-2 -right-2 w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center font-bold text-xs shadow-lg animate-bounce">0</div>
           </div>
-          <h2 className="text-2xl font-bold text-slate-900 mb-2 tracking-tight">Your Cart is a Blank Canvas</h2>
-          <p className="text-slate-400 mb-10 max-w-sm mx-auto text-xs font-medium leading-relaxed">It seems you haven't discovered your next favorite item yet. Explore our curated collections and start your journey.</p>
+          <h2 className="text-2xl font-bold text-slate-900 mb-2 tracking-tight">{t('cartBlankTitle')}</h2>
+          <p className="text-slate-400 mb-10 max-w-sm mx-auto text-xs font-medium leading-relaxed">{t('cartBlankDesc')}</p>
           <Link
             to="/shop"
             className="inline-flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-full hover:bg-red-600 transition-all duration-500 font-bold text-[11px] uppercase tracking-widest shadow-xl shadow-slate-200"
@@ -105,18 +106,18 @@ const Cart = () => {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-2">
-                <Link to="/" className="hover:text-red-600 transition-colors">Home</Link>
+                <Link to="/" className="hover:text-red-600 transition-colors">{t('home')}</Link>
                 <ChevronRight size={10} />
-                <span className="text-slate-900">Your Cart</span>
+                <span className="text-slate-900">{t('yourCart')}</span>
               </div>
               <h1 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight leading-none uppercase">
-                Your Selection <span className="text-red-600">({cart.length})</span>
+                {t('yourSelection')} <span className="text-red-600">({cart.length})</span>
               </h1>
             </div>
             <div className="flex items-center gap-4">
               <div className="bg-emerald-50 text-emerald-600 px-3 py-1.5 rounded-xl flex items-center gap-2 border border-emerald-100">
                 <ShieldCheck size={14} />
-                <span className="text-[9px] font-bold uppercase tracking-wider">Secure Checkout</span>
+                <span className="text-[9px] font-bold uppercase tracking-wider">{t('secureCheckout')}</span>
               </div>
             </div>
           </div>
@@ -144,7 +145,7 @@ const Cart = () => {
                   </div>
                 </div>
                 <span className="text-[11px] font-bold text-slate-900 uppercase tracking-widest">
-                  {selectedItems.length === cart.length ? 'Deselect All' : 'Select All'}
+                  {selectedItems.length === cart.length ? t('deselectAll') : t('selectAll')}
                 </span>
               </label>
               <button
@@ -152,7 +153,7 @@ const Cart = () => {
                 className="text-slate-400 hover:text-red-600 transition-all flex items-center gap-2 group"
               >
                 <Trash2 size={14} className="group-hover:scale-110 transition-transform" />
-                <span className="text-[10px] font-bold uppercase tracking-widest">Clear Cart</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest">{t('clearCart')}</span>
               </button>
             </div>
 
@@ -177,7 +178,7 @@ const Cart = () => {
                         />
                       </div>
                       <img
-                        src={item.photo_url || '/image/image.jpg'}
+                        src={resolveImageUrl(item.photo_url || item.image) || '/image/image.jpg'}
                         alt={item.name}
                         className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
                         onError={(e) => { e.target.src = '/image/image.jpg'; }}
@@ -190,7 +191,7 @@ const Cart = () => {
                         <div className="flex justify-between items-start gap-3 mb-1.5">
                           <div>
                             <span className="text-[6px] font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded-full uppercase tracking-widest mb-1 inline-block">
-                              {item.category?.name || 'Handcrafted'}
+                              {item.category?.name || t('handcraftedLabel')}
                             </span>
                             <h3 className="text-[12px] font-bold text-slate-900 leading-tight uppercase tracking-tight group-hover:text-red-600 transition-colors">
                               {item.name}
@@ -199,12 +200,12 @@ const Cart = () => {
                               <div className="flex flex-wrap gap-1 mt-1.5">
                                 {item.color && (
                                   <span className="text-[6px] font-semibold text-slate-500 bg-slate-50 px-1.5 py-0.5 rounded-md border border-slate-100 flex items-center gap-1 uppercase">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-slate-400" /> Color: {item.color}
+                                    <div className="w-1.5 h-1.5 rounded-full bg-slate-400" /> {t('colorLabel')}: {item.color}
                                   </span>
                                 )}
                                 {item.size && (
                                   <span className="text-[6px] font-semibold text-slate-500 bg-slate-50 px-1.5 py-0.5 rounded-md border border-slate-100 uppercase">
-                                    Size: {item.size}
+                                    {t('sizeLabel')}: {item.size}
                                   </span>
                                 )}
                               </div>
@@ -222,13 +223,13 @@ const Cart = () => {
                           <div className="flex text-amber-400">
                             {[...Array(5)].map((_, i) => <Star key={i} size={7} fill="currentColor" />)}
                           </div>
-                          <span className="text-[6px] font-bold text-slate-400 tracking-wider">PREMIUM QUALITY</span>
+                          <span className="text-[6px] font-bold text-slate-400 tracking-wider">{t('premiumQuality')}</span>
                         </div>
                       </div>
 
                       <div className="flex items-end justify-between gap-3 mt-1.5 pt-1.5 border-t border-slate-50">
                         <div>
-                          <p className="text-[6px] font-bold text-slate-400 uppercase tracking-widest mb-1">Item Total</p>
+                          <p className="text-[6px] font-bold text-slate-400 uppercase tracking-widest mb-1">{t('itemTotal')}</p>
                           <p className="text-[13px] font-bold text-slate-900 tracking-tighter">NPR {(parseFloat(item.price) * item.quantity).toLocaleString()}</p>
                         </div>
 
@@ -272,31 +273,31 @@ const Cart = () => {
           <div className="lg:col-span-4">
             <div className="sticky top-24 space-y-4">
               <div className="bg-slate-900 rounded-[1.5rem] p-6 text-white shadow-2xl shadow-slate-200">
-                <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] mb-6 text-slate-400">Order Summary</h3>
+                <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] mb-6 text-slate-400">{t('orderSummary')}</h3>
 
                 <div className="space-y-3 mb-6">
                   <div className="flex justify-between items-center group">
-                    <span className="text-[11px] font-medium text-slate-400">Subtotal</span>
+                    <span className="text-[11px] font-medium text-slate-400">{t('subtotal')}</span>
                     <span className="text-xs font-bold tracking-tight">NPR {selectedTotal.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between items-center group">
                     <span className="text-[11px] font-medium text-slate-400 flex items-center gap-2">
-                      <Truck size={12} /> Shipping
+                      <Truck size={12} /> {t('shipping')}
                     </span>
-                    <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">Free</span>
+                    <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">{t('free')}</span>
                   </div>
                   <div className="flex justify-between items-center group">
-                    <span className="text-[11px] font-medium text-slate-400">Estimated Tax</span>
-                    <span className="text-[10px] font-bold uppercase tracking-widest">Included</span>
+                    <span className="text-[11px] font-medium text-slate-400">{t('estimatedTax')}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest">{t('included')}</span>
                   </div>
                 </div>
 
                 <div className="pt-6 border-t border-slate-800 mb-8">
                   <div className="flex justify-between items-end mb-1">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Total Amount</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{t('totalAmount')}</span>
                     <span className="text-xl font-bold tracking-tighter text-white">NPR {selectedTotal.toLocaleString()}</span>
                   </div>
-                  <p className="text-[9px] text-slate-500 font-medium leading-none">VAT & Service charges included.</p>
+                  <p className="text-[9px] text-slate-500 font-medium leading-none">{t('vatIncluded')}</p>
                 </div>
 
                 <button
@@ -304,7 +305,7 @@ const Cart = () => {
                   disabled={selectedItems.length === 0}
                   className="w-full bg-red-600 hover:bg-red-500 disabled:bg-slate-800 disabled:text-slate-600 text-white py-4 rounded-xl font-bold text-[10px] uppercase tracking-[0.2em] transition-all duration-500 flex items-center justify-center gap-2 shadow-xl shadow-red-900/20 active:scale-[0.98]"
                 >
-                  Proceed to Checkout <ArrowRight size={14} />
+                  {t('proceedToCheckout')} <ArrowRight size={14} />
                 </button>
               </div>
 
@@ -315,8 +316,8 @@ const Cart = () => {
                     <ShieldCheck size={16} />
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold text-slate-900 uppercase tracking-tight">Purchase Protection</p>
-                    <p className="text-[9px] text-slate-400 font-medium uppercase tracking-tighter">Your data is fully encrypted</p>
+                    <p className="text-[10px] font-bold text-slate-900 uppercase tracking-tight">{t('purchaseProtection')}</p>
+                    <p className="text-[9px] text-slate-400 font-medium uppercase tracking-tighter">{t('dataEncrypted')}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -324,8 +325,8 @@ const Cart = () => {
                     <Truck size={16} />
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold text-slate-900 uppercase tracking-tight">Express Delivery</p>
-                    <p className="text-[9px] text-slate-400 font-medium uppercase tracking-tighter">Quickest possible shipping time</p>
+                    <p className="text-[10px] font-bold text-slate-900 uppercase tracking-tight">{t('expressDelivery')}</p>
+                    <p className="text-[9px] text-slate-400 font-medium uppercase tracking-tighter">{t('quickShipping')}</p>
                   </div>
                 </div>
               </div>

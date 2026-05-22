@@ -22,7 +22,7 @@ import {
 import { useLanguage } from "../context/LanguageContext";
 
 import ProductCard from "../components/ProductCard";
-import { API_ENDPOINTS } from "../src/constant/api";
+import { API_ENDPOINTS, BASE_URL } from "../src/constant/api";
 
 type Banner = {
   id: number;
@@ -36,7 +36,7 @@ const getBannerImageUrl = (imagePath: string | undefined | null) => {
   if (!imagePath) return "";
   return imagePath.startsWith("http")
     ? imagePath
-    : `http://192.168.1.64:8000/storage/${imagePath}`;
+    : `${BASE_URL}/storage/${imagePath}`;
 };
 
 const Home = () => {

@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Pencil, Trash2, Plus, Image as ImageIcon } from 'lucide-react'
+import { Pencil, Trash2, Plus, Image as ImageIcon, AlertTriangle, X } from 'lucide-react'
 import Sidebar from '../Sidebar'
 import Topbar from '../Topbar'
 import { useAlert } from '../../../context/AlertContext'
 import { BANNER_ENDPOINTS } from '../../../src/constants/api/banner'
+import { BASE_URL, resolveImageUrl } from '../../../src/constant/api'
 
 export default function Bannerlist() {
   const { showAlert } = useAlert()
@@ -12,6 +13,7 @@ export default function Bannerlist() {
   const [loading, setLoading] = useState(true)
   const [deleting, setDeleting] = useState(null)
   const [updating, setUpdating] = useState(null)
+  const [deleteConfirm, setDeleteConfirm] = useState({ show: false, id: null, name: '' })
 
   useEffect(() => {
     fetchBanners()
@@ -42,13 +44,17 @@ export default function Bannerlist() {
     }
   }
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this banner?')) return
+  const handleDeleteRequest = (id, name) => {
+    setDeleteConfirm({ show: true, id, name })
+  }
 
-    setDeleting(id)
+  const confirmDelete = async () => {
+    if (!deleteConfirm.id) return
+
+    setDeleting(deleteConfirm.id)
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch(BANNER_ENDPOINTS.DELETE(id), {
+      const response = await fetch(BANNER_ENDPOINTS.DELETE(deleteConfirm.id), {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -66,6 +72,7 @@ export default function Bannerlist() {
 
       if (data.success) {
         showAlert({ type: 'success', title: 'Success', message: 'Banner deleted successfully!' })
+        setDeleteConfirm({ show: false, id: null, name: '' })
         fetchBanners()
       } else {
         throw new Error(data.message || 'Failed to delete banner')
@@ -108,11 +115,6 @@ export default function Bannerlist() {
     } finally {
       setUpdating(null)
     }
-  }
-
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return null
-    return imagePath.startsWith('http') ? imagePath : `http://192.168.1.64:8000/storage/${imagePath}`
   }
 
   return (
@@ -180,7 +182,7 @@ export default function Bannerlist() {
                           <td className="px-4 py-4">
                             {banner.image ? (
                               <img 
-                                src={getImageUrl(banner.image)} 
+                                src={resolveImageUrl(banner.image)} 
                                 alt={banner.title} 
                                 className="w-32 h-20 object-cover rounded-lg border border-gray-200 shadow-sm"
                               />
@@ -226,7 +228,7 @@ export default function Bannerlist() {
                                 <Pencil size={18} />
                               </Link>
                               <button
-                                onClick={() => handleDelete(banner.id)}
+                                onClick={() => handleDeleteRequest(banner.id, banner.title)}
                                 disabled={deleting === banner.id}
                                 className="p-2 text-red-600 hover:bg-red-50 rounded-lg disabled:opacity-50 transition-colors"
                                 title="Delete banner"
@@ -244,6 +246,52 @@ export default function Bannerlist() {
             </div>
           </div>
         </div>
+        {deleteConfirm.show && (
+          <>
+            <div
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 animate-fadeIn"
+              onClick={() => setDeleteConfirm({ show: false, id: null, name: '' })}
+            />
+            <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+              <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 animate-slideIn">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+                      <AlertTriangle className="text-red-600" size={24} />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900">Confirm Delete</h3>
+                  </div>
+                  <button
+                    onClick={() => setDeleteConfirm({ show: false, id: null, name: '' })}
+                    className="text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    <X size={24} />
+                  </button>
+                </div>
+                <div className="mb-6 text-center">
+                  <p className="text-gray-600 mb-2">
+                    Are you sure you want to delete <strong className="text-gray-900">{deleteConfirm.name}</strong>?
+                  </p>
+                  <p className="text-red-600 text-sm font-medium">This action cannot be undone.</p>
+                </div>
+                <div className="flex gap-3 justify-center">
+                  <button
+                    onClick={() => setDeleteConfirm({ show: false, id: null, name: '' })}
+                    className="px-6 py-2.5 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all font-medium"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={confirmDelete}
+                    className="px-6 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium shadow-lg shadow-red-200"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

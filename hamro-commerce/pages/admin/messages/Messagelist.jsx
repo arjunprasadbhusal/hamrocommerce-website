@@ -357,22 +357,20 @@ export default function MessageList() {
                 onClick={() => setDeleteConfirm({ show: false, id: null, name: '' })}
               />
               <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
-                <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 animate-slideIn">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
-                        <AlertTriangle className="text-red-600" size={24} />
-                      </div>
-                      <h3 className="text-xl font-bold text-gray-900">Delete Message</h3>
+                <div className="relative bg-white rounded-xl shadow-2xl max-w-md w-full p-6 animate-slideIn">
+                  <button 
+                    onClick={() => setDeleteConfirm({ show: false, id: null, name: '' })}
+                    className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    <X size={24} />
+                  </button>
+                  <div className="flex flex-col items-center text-center gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+                      <AlertTriangle className="text-red-600" size={24} />
                     </div>
-                    <button 
-                      onClick={() => setDeleteConfirm({ show: false, id: null, name: '' })}
-                      className="text-gray-400 hover:text-gray-600 transition-colors"
-                    >
-                      <X size={24} />
-                    </button>
+                    <h3 className="text-xl font-bold text-gray-900">Delete Message</h3>
                   </div>
-                  <div className="mb-6">
+                  <div className="mb-6 text-center">
                     <p className="text-gray-600 mb-2">
                       Are you sure you want to delete the message from <strong className="text-gray-900">{deleteConfirm.name}</strong>?
                     </p>
@@ -380,16 +378,16 @@ export default function MessageList() {
                       ⚠️ This action cannot be undone.
                     </p>
                   </div>
-                  <div className="flex gap-3">
+                  <div className="flex gap-3 justify-center">
                     <button
                       onClick={() => setDeleteConfirm({ show: false, id: null, name: '' })}
-                      className="flex-1 px-4 py-2.5 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all font-medium"
+                      className="px-6 py-2.5 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all font-medium"
                     >
                       Cancel
                     </button>
                     <button
                       onClick={confirmDelete}
-                      className="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium shadow-lg shadow-red-200"
+                      className="px-6 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium shadow-lg shadow-red-200"
                     >
                       Delete
                     </button>

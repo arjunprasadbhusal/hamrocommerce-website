@@ -4,11 +4,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useWishlist } from '../context/WishlistContext';
 import { useCart } from '../context/CartContext';
 import { useAlert } from '../context/AlertContext';
+import { useLanguage } from '../context/LanguageContext';
+import { resolveImageUrl } from '../src/constant/api';
 
 const Wishlist = () => {
   const { wishlist, loading, removeFromWishlist, fetchWishlist } = useWishlist();
   const { addToCart } = useCart();
   const { showAlert } = useAlert();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,20 +28,20 @@ const Wishlist = () => {
     if (result?.success) {
       showAlert({
         type: 'success',
-        title: 'Added to Cart',
-        message: `${product.name} has been added to your cart`
+        title: t('addedToCartTitle'),
+        message: `${product.name} ${t('addedToCartMessageSuffix')}`
       });
     } else if (result?.alreadyInCart) {
       showAlert({
         type: 'info',
-        title: 'Already in Cart',
-        message: 'This product is already in your cart'
+        title: t('alreadyInCartTitle'),
+        message: t('alreadyInCartMessage')
       });
     } else {
       showAlert({
         type: 'error',
-        title: 'Error',
-        message: result?.message || 'Failed to add product to cart'
+        title: t('errorTitle'),
+        message: result?.message || t('addToCartFailedMessage')
       });
     }
   };
@@ -47,8 +50,8 @@ const Wishlist = () => {
     await removeFromWishlist(productId);
     showAlert({
       type: 'success',
-      title: 'Removed from Wishlist',
-      message: `${productName} has been removed from your wishlist`
+      title: t('removedFromWishlistTitle'),
+      message: `${productName} ${t('removedFromWishlistMessageSuffix')}`
     });
   };
 
@@ -57,7 +60,7 @@ const Wishlist = () => {
       <div className="min-h-screen bg-[#f7f4f1] flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin w-12 h-12 border-4 border-amber-600 border-t-transparent rounded-full mx-auto mb-3"></div>
-          <p className="text-slate-700 font-semibold tracking-wide">Loading wishlist...</p>
+          <p className="text-slate-700 font-semibold tracking-wide">{t('wishlistLoading')}</p>
         </div>
       </div>
     );
@@ -71,12 +74,12 @@ const Wishlist = () => {
           <div className="w-28 h-28 bg-[radial-gradient(circle_at_30%_30%,#fde68a,transparent_55%),radial-gradient(circle_at_70%_70%,#fecaca,transparent_60%)] rounded-full flex items-center justify-center mx-auto mb-6 border border-amber-200">
             <Heart size={50} strokeWidth={1.5} className="text-amber-600" />
           </div>
-          <h2 className="text-3xl font-['Playfair_Display'] font-bold text-slate-900 mb-3">Your Wishlist is Empty</h2>
+          <h2 className="text-3xl font-['Playfair_Display'] font-bold text-slate-900 mb-3">{t('wishlistEmptyTitle')}</h2>
           <p className="text-slate-600 mb-8 font-['Space_Grotesk']">
-            Save favorites here and build your own curated shelf.
+            {t('wishlistEmptyDesc')}
           </p>
           <Link to="/shop" className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-600 to-rose-600 text-white px-8 py-4 rounded-full hover:from-amber-700 hover:to-rose-700 transition-all font-semibold shadow-lg">
-            Start Shopping <ArrowRight size={20} />
+            {t('startShopping')} <ArrowRight size={20} />
           </Link>
         </div>
       </div>
@@ -97,19 +100,19 @@ const Wishlist = () => {
               </Link>
               <div>
                 <h1 className="text-3xl md:text-4xl font-['Playfair_Display'] font-bold text-slate-900">
-                  My Wishlist
+                  {t('myWishlist')}
                 </h1>
                 <p className="text-sm text-slate-600 mt-2 flex items-center gap-2 font-['Space_Grotesk']">
                   <Heart size={16} className="text-red-500" fill="currentColor" />
-                  {wishlist.length} {wishlist.length === 1 ? 'item' : 'items'} saved for you
+                  {wishlist.length} {wishlist.length === 1 ? t('item') : t('items')} {t('itemsSavedForYou')}
                 </p>
               </div>
             </div>
             <div className="hidden md:flex items-center gap-3 bg-white px-5 py-3 rounded-2xl border border-slate-200 shadow-sm">
               <Heart size={20} className="text-red-500" fill="currentColor" />
               <div>
-                <p className="text-xs text-slate-900 font-semibold font-['Space_Grotesk']">Your Favorites</p>
-                <p className="text-xs text-slate-500 font-['Space_Grotesk']">Curated picks</p>
+                <p className="text-xs text-slate-900 font-semibold font-['Space_Grotesk']">{t('yourFavorites')}</p>
+                <p className="text-xs text-slate-500 font-['Space_Grotesk']">{t('curatedPicks')}</p>
               </div>
             </div>
           </div>
@@ -124,7 +127,7 @@ const Wishlist = () => {
               {/* Product Image */}
               <div className="relative aspect-[4/3] bg-slate-50 overflow-hidden">
                 <img
-                  src={item.product.photo_url || '/image/image.jpg'}
+                  src={resolveImageUrl(item.product.photo_url) || '/image/image.jpg'}
                   alt={item.product.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   onError={(e) => {
@@ -134,7 +137,7 @@ const Wishlist = () => {
                 {item.product.stock <= 0 && (
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                     <span className="bg-white text-slate-900 px-5 py-2.5 rounded-full text-sm font-bold shadow-xl font-['Space_Grotesk']">
-                      Out of Stock
+                      {t('outOfStock')}
                     </span>
                   </div>
                 )}
@@ -151,7 +154,7 @@ const Wishlist = () => {
               <div className="p-2 font-['Space_Grotesk']">
                 <div className="mb-1">
                   <span className="inline-block text-[7px] font-bold text-red-600 bg-red-50 px-1.5 py-0.5 rounded-full mb-1 border border-red-100">
-                    {item.product.category?.name || 'Product'}
+                    {item.product.category?.name || t('product')}
                   </span>
                   <Link to={`/product/${item.product.id}`}>
                     <h3 className="font-bold text-[11px] text-slate-900 line-clamp-2 hover:text-red-600 transition-colors leading-tight">
@@ -171,14 +174,14 @@ const Wishlist = () => {
                       <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
-                      {item.product.stock} units available
+                      {item.product.stock} {t('unitsAvailable')}
                     </div>
                   ) : (
                     <div className="flex items-center gap-1 text-[7px] text-red-700 bg-red-50 font-semibold px-1.5 py-0.5 rounded-md border border-red-200">
                       <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                       </svg>
-                      Currently unavailable
+                      {t('currentlyUnavailable')}
                     </div>
                   )}
                 </div>
@@ -194,7 +197,7 @@ const Wishlist = () => {
                       }`}
                   >
                     <ShoppingCart size={12} strokeWidth={2.5} />
-                    {item.product.stock <= 0 ? 'OUT' : 'ADD'}
+                    {item.product.stock <= 0 ? t('outShort') : t('addShort')}
                   </button>
                 </div>
               </div>
@@ -209,7 +212,7 @@ const Wishlist = () => {
             className="inline-flex items-center gap-3 bg-slate-900 text-white font-bold px-8 py-4 rounded-full hover:bg-slate-800 transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-0.5"
           >
             <ArrowLeft size={20} strokeWidth={2.5} />
-            CONTINUE SHOPPING
+            {t('continueShopping')}
           </Link>
         </div>
       </div>

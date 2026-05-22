@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://192.168.1.64:8000/api/v1';
+const API_BASE_URL = 'http://127.0.0.1:8000/api/v1';
 
 // User API endpoints
 export const USERS_API = {

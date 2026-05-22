@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Star, Quote } from 'lucide-react';
 import { TESTIMONIAL_ENDPOINTS } from '../src/constants/api/testimonial.js';
+import { useLanguage } from '../context/LanguageContext';
+import { BASE_URL } from '../src/constant/api';
 
 const getImageUrl = (imagePath) => {
   if (!imagePath) return null;
   return imagePath.startsWith('http')
     ? imagePath
-    : `http://192.168.1.64:8000/storage/${imagePath}`;
+    : `${BASE_URL}/storage/${imagePath}`;
 };
 
 export default function Testimonials() {
+  const { t } = useLanguage();
   const [testimonials, setTestimonials] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -40,10 +43,10 @@ export default function Testimonials() {
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 mb-3">
             <Star className="w-4 h-4 text-red-500 fill-red-500" />
-            <span className="text-xs font-bold text-red-600 tracking-wide">TESTIMONIALS</span>
+            <span className="text-xs font-bold text-red-600 tracking-wide">{t('testimonialsBadge')}</span>
           </div>
-          <h1 className="text-3xl md:text-4xl font-black text-slate-900">What Our Customers Say</h1>
-          <p className="text-slate-500 mt-2">Real feedback from people who shop with us.</p>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900">{t('testimonialsTitle')}</h1>
+          <p className="text-slate-500 mt-2">{t('testimonialsSubtitle')}</p>
         </div>
 
         {loading ? (
@@ -53,8 +56,8 @@ export default function Testimonials() {
         ) : testimonials.length === 0 ? (
           <div className="text-center py-20 bg-white rounded-2xl border-2 border-dashed border-slate-200">
             <Quote className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-slate-700">No Testimonials Yet</h3>
-            <p className="text-slate-500 mt-2">Check back later for customer stories.</p>
+            <h3 className="text-xl font-bold text-slate-700">{t('testimonialsEmptyTitle')}</h3>
+            <p className="text-slate-500 mt-2">{t('testimonialsEmptyDesc')}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

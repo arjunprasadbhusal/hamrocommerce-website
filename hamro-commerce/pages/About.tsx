@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Target, Heart, Users, ArrowRight, Truck, ShieldCheck, HeadphonesIcon } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { LEADERSHIP_ENDPOINTS } from '../src/constants/api/leadership.js';
+import { BASE_URL } from '../src/constant/api';
 
 const About: React.FC = () => {
   const { t } = useLanguage();
@@ -35,7 +36,7 @@ const About: React.FC = () => {
         if (!imagePath) return '';
         return imagePath.startsWith('http')
             ? imagePath
-            : `http://192.168.1.64:8000/storage/${imagePath}`;
+            : `${BASE_URL}/storage/${imagePath}`;
     };
 
     const sortedLeaders = [...leaders].sort((a, b) => {
