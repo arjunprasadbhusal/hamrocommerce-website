@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X, Search, User, Phone, Heart, ChevronRight, LogIn, Globe, Check, Sparkles, Tag, Truck, Shield, Star, ArrowRight } from 'lucide-react';
+import { ShoppingCart, Menu, X, Search, User, Phone, Heart, ChevronRight, ChevronDown, LogIn, Globe, Check, Sparkles, Tag, Truck, Shield, Star, ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useLanguage } from '../context/LanguageContext';
+import { API_ENDPOINTS } from '../src/constant/api';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -14,6 +15,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
+  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
+  const [isPagesDropdownOpen, setIsPagesDropdownOpen] = useState(false);
+  const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [subcategories, setSubcategories] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const { cartCount, fetchCart } = useCart();
   const { wishlistCount, fetchWishlist } = useWishlist();
@@ -59,6 +65,32 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const [categoriesRes, subcategoriesRes] = await Promise.all([
+          fetch(API_ENDPOINTS.CATEGORIES),
+          fetch(API_ENDPOINTS.SUBCATEGORIES),
+        ]);
+        const categoriesData = await categoriesRes.json();
+        const subcategoriesData = await subcategoriesRes.json();
+
+        setCategories(categoriesData.data || categoriesData || []);
+        setSubcategories(subcategoriesData.data || subcategoriesData || []);
+      } catch (error) {
+        console.error('Failed to load layout categories:', error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    setIsCategoryDropdownOpen(false);
+    setIsPagesDropdownOpen(false);
+    setIsMobileMenuOpen(false);
+  }, [location.pathname, location.search]);
+
+  useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -66,8 +98,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     }
   }, [isMobileMenuOpen]);
 
-  const navLinks = [
-    { name: 'home', path: '/' },
+  const pageLinks = [
     { name: 'shop', path: '/shop' },
     { name: 'blog', path: '/blog' },
     { name: 'about', path: '/about' },
@@ -164,22 +195,111 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-1 lg:gap-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  className={`relative px-3 lg:px-4 py-2 text-sm font-semibold transition-all duration-300 rounded-full ${
-                    location.pathname === link.path
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setIsCategoryDropdownOpen((open) => !open)}
+                  className={`relative px-3 lg:px-4 py-2 text-sm font-semibold transition-all duration-300 rounded-full flex items-center gap-1.5 ${
+                    isCategoryDropdownOpen
                       ? 'text-red-600 bg-red-50'
                       : 'text-slate-600 hover:text-red-600 hover:bg-red-50/50'
                   }`}
+                  aria-expanded={isCategoryDropdownOpen}
                 >
-                  {t(link.name)}
-                  {location.pathname === link.path && (
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-red-500 rounded-full"></span>
-                  )}
-                </Link>
-              ))}
+                  <Menu size={15} />
+                  <span>All Categories</span>
+                  <ChevronDown size={14} className={`transition-transform ${isCategoryDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {isCategoryDropdownOpen && (
+                  <div className="absolute left-0 top-full mt-3 w-[520px] max-h-[70vh] overflow-y-auto rounded-2xl bg-white shadow-2xl border border-slate-100 py-2 z-50 animate-fadeInUp">
+                    <div className="grid grid-cols-2 divide-x divide-slate-100">
+                      {categories.map((cat) => {
+                        const subs = subcategories.filter((sub) => sub.category_id === cat.id);
+                        const isExpanded = expandedCategory === cat.id;
+
+                        return (
+                          <div key={cat.id} className="p-2">
+                            <div className="flex items-center justify-between rounded-xl hover:bg-red-50 transition-colors group">
+                              <Link
+                                to={`/shop?category=${cat.id}`}
+                                className="flex-1 px-3 py-2.5 text-sm font-semibold text-slate-700 group-hover:text-red-600"
+                              >
+                                {cat.name}
+                              </Link>
+                              {subs.length > 0 && (
+                                <button
+                                  type="button"
+                                  onClick={() => setExpandedCategory(isExpanded ? null : cat.id)}
+                                  className="mr-2 p-1.5 rounded-lg text-slate-400 hover:text-red-500"
+                                  aria-label={`Toggle ${cat.name} subcategories`}
+                                >
+                                  <ChevronRight size={14} className={`transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
+                                </button>
+                              )}
+                            </div>
+
+                            {subs.length > 0 && isExpanded && (
+                              <div className="ml-3 mt-1 border-l-2 border-red-200 pl-3 pb-2 space-y-1">
+                                {subs.map((sub) => (
+                                  <Link
+                                    key={sub.id}
+                                    to={`/shop?category=${cat.id}&subcategory=${sub.id}`}
+                                    className="block py-1.5 text-xs font-medium text-slate-500 hover:text-red-600"
+                                  >
+                                    {sub.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <Link
+                      to="/shop"
+                      className="flex items-center justify-center gap-2 px-4 py-3 border-t border-slate-100 text-red-600 font-bold text-xs uppercase hover:bg-red-50 transition-colors"
+                    >
+                      View All <ArrowRight size={12} />
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setIsPagesDropdownOpen((open) => !open)}
+                  className={`relative px-3 lg:px-4 py-2 text-sm font-semibold transition-all duration-300 rounded-full flex items-center gap-1.5 ${
+                    isPagesDropdownOpen || pageLinks.some((link) => location.pathname === link.path)
+                      ? 'text-red-600 bg-red-50'
+                      : 'text-slate-600 hover:text-red-600 hover:bg-red-50/50'
+                  }`}
+                  aria-expanded={isPagesDropdownOpen}
+                >
+                  <span>Pages</span>
+                  <ChevronDown size={14} className={`transition-transform ${isPagesDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {isPagesDropdownOpen && (
+                  <div className="absolute right-0 top-full mt-3 w-48 rounded-2xl bg-white shadow-2xl border border-slate-100 py-2 z-50 animate-fadeInUp">
+                    {pageLinks.map((link) => (
+                      <Link
+                        key={link.name}
+                        to={link.path}
+                        className={`flex items-center justify-between px-4 py-3 text-sm font-semibold transition-colors ${
+                          location.pathname === link.path
+                            ? 'text-red-600 bg-red-50'
+                            : 'text-slate-700 hover:text-red-600 hover:bg-red-50'
+                        }`}
+                      >
+                        {t(link.name)}
+                        {location.pathname === link.path && <ChevronRight size={15} />}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             </nav>
 
             {/* Icons */}
@@ -298,23 +418,121 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               </form>
             </div>
 
+            <div className="mb-6 rounded-2xl border border-slate-100 bg-slate-50/80 p-2">
+              <button
+                type="button"
+                onClick={() => setIsCategoryDropdownOpen((open) => !open)}
+                className="w-full flex items-center justify-between p-3 rounded-xl text-slate-800 font-bold"
+                aria-expanded={isCategoryDropdownOpen}
+              >
+                <span className="flex items-center gap-2">
+                  <Menu size={18} className="text-red-500" />
+                  All Categories
+                </span>
+                <ChevronDown size={18} className={`text-slate-400 transition-transform ${isCategoryDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {isCategoryDropdownOpen && (
+                <div className="mt-1 max-h-80 overflow-y-auto rounded-xl bg-white border border-slate-100">
+                  {categories.map((cat) => {
+                    const subs = subcategories.filter((sub) => sub.category_id === cat.id);
+                    const isExpanded = expandedCategory === cat.id;
+
+                    return (
+                      <div key={cat.id} className="border-b border-slate-50 last:border-b-0">
+                        <div className="flex items-center justify-between">
+                          <Link
+                            to={`/shop?category=${cat.id}`}
+                            className="flex-1 px-4 py-3 text-sm font-semibold text-slate-700"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                          >
+                            {cat.name}
+                          </Link>
+                          {subs.length > 0 && (
+                            <button
+                              type="button"
+                              onClick={() => setExpandedCategory(isExpanded ? null : cat.id)}
+                              className="mr-3 p-1.5 text-slate-400"
+                              aria-label={`Toggle ${cat.name} subcategories`}
+                            >
+                              <ChevronRight size={15} className={`transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
+                            </button>
+                          )}
+                        </div>
+
+                        {subs.length > 0 && isExpanded && (
+                          <div className="ml-4 border-l-2 border-red-200 pl-3 pb-3 space-y-1">
+                            {subs.map((sub) => (
+                              <Link
+                                key={sub.id}
+                                to={`/shop?category=${cat.id}&subcategory=${sub.id}`}
+                                className="block py-1.5 text-xs font-medium text-slate-500 hover:text-red-600"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                              >
+                                {sub.name}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                  <Link
+                    to="/shop"
+                    className="flex items-center justify-center gap-2 px-4 py-3 text-red-600 font-bold text-xs uppercase"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    View All <ArrowRight size={12} />
+                  </Link>
+                </div>
+              )}
+            </div>
+
             <div className="space-y-1">
-              {navLinks.map((link, idx) => (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  className={`flex items-center justify-between p-4 rounded-xl text-base font-semibold transition-all duration-300 ${
-                    location.pathname === link.path
-                      ? 'bg-gradient-to-r from-red-50 to-transparent text-red-600 border-l-4 border-red-500 pl-4'
-                      : 'text-slate-700 hover:bg-slate-50'
-                  }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  style={{ animationDelay: `${idx * 50}ms` }}
+              <Link
+                to="/"
+                className={`flex items-center justify-between p-4 rounded-xl text-base font-semibold transition-all duration-300 ${
+                  location.pathname === '/'
+                    ? 'bg-gradient-to-r from-red-50 to-transparent text-red-600 border-l-4 border-red-500 pl-4'
+                    : 'text-slate-700 hover:bg-slate-50'
+                }`}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <span>{t('home')}</span>
+                {location.pathname === '/' && <ChevronRight size={18} className="text-red-500" />}
+              </Link>
+
+              <div className="rounded-2xl border border-slate-100 bg-white">
+                <button
+                  type="button"
+                  onClick={() => setIsPagesDropdownOpen((open) => !open)}
+                  className="w-full flex items-center justify-between p-4 rounded-xl text-base font-semibold text-slate-700"
+                  aria-expanded={isPagesDropdownOpen}
                 >
-                  <span>{t(link.name)}</span>
-                  {location.pathname === link.path && <ChevronRight size={18} className="text-red-500" />}
-                </Link>
-              ))}
+                  <span>Pages</span>
+                  <ChevronDown size={18} className={`text-slate-400 transition-transform ${isPagesDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {isPagesDropdownOpen && (
+                  <div className="px-2 pb-2 space-y-1">
+                    {pageLinks.map((link) => (
+                      <Link
+                        key={link.name}
+                        to={link.path}
+                        className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
+                          location.pathname === link.path
+                            ? 'bg-red-50 text-red-600'
+                            : 'text-slate-600 hover:bg-slate-50'
+                        }`}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <span>{t(link.name)}</span>
+                        {location.pathname === link.path && <ChevronRight size={16} className="text-red-500" />}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="mt-auto pt-8 space-y-4">
