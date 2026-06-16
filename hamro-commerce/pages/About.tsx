@@ -49,7 +49,7 @@ const About: React.FC = () => {
   return (
         <div className="bg-slate-50">
             {/* Hero (matches Home/Shop styling) */}
-            <section className="relative overflow-hidden bg-gradient-to-b from-slate-900 to-slate-800 text-white">
+            <section className="relative overflow-hidden bg-gradient-to-br from-[#0a56bd] via-[#0d62cc] to-[#08489c] text-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
                         <div className="text-center lg:text-left">
@@ -65,7 +65,7 @@ const About: React.FC = () => {
                             <div className="mt-5 flex justify-center lg:justify-start">
                                 <a
                                     href="#about"
-                                    className="inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-full font-bold text-xs md:text-sm transition-colors shadow-lg"
+                                    className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-full font-bold text-xs md:text-sm transition-colors shadow-lg"
                                 >
                                     {t('ourStory')} <ArrowRight size={16} />
                                 </a>
@@ -118,7 +118,7 @@ const About: React.FC = () => {
         {/* Story Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center mb-16 md:mb-24">
             <div className="relative order-2 lg:order-1">
-                <div className="absolute -top-4 -left-4 w-72 h-72 bg-red-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+                <div className="absolute -top-4 -left-4 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
                                 <div className="absolute -bottom-4 -right-4 w-72 h-72 bg-slate-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
                 <img 
                     src="/image/about1.jpg" 
@@ -128,7 +128,7 @@ const About: React.FC = () => {
             </div>
             
             <div className="space-y-6 order-1 lg:order-2">
-                <span className="text-red-600 font-bold uppercase tracking-wider text-sm">{t('ourStory')}</span>
+                <span className="text-green-600 font-bold uppercase tracking-wider text-sm">{t('ourStory')}</span>
                 <h2 className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight">{t('buildingFuture')}</h2>
                 <p className="text-base md:text-lg text-slate-600 leading-relaxed">
                     {t('aboutStoryText1')}
@@ -138,7 +138,7 @@ const About: React.FC = () => {
                 </p>
                 
                 <div className="grid grid-cols-2 gap-6 pt-6">
-                    <div className="border-l-4 border-red-600 pl-4">
+                    <div className="border-l-4 border-blue-600 pl-4">
                         <span className="block text-2xl md:text-3xl font-bold text-slate-900">5k+</span>
                         <span className="text-slate-500 text-sm">{t('happyCustomers')}</span>
                     </div>
@@ -159,7 +159,7 @@ const About: React.FC = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                 <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg shadow-slate-200/50 border border-gray-100 hover:-translate-y-2 transition-transform duration-300">
-                    <div className="w-14 h-14 bg-red-100 rounded-xl flex items-center justify-center text-red-600 mb-6">
+                    <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center text-green-600 mb-6">
                         <Target size={28} />
                     </div>
                     <h3 className="text-xl font-bold text-slate-900 mb-3">{t('missionDriven')}</h3>
@@ -167,7 +167,7 @@ const About: React.FC = () => {
                 </div>
 
                 <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg shadow-slate-200/50 border border-gray-100 hover:-translate-y-2 transition-transform duration-300">
-                    <div className="w-14 h-14 bg-red-100 rounded-xl flex items-center justify-center text-red-600 mb-6">
+                    <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center text-green-600 mb-6">
                         <Heart size={28} />
                     </div>
                     <h3 className="text-xl font-bold text-slate-900 mb-3">{t('customerFirst')}</h3>
@@ -175,7 +175,7 @@ const About: React.FC = () => {
                 </div>
 
                 <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg shadow-slate-200/50 border border-gray-100 hover:-translate-y-2 transition-transform duration-300">
-                    <div className="w-14 h-14 bg-red-100 rounded-xl flex items-center justify-center text-red-600 mb-6">
+                    <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center text-green-600 mb-6">
                         <Users size={28} />
                     </div>
                     <h3 className="text-xl font-bold text-slate-900 mb-3">{t('communityFocused')}</h3>
@@ -189,7 +189,7 @@ const About: React.FC = () => {
             <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-8 md:mb-12 text-center">{t('meetLeadership')}</h2>
             {leadersLoading ? (
                 <div className="flex justify-center py-10">
-                    <div className="w-12 h-12 border-4 border-red-500 border-t-transparent rounded-full animate-spin" />
+                    <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
                 </div>
             ) : leaders.length === 0 ? (
                 <div className="text-center text-slate-500">No leadership team members found.</div>
@@ -208,7 +208,7 @@ const About: React.FC = () => {
                                 />
                             </div>
                             <h3 className="text-lg font-bold text-slate-900">{member.name}</h3>
-                            <p className="text-red-600 text-sm font-medium">{member.title}</p>
+                            <p className="text-green-600 text-sm font-medium">{member.title}</p>
                         </div>
                     ))}
                 </div>

@@ -338,14 +338,14 @@ const Checkout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-red-50/20">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/20">
       {/* Attractive Header Section */}
       <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white shadow-2xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Main Header */}
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-white to-red-200 bg-clip-text text-transparent">
+              <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
                 {t('checkoutTitle')}
               </h1>
               <p className="text-slate-300 text-sm md:text-base">Complete your order securely in just a few steps</p>
@@ -371,15 +371,15 @@ const Checkout = () => {
               </div>
             </div>
 
-            <div className="flex-1 max-w-[100px] h-1 bg-gradient-to-r from-green-500 to-red-500 rounded-full"></div>
+            <div className="flex-1 max-w-[100px] h-1 bg-gradient-to-r from-green-500 to-blue-500 rounded-full"></div>
 
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-500 to-pink-500 flex items-center justify-center font-bold shadow-lg shadow-red-500/50 animate-pulse">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-green-500 flex items-center justify-center font-bold shadow-lg shadow-blue-500/50 animate-pulse">
                 2
               </div>
               <div className="hidden sm:block">
                 <p className="text-xs text-slate-400">Step 2</p>
-                <p className="text-sm font-semibold text-red-400">Checkout</p>
+                <p className="text-sm font-semibold text-green-400">Checkout</p>
               </div>
             </div>
 
@@ -407,7 +407,7 @@ const Checkout = () => {
             {/* Shipping Info */}
             <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-red-50 text-red-600 rounded-lg"><MapPin size={24} /></div>
+                <div className="p-2 bg-blue-50 text-green-600 rounded-lg"><MapPin size={24} /></div>
                 <h2 className="text-xl font-bold text-slate-900">{t('shippingInformation')}</h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -419,7 +419,7 @@ const Checkout = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white transition-all"
+                    className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
                   />
                 </div>
                 <div className="space-y-2">
@@ -430,7 +430,7 @@ const Checkout = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white transition-all"
+                    className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
                   />
                 </div>
                 <div className="space-y-2">
@@ -441,7 +441,7 @@ const Checkout = () => {
                     value={formData.email}
                     onChange={handleInputChange}
                     autoComplete="email"
-                    className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white transition-all"
+                    className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
                   />
                 </div>
                 <div className="space-y-2 md:col-span-2">
@@ -452,7 +452,7 @@ const Checkout = () => {
                     name="address"
                     value={formData.address}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white transition-all"
+                    className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
                   />
                 </div>
                 <div className="space-y-2">
@@ -463,7 +463,7 @@ const Checkout = () => {
                     name="city"
                     value={formData.city}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white transition-all"
+                    className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
                   />
                 </div>
                 <div className="space-y-2">
@@ -472,7 +472,7 @@ const Checkout = () => {
                     name="district"
                     value={formData.district}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white transition-all"
+                    className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
                   >
                     <option>Kathmandu</option>
                     <option>Lalitpur</option>
@@ -487,14 +487,14 @@ const Checkout = () => {
             {/* Payment Info */}
             <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-blue-50 text-blue-600 rounded-lg"><CreditCard size={24} /></div>
+                <div className="p-2 bg-blue-50 text-green-600 rounded-lg"><CreditCard size={24} /></div>
                 <h2 className="text-xl font-bold text-slate-900">{t('paymentMethod')}</h2>
               </div>
 
               <div className="space-y-4">
                 <label className="flex items-center gap-4 p-4 border-2 rounded-xl cursor-pointer transition-all hover:shadow-md"
                   style={{
-                    borderColor: formData.paymentMethod === 'Cash On Delivery' ? '#dc2626' : '#e5e7eb',
+                    borderColor: formData.paymentMethod === 'Cash On Delivery' ? '#0a56bd' : '#e5e7eb',
                     backgroundColor: formData.paymentMethod === 'Cash On Delivery' ? '#fef2f2' : 'transparent'
                   }}>
                   <input
@@ -503,13 +503,13 @@ const Checkout = () => {
                     value="Cash On Delivery"
                     checked={formData.paymentMethod === 'Cash On Delivery'}
                     onChange={handleInputChange}
-                    className="w-5 h-5 text-red-600"
+                    className="w-5 h-5 text-green-600"
                   />
                   <div className="flex-1">
                     <span className="font-bold text-slate-900 block">{t('cashOnDelivery')}</span>
                     <span className="text-sm text-slate-500">Pay with cash when your order arrives.</span>
                   </div>
-                  <Truck className="text-red-600" />
+                  <Truck className="text-green-600" />
                 </label>
 
                 <label className="flex items-center gap-4 p-4 border-2 rounded-xl cursor-pointer transition-all hover:shadow-md"
@@ -535,8 +535,8 @@ const Checkout = () => {
                   </svg>
                 </label>
 
-                <label className="flex items-center gap-4 p-4 border border-gray-200 rounded-xl cursor-pointer hover:border-purple-500 hover:bg-purple-50/30 transition-all opacity-60">
-                  <input type="radio" name="payment" className="w-5 h-5 text-purple-600" disabled />
+                <label className="flex items-center gap-4 p-4 border border-gray-200 rounded-xl cursor-pointer hover:border-green-500 hover:bg-green-50/30 transition-all opacity-60">
+                  <input type="radio" name="payment" className="w-5 h-5 text-green-600" disabled />
                   <div className="flex-1">
                     <span className="font-bold text-slate-900 block">Khalti Digital Wallet</span>
                     <span className="text-sm text-slate-500">Coming soon...</span>
@@ -603,14 +603,14 @@ const Checkout = () => {
               </div>
 
               {error && (
-                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm mb-4">
+                <div className="bg-blue-50 border border-blue-200 text-green-700 px-4 py-3 rounded-lg text-sm mb-4">
                   {error}
                 </div>
               )}
 
               <button
                 disabled={loading || selectedCartItems.length === 0}
-                className="w-full bg-red-600 text-white py-4 rounded-xl font-bold hover:bg-red-700 transition-all flex items-center justify-center gap-2 shadow-lg shadow-red-200 disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-200 disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {loading ? t('processing') : `${t('placeOrderBtn')} (${selectedCartItems.length} ${selectedCartItems.length !== 1 ? t('items') : t('items').slice(0, -1)})`}
               </button>

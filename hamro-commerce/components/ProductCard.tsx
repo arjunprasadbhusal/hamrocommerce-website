@@ -164,8 +164,8 @@ const ProductCard: React.FC<ProductCardProps> = memo(({ product }) => {
           <button
             onClick={handleToggleWishlist}
             className={`p-1.5 rounded-full shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed ${isInWishlist(product.id)
-                ? 'bg-red-600 text-white hover:bg-red-700'
-                : 'bg-white text-slate-900 hover:bg-red-600 hover:text-white'
+                ? 'bg-blue-600 text-white hover:bg-blue-700'
+                : 'bg-white text-slate-900 hover:bg-blue-600 hover:text-white'
               }`}
             title={isInWishlist(product.id) ? t('removeFromWishlist') : t('addToWishlist')}
             disabled={isTogglingWishlist}
@@ -174,7 +174,7 @@ const ProductCard: React.FC<ProductCardProps> = memo(({ product }) => {
           </button>
           <button
             onClick={handleAddToCart}
-            className="bg-white text-slate-900 hover:bg-red-600 hover:text-white p-1.5 rounded-full shadow-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-white text-slate-900 hover:bg-blue-600 hover:text-white p-1.5 rounded-full shadow-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             title={t('addToCart')}
             disabled={!product.stock || product.stock === 0 || isAddingToCart}
           >
@@ -185,36 +185,11 @@ const ProductCard: React.FC<ProductCardProps> = memo(({ product }) => {
 
       <div className="p-1.5 flex flex-col flex-grow">
         <Link to={`/product/${product.id}`} className="block mb-1.5">
-          <h3 className="font-semibold text-slate-900 text-xs leading-snug hover:text-red-600 transition-colors line-clamp-2">
+          <h3 className="font-semibold text-slate-900 text-xs leading-snug hover:text-green-600 transition-colors line-clamp-2">
             {product.name}
           </h3>
         </Link>
 
-        {/* Description */}
-        {product.description && (
-          <p className="text-xs text-slate-500 line-clamp-2 mb-1.5">
-            {product.description}
-          </p>
-        )}
-
-        {/* Star Rating */}
-        <div className="flex items-center gap-1 mb-1.5">
-          <div className="flex items-center">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <Star
-                key={star}
-                size={12}
-                className={`${star <= Math.round(product.rating || 4.5)
-                    ? 'fill-yellow-400 text-yellow-400'
-                    : 'fill-gray-200 text-gray-200'
-                  }`}
-              />
-            ))}
-          </div>
-          <span className="text-xs text-slate-500">
-            ({product.reviews || 0})
-          </span>
-        </div>
 
         {/* Stock Status */}
         <div className="mb-1.5">
@@ -222,13 +197,13 @@ const ProductCard: React.FC<ProductCardProps> = memo(({ product }) => {
             <span className={`text-xs font-medium ${product.stock > 10
                 ? 'text-green-600'
                 : product.stock > 5
-                  ? 'text-orange-500'
-                  : 'text-red-600'
+                  ? 'text-green-500'
+                  : 'text-green-600'
               }`}>
               {product.stock > 10 ? t('inStock') : `${t('only')} ${product.stock} ${t('left')}`}
             </span>
           ) : (
-            <span className="text-xs font-medium text-red-600">{t('outOfStock')}</span>
+            <span className="text-xs font-medium text-green-600">{t('outOfStock')}</span>
           )}
         </div>
 

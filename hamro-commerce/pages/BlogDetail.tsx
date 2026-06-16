@@ -112,7 +112,7 @@ const BlogDetail: React.FC = () => {
           </p>
           <Link 
             to="/blog" 
-            className="inline-flex items-center gap-2 px-6 py-3 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors font-bold"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors font-bold"
           >
             <ArrowLeft size={20} />
             {t('backToBlogs')}
@@ -128,7 +128,7 @@ const BlogDetail: React.FC = () => {
 
       {/* Hero */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_15%,#fde68a55,transparent_45%),radial-gradient(circle_at_85%_10%,#fb718555,transparent_50%),linear-gradient(140deg,#0f172a,#1e293b)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_15%,#bbf7d055,transparent_45%),radial-gradient(circle_at_85%_10%,#fb718555,transparent_50%),linear-gradient(140deg,#0f172a,#1e293b)]" />
         <div className="absolute inset-0 opacity-25 bg-[linear-gradient(120deg,transparent_40%,rgba(255,255,255,0.4),transparent_60%)]" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
@@ -174,11 +174,11 @@ const BlogDetail: React.FC = () => {
           <div className="lg:col-span-8">
             <article className="bg-white rounded-[28px] shadow-lg border border-[#f0e7dc] p-7 md:p-10">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-                <div className="font-['Sora'] text-xs uppercase tracking-[0.3em] text-amber-700/80">
+                <div className="font-['Sora'] text-xs uppercase tracking-[0.3em] text-green-700/80">
                   {t('editorialLabel')}
                 </div>
                 <div className="flex items-center gap-3 text-xs text-slate-500 font-['Sora']">
-                  <span className="inline-flex items-center gap-2 bg-amber-50 text-amber-700 px-3 py-1 rounded-full border border-amber-100">
+                  <span className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-3 py-1 rounded-full border border-green-100">
                     <Clock size={12} /> {calculateReadingTime(blog.description)} {t('minRead')}
                   </span>
                   <span className="inline-flex items-center gap-2 bg-slate-50 text-slate-700 px-3 py-1 rounded-full border border-slate-100">
@@ -189,7 +189,7 @@ const BlogDetail: React.FC = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div className="md:col-span-2 bg-[#fdf4e7] border border-[#f3e5cf] rounded-2xl p-5">
-                  <p className="text-xs uppercase tracking-[0.25em] text-amber-700/80 font-['Sora'] mb-2">{t('keyTakeaway')}</p>
+                  <p className="text-xs uppercase tracking-[0.25em] text-green-700/80 font-['Sora'] mb-2">{t('keyTakeaway')}</p>
                   <p className="text-slate-700 text-sm md:text-base font-['Sora'] leading-relaxed">
                     {getExcerpt(blog.description)}
                   </p>
@@ -205,7 +205,7 @@ const BlogDetail: React.FC = () => {
               <div className="prose prose-lg max-w-none">
                 <div className="text-[#3f3f46] leading-relaxed text-[17px] md:text-[18px] space-y-5 font-['Sora']">
                   {blog.description.split('\n\n').map((paragraph, index) => (
-                    <p key={index} className={`mb-4 ${index === 0 ? 'first-letter:text-5xl first-letter:font-bold first-letter:text-amber-700 first-letter:mr-2 first-letter:float-left first-letter:leading-none' : ''}`}>
+                    <p key={index} className={`mb-4 ${index === 0 ? 'first-letter:text-5xl first-letter:font-bold first-letter:text-green-700 first-letter:mr-2 first-letter:float-left first-letter:leading-none' : ''}`}>
                       {paragraph}
                     </p>
                   ))}
@@ -240,7 +240,7 @@ const BlogDetail: React.FC = () => {
                           />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-semibold text-slate-900 text-sm line-clamp-2 group-hover:text-amber-700 transition-colors font-['Sora']">
+                          <h3 className="font-semibold text-slate-900 text-sm line-clamp-2 group-hover:text-green-700 transition-colors font-['Sora']">
                             {relatedBlog.title}
                           </h3>
                           <div className="flex items-center gap-1 text-xs text-slate-500 mt-2 font-['Sora']">

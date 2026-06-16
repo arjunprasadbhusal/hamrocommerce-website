@@ -116,12 +116,12 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-red-50/30 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30 overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-red-500/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-orange-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-red-500/5 to-orange-500/5 rounded-full blur-3xl" />
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-green-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-blue-500/5 to-green-500/5 rounded-full blur-3xl" />
       </div>
 
       <div className="relative min-h-screen flex items-center justify-center p-4 py-12">
@@ -129,14 +129,14 @@ const Login: React.FC = () => {
           
           {/* Left Side - Brand Section */}
           <div className="hidden lg:flex flex-col justify-center relative">
-            <div className="relative z-10 bg-gradient-to-br from-white via-white to-red-50/50 rounded-3xl border border-slate-200/50 p-10 shadow-2xl shadow-slate-900/5 backdrop-blur-sm">
+            <div className="relative z-10 bg-gradient-to-br from-white via-white to-blue-50/50 rounded-3xl border border-slate-200/50 p-10 shadow-2xl shadow-slate-900/5 backdrop-blur-sm">
               {/* Decorative Badge */}
-              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-red-500 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-black shadow-lg">
+              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-blue-500 to-green-500 text-white px-3 py-1 rounded-full text-xs font-black shadow-lg">
                 NEW
               </div>
               
               <div className="flex items-center gap-3 mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center shadow-lg shadow-red-500/30">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
                   <img
                     src="/image/logo.png"
                     alt="Hamro Commerce"
@@ -152,7 +152,7 @@ const Login: React.FC = () => {
 
               <h1 className="text-4xl font-black tracking-tight text-slate-900 leading-tight">
                 Welcome back to
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-orange-500"> your world</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-green-500"> your world</span>
               </h1>
               
               <p className="mt-4 text-slate-600 leading-relaxed">
@@ -166,8 +166,8 @@ const Login: React.FC = () => {
                   { icon: Clock, title: "Order Updates", desc: "Real-time tracking and notifications" },
                   { icon: Shield, title: "Secure Shopping", desc: "Your data is always protected" },
                 ].map((feature, idx) => (
-                  <div key={idx} className="group flex items-start gap-4 p-4 rounded-2xl bg-gradient-to-r from-slate-50 to-transparent hover:from-red-50/50 transition-all duration-300">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-50 to-orange-50 flex items-center justify-center text-red-600 group-hover:scale-110 transition-transform">
+                  <div key={idx} className="group flex items-start gap-4 p-4 rounded-2xl bg-gradient-to-r from-slate-50 to-transparent hover:from-blue-50/50 transition-all duration-300">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-50 to-green-50 flex items-center justify-center text-green-600 group-hover:scale-110 transition-transform">
                       <feature.icon size={20} />
                     </div>
                     <div>
@@ -200,8 +200,8 @@ const Login: React.FC = () => {
             </div>
 
             {/* Floating Elements */}
-            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-gradient-to-r from-red-500/10 to-orange-500/10 rounded-full blur-2xl animate-pulse" />
-            <div className="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-2xl animate-pulse delay-700" />
+            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-gradient-to-r from-blue-500/10 to-green-500/10 rounded-full blur-2xl animate-pulse" />
+            <div className="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-r from-blue-500/10 to-green-500/10 rounded-full blur-2xl animate-pulse delay-700" />
           </div>
 
           {/* Right Side - Login Form */}
@@ -209,7 +209,7 @@ const Login: React.FC = () => {
             <div className="w-full max-w-md">
               {/* Mobile Logo */}
               <div className="lg:hidden text-center mb-8">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center mx-auto mb-4 shadow-xl shadow-red-500/30">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mx-auto mb-4 shadow-xl shadow-blue-500/30">
                   <img
                     src="/image/logo.png"
                     alt="Hamro Commerce"
@@ -225,7 +225,7 @@ const Login: React.FC = () => {
               <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl shadow-slate-900/10 p-8 md:p-10">
                 {/* Header */}
                 <div className="hidden lg:block text-center mb-8">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center mx-auto mb-4 shadow-xl shadow-red-500/30">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mx-auto mb-4 shadow-xl shadow-blue-500/30">
                     <Sparkles className="w-8 h-8 text-white" />
                   </div>
                   <h1 className="text-3xl font-black text-slate-900">Sign In</h1>
@@ -250,10 +250,10 @@ const Login: React.FC = () => {
                     <label className="flex items-center gap-2 text-xs font-black text-slate-700 uppercase tracking-wider">
                       <Mail size={14} />
                       Email Address
-                      <span className="text-red-500">*</span>
+                      <span className="text-green-500">*</span>
                     </label>
                     <div className="relative group">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-red-500 transition-colors" size={18} />
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-green-500 transition-colors" size={18} />
                       <input 
                         id="email"
                         type="email" 
@@ -262,15 +262,15 @@ const Login: React.FC = () => {
                         onChange={handleChange}
                         required
                         autoComplete="email"
-                        className={`w-full pl-11 pr-4 py-3.5 rounded-xl bg-slate-50 border-2 focus:bg-white focus:outline-none focus:ring-4 focus:ring-red-500/20 focus:border-red-500 transition-all ${
-                          errors.email ? 'border-red-500 bg-red-50/30' : 'border-slate-200 group-hover:border-slate-300'
+                        className={`w-full pl-11 pr-4 py-3.5 rounded-xl bg-slate-50 border-2 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all ${
+                          errors.email ? 'border-blue-500 bg-blue-50/30' : 'border-slate-200 group-hover:border-slate-300'
                         }`}
                         placeholder="name@example.com" 
                       />
                     </div>
                     {getFieldError('email') && (
-                      <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
-                        <span className="w-1 h-1 rounded-full bg-red-600"></span>
+                      <p className="mt-1 text-sm text-green-600 flex items-center gap-1">
+                        <span className="w-1 h-1 rounded-full bg-blue-600"></span>
                         {getFieldError('email')}
                       </p>
                     )}
@@ -282,18 +282,18 @@ const Login: React.FC = () => {
                       <label className="flex items-center gap-2 text-xs font-black text-slate-700 uppercase tracking-wider">
                         <Lock size={14} />
                         Password
-                        <span className="text-red-500">*</span>
+                        <span className="text-green-500">*</span>
                       </label>
                       <a
                         href="#"
                         onClick={(e) => e.preventDefault()}
-                        className="text-xs text-red-600 hover:text-red-700 font-semibold hover:underline transition-all"
+                        className="text-xs text-green-600 hover:text-green-700 font-semibold hover:underline transition-all"
                       >
                         Forgot Password?
                       </a>
                     </div>
                     <div className="relative group">
-                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-red-500 transition-colors" size={18} />
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-green-500 transition-colors" size={18} />
                       <input 
                         id="password"
                         type={showPassword ? "text" : "password"} 
@@ -302,22 +302,22 @@ const Login: React.FC = () => {
                         onChange={handleChange}
                         required
                         autoComplete="current-password"
-                        className={`w-full pl-11 pr-12 py-3.5 rounded-xl bg-slate-50 border-2 focus:bg-white focus:outline-none focus:ring-4 focus:ring-red-500/20 focus:border-red-500 transition-all ${
-                          errors.password ? 'border-red-500 bg-red-50/30' : 'border-slate-200 group-hover:border-slate-300'
+                        className={`w-full pl-11 pr-12 py-3.5 rounded-xl bg-slate-50 border-2 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all ${
+                          errors.password ? 'border-blue-500 bg-blue-50/30' : 'border-slate-200 group-hover:border-slate-300'
                         }`}
                         placeholder="••••••••" 
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-red-500 transition-colors"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-green-500 transition-colors"
                       >
                         {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                       </button>
                     </div>
                     {getFieldError('password') && (
-                      <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
-                        <span className="w-1 h-1 rounded-full bg-red-600"></span>
+                      <p className="mt-1 text-sm text-green-600 flex items-center gap-1">
+                        <span className="w-1 h-1 rounded-full bg-blue-600"></span>
                         {getFieldError('password')}
                       </p>
                     )}
@@ -333,7 +333,7 @@ const Login: React.FC = () => {
                           onChange={(e) => setRememberMe(e.target.checked)}
                           className="peer sr-only"
                         />
-                        <div className="w-5 h-5 rounded-md border-2 border-slate-300 peer-checked:border-red-500 peer-checked:bg-red-500 transition-all group-hover:border-red-400">
+                        <div className="w-5 h-5 rounded-md border-2 border-slate-300 peer-checked:border-blue-500 peer-checked:bg-blue-500 transition-all group-hover:border-blue-400">
                           {rememberMe && (
                             <svg className="w-4 h-4 text-white absolute top-0.5 left-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
@@ -349,7 +349,7 @@ const Login: React.FC = () => {
                   <button 
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-gradient-to-r from-red-600 to-red-700 text-white py-3.5 rounded-xl font-black text-sm uppercase tracking-wider hover:from-red-700 hover:to-red-800 transition-all flex items-center justify-center gap-3 shadow-xl shadow-red-500/30 mt-6 disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5 active:translate-y-0"
+                    className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3.5 rounded-xl font-black text-sm uppercase tracking-wider hover:from-blue-700 hover:to-blue-800 transition-all flex items-center justify-center gap-3 shadow-xl shadow-blue-500/30 mt-6 disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5 active:translate-y-0"
                   >
                     {loading ? (
                       <>
@@ -384,7 +384,7 @@ const Login: React.FC = () => {
                     Don't have an account?{' '}
                     <Link 
                       to="/register" 
-                      className="text-red-600 font-bold hover:text-red-700 hover:underline transition-all inline-flex items-center gap-1"
+                      className="text-green-600 font-bold hover:text-green-700 hover:underline transition-all inline-flex items-center gap-1"
                     >
                       Create Account
                       <ChevronRight size={14} />

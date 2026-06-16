@@ -112,7 +112,7 @@ const Gallery: React.FC = () => {
   const activeInfo = CATEGORY_DATA[activeCategory];
 
   return (
-    <div className="bg-gradient-to-b from-amber-50 via-rose-50 to-purple-50 min-h-screen">
+    <div className="bg-gradient-to-b from-green-50 via-green-50 to-green-50 min-h-screen">
       <PageHero 
         title={t('galleryTitle')}
         subtitle={t('gallerySubtitle')}
@@ -129,8 +129,8 @@ const Gallery: React.FC = () => {
                       onClick={() => setActiveCategory(key)}
                       className={`flex-shrink-0 px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 border shadow-md ${
                           activeCategory === key
-                          ? 'bg-gradient-to-r from-red-600 to-orange-500 text-white border-red-600 shadow-lg shadow-red-200 scale-105'
-                          : 'bg-white text-slate-600 border-gray-200 hover:border-red-300 hover:text-red-600'
+                          ? 'bg-gradient-to-r from-blue-600 to-green-500 text-white border-blue-600 shadow-lg shadow-blue-200 scale-105'
+                          : 'bg-white text-slate-600 border-gray-200 hover:border-blue-300 hover:text-green-600'
                       }`}
                   >
                         {t(CATEGORY_DATA[key].labelKey)}
@@ -141,7 +141,7 @@ const Gallery: React.FC = () => {
 
         {/* Active Category Info Banner */}
         <div className="mb-12 text-center max-w-3xl mx-auto animate-fade-in-up px-4">
-            <div className="inline-block p-3 rounded-full bg-gradient-to-br from-red-100 to-orange-100 text-red-600 mb-4 shadow">
+            <div className="inline-block p-3 rounded-full bg-gradient-to-br from-blue-100 to-green-100 text-green-600 mb-4 shadow">
                 <Quote size={24} className="fill-current opacity-50" />
             </div>
             <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2 italic font-serif">
@@ -176,13 +176,13 @@ const Gallery: React.FC = () => {
                     {/* Overlay - Always visible text on touch/mobile if needed, or keeping hover effect for desktop */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-6">
                         <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                            <span className="text-orange-300 text-[10px] font-bold uppercase tracking-wider mb-1 block drop-shadow">
+                            <span className="text-green-300 text-[10px] font-bold uppercase tracking-wider mb-1 block drop-shadow">
                                 {t(CATEGORY_DATA[img.category as CategoryKey].labelKey)}
                             </span>
                             <div className="flex justify-between items-end">
                                 <h3 className="text-white font-bold text-lg leading-tight drop-shadow-lg">{t(img.titleKey)}</h3>
                                 <button 
-                                    className="p-2 bg-white/90 rounded-full text-slate-900 hover:bg-red-600 hover:text-white transition-colors shadow-lg border border-slate-100"
+                                    className="p-2 bg-white/90 rounded-full text-slate-900 hover:bg-blue-600 hover:text-white transition-colors shadow-lg border border-slate-100"
                                   title={t('viewLarger')}
                                   onClick={() => setModalImg({src: img.src, titleKey: img.titleKey})}
                                 >
@@ -208,7 +208,7 @@ const Gallery: React.FC = () => {
           <div className="relative max-w-3xl w-full mx-4">
             <img src={modalImg.src} alt={t(modalImg.titleKey)} className="w-full h-auto rounded-2xl shadow-2xl border-4 border-white" />
             <button
-              className="absolute top-2 right-2 bg-white/90 hover:bg-red-600 hover:text-white text-slate-900 rounded-full p-2 shadow-lg border border-slate-200 transition-colors"
+              className="absolute top-2 right-2 bg-white/90 hover:bg-blue-600 hover:text-white text-slate-900 rounded-full p-2 shadow-lg border border-slate-200 transition-colors"
               onClick={() => setModalImg(null)}
               title={t('close')}
             >

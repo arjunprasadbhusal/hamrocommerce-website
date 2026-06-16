@@ -26,18 +26,18 @@ const Alert = ({
       title: 'Success',
     },
     error: {
-      container: 'bg-red-50 border-red-500 text-red-800',
-      icon: <XCircleIcon className="h-5 w-5 text-red-500" />,
+      container: 'bg-blue-50 border-blue-500 text-green-800',
+      icon: <XCircleIcon className="h-5 w-5 text-green-500" />,
       title: 'Error',
     },
     warning: {
-      container: 'bg-yellow-50 border-yellow-500 text-yellow-800',
-      icon: <ExclamationTriangleIcon className="h-5 w-5 text-yellow-500" />,
+      container: 'bg-green-50 border-green-500 text-green-800',
+      icon: <ExclamationTriangleIcon className="h-5 w-5 text-green-500" />,
       title: 'Warning',
     },
     info: {
-      container: 'bg-blue-50 border-blue-500 text-blue-800',
-      icon: <InformationCircleIcon className="h-5 w-5 text-blue-500" />,
+      container: 'bg-blue-50 border-blue-500 text-green-800',
+      icon: <InformationCircleIcon className="h-5 w-5 text-green-500" />,
       title: 'Information',
     },
   };
@@ -123,18 +123,18 @@ export const InlineAlert = ({ type = 'info', message, title, onClose, className 
       title: 'Success',
     },
     error: {
-      container: 'bg-red-50 border-red-200 text-red-800',
-      icon: <XCircleIcon className="h-5 w-5 text-red-500" />,
+      container: 'bg-blue-50 border-blue-200 text-green-800',
+      icon: <XCircleIcon className="h-5 w-5 text-green-500" />,
       title: 'Error',
     },
     warning: {
-      container: 'bg-yellow-50 border-yellow-200 text-yellow-800',
-      icon: <ExclamationTriangleIcon className="h-5 w-5 text-yellow-500" />,
+      container: 'bg-green-50 border-green-200 text-green-800',
+      icon: <ExclamationTriangleIcon className="h-5 w-5 text-green-500" />,
       title: 'Warning',
     },
     info: {
-      container: 'bg-blue-50 border-blue-200 text-blue-800',
-      icon: <InformationCircleIcon className="h-5 w-5 text-blue-500" />,
+      container: 'bg-blue-50 border-blue-200 text-green-800',
+      icon: <InformationCircleIcon className="h-5 w-5 text-green-500" />,
       title: 'Information',
     },
   };

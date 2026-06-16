@@ -95,7 +95,7 @@ const OrderSuccess = () => {
                         We couldn't find your recent order information. Don't worry, your order was likely placed successfully.
                     </p>
                     <div className="flex flex-col gap-3">
-                        <Link to="/shop" className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-red-600 transition-all">
+                        <Link to="/shop" className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-600 transition-all">
                             Continue Shopping
                         </Link>
                         <Link to="/" className="w-full bg-slate-50 text-slate-400 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-100 transition-all">
@@ -112,7 +112,7 @@ const OrderSuccess = () => {
             className="min-h-screen relative overflow-hidden bg-gradient-to-br from-[#fff7f0] via-[#f9fafb] to-[#fff1f2] flex items-center justify-center py-12 px-4 print:bg-white print:p-0"
             style={{
                 ['--ink' as any]: '#0f172a',
-                ['--accent' as any]: '#ef4444',
+                ['--accent' as any]: '#0a56bd',
                 ['--accent-soft' as any]: '#fde2e2'
             }}
         >
@@ -137,7 +137,7 @@ const OrderSuccess = () => {
                 {/* Compact Receipt */}
                 <div
                     ref={receiptRef}
-                    className="receipt-float bg-white rounded-3xl border border-white/40 shadow-2xl shadow-rose-100/60 overflow-hidden print:border-none print:shadow-none"
+                    className="receipt-float bg-white rounded-3xl border border-white/40 shadow-2xl shadow-green-100/60 overflow-hidden print:border-none print:shadow-none"
                 >
                     <div className="px-6 py-4 bg-gradient-to-r from-[#111827] via-[#1f2937] to-[#111827] text-white">
                         <div className="flex items-center justify-between">
@@ -193,7 +193,7 @@ const OrderSuccess = () => {
                             </div>
                             <div className="flex justify-between text-sm font-black text-slate-900 mt-3">
                                 <span>Total</span>
-                                <span className="text-[#ef4444]">NPR {Number(orderData?.totalAmount || 0).toLocaleString()}</span>
+                                <span className="text-[#22c55e]">NPR {Number(orderData?.totalAmount || 0).toLocaleString()}</span>
                             </div>
                         </div>
                     </div>
@@ -213,7 +213,7 @@ const OrderSuccess = () => {
                     </button>
                     <button
                         onClick={handleDownloadPDF}
-                        className="flex items-center gap-2 px-6 py-3 bg-[#111827] text-white rounded-xl font-semibold text-[10px] uppercase tracking-widest hover:bg-[#ef4444] transition-all"
+                        className="flex items-center gap-2 px-6 py-3 bg-[#111827] text-white rounded-xl font-semibold text-[10px] uppercase tracking-widest hover:bg-[#0a56bd] transition-all"
                     >
                         <Download size={14} /> PDF
                     </button>

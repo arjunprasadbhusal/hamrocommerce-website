@@ -55,7 +55,7 @@ const Blog: React.FC = () => {
   return (
     <div className="bg-slate-50">
       {/* Hero (matches Home/Shop styling) */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-slate-900 to-slate-800 text-white">
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#0a56bd] via-[#0d62cc] to-[#08489c] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div className="text-center lg:text-left">
@@ -68,7 +68,7 @@ const Blog: React.FC = () => {
               <div className="mt-6 flex justify-center lg:justify-start">
                 <a
                   href="#blogs"
-                  className="inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-full font-bold text-sm md:text-base transition-colors shadow-lg"
+                  className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-bold text-sm md:text-base transition-colors shadow-lg"
                 >
                   {t('readMore')} <ArrowRight size={18} />
                 </a>
@@ -117,7 +117,7 @@ const Blog: React.FC = () => {
                       </span>
                     </div>
                     
-                    <h2 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-red-600 transition-colors line-clamp-2">
+                    <h2 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-green-600 transition-colors line-clamp-2">
                       {blog.title}
                     </h2>
                     
@@ -127,7 +127,7 @@ const Blog: React.FC = () => {
                     
                     <Link 
                       to={`/blog/${blog.id}`}
-                      className="flex items-center gap-2 text-red-600 font-bold text-sm hover:gap-3 transition-all mt-auto"
+                      className="flex items-center gap-2 text-green-600 font-bold text-sm hover:gap-3 transition-all mt-auto"
                     >
                       {t('readMore')} <ArrowRight size={16} />
                     </Link>

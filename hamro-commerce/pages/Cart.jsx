@@ -66,7 +66,7 @@ const Cart = () => {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin w-12 h-12 border-4 border-slate-900 border-t-red-600 rounded-full mx-auto mb-4"></div>
+          <div className="animate-spin w-12 h-12 border-4 border-slate-900 border-t-blue-600 rounded-full mx-auto mb-4"></div>
           <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">{t('loadingCart')}</p>
         </div>
       </div>
@@ -81,13 +81,13 @@ const Cart = () => {
             <div className="w-24 h-24 bg-slate-50 text-slate-200 rounded-full flex items-center justify-center mx-auto transition-transform hover:scale-110 duration-500">
               <ShoppingBag size={48} strokeWidth={1} />
             </div>
-            <div className="absolute -top-2 -right-2 w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center font-bold text-xs shadow-lg animate-bounce">0</div>
+            <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-xs shadow-lg animate-bounce">0</div>
           </div>
           <h2 className="text-2xl font-bold text-slate-900 mb-2 tracking-tight">{t('cartBlankTitle')}</h2>
           <p className="text-slate-400 mb-10 max-w-sm mx-auto text-xs font-medium leading-relaxed">{t('cartBlankDesc')}</p>
           <Link
             to="/shop"
-            className="inline-flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-full hover:bg-red-600 transition-all duration-500 font-bold text-[11px] uppercase tracking-widest shadow-xl shadow-slate-200"
+            className="inline-flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-full hover:bg-blue-600 transition-all duration-500 font-bold text-[11px] uppercase tracking-widest shadow-xl shadow-slate-200"
           >
             {t('startShopping')}
             <ArrowRight size={16} />
@@ -106,12 +106,12 @@ const Cart = () => {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-2">
-                <Link to="/" className="hover:text-red-600 transition-colors">{t('home')}</Link>
+                <Link to="/" className="hover:text-green-600 transition-colors">{t('home')}</Link>
                 <ChevronRight size={10} />
                 <span className="text-slate-900">{t('yourCart')}</span>
               </div>
               <h1 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight leading-none uppercase">
-                {t('yourSelection')} <span className="text-red-600">({cart.length})</span>
+                {t('yourSelection')} <span className="text-green-600">({cart.length})</span>
               </h1>
             </div>
             <div className="flex items-center gap-4">
@@ -138,7 +138,7 @@ const Cart = () => {
                     type="checkbox"
                     checked={selectedItems.length === cart.length}
                     onChange={toggleSelectAll}
-                    className="peer appearance-none w-5 h-5 border-2 border-slate-200 rounded-lg checked:bg-red-600 checked:border-red-600 transition-all duration-300"
+                    className="peer appearance-none w-5 h-5 border-2 border-slate-200 rounded-lg checked:bg-blue-600 checked:border-blue-600 transition-all duration-300"
                   />
                   <div className="absolute opacity-0 peer-checked:opacity-100 pointer-events-none text-white transition-opacity duration-300">
                     <Plus size={12} className="rotate-45" />
@@ -150,7 +150,7 @@ const Cart = () => {
               </label>
               <button
                 onClick={clearCart}
-                className="text-slate-400 hover:text-red-600 transition-all flex items-center gap-2 group"
+                className="text-slate-400 hover:text-green-600 transition-all flex items-center gap-2 group"
               >
                 <Trash2 size={14} className="group-hover:scale-110 transition-transform" />
                 <span className="text-[10px] font-bold uppercase tracking-widest">{t('clearCart')}</span>
@@ -162,7 +162,7 @@ const Cart = () => {
                 <div
                   key={item.id}
                   className={`group relative bg-white rounded-2xl border transition-all duration-500 overflow-hidden ${selectedItems.includes(item.id)
-                    ? 'border-red-100 shadow-lg shadow-slate-200/40 ring-1 ring-red-50'
+                    ? 'border-blue-100 shadow-lg shadow-slate-200/40 ring-1 ring-blue-50'
                     : 'border-slate-100 hover:border-slate-200 hover:shadow-md shadow-sm'
                     }`}
                 >
@@ -174,7 +174,7 @@ const Cart = () => {
                           type="checkbox"
                           checked={selectedItems.includes(item.id)}
                           onChange={() => toggleSelectItem(item.id)}
-                          className="peer appearance-none w-3 h-3 border-2 border-slate-200 rounded-md checked:bg-red-600 checked:border-red-600 bg-white transition-all duration-300 cursor-pointer shadow-lg"
+                          className="peer appearance-none w-3 h-3 border-2 border-slate-200 rounded-md checked:bg-blue-600 checked:border-blue-600 bg-white transition-all duration-300 cursor-pointer shadow-lg"
                         />
                       </div>
                       <img
@@ -190,10 +190,10 @@ const Cart = () => {
                       <div>
                         <div className="flex justify-between items-start gap-3 mb-1.5">
                           <div>
-                            <span className="text-[6px] font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded-full uppercase tracking-widest mb-1 inline-block">
+                            <span className="text-[6px] font-bold text-green-600 bg-blue-50 px-2 py-0.5 rounded-full uppercase tracking-widest mb-1 inline-block">
                               {item.category?.name || t('handcraftedLabel')}
                             </span>
-                            <h3 className="text-[12px] font-bold text-slate-900 leading-tight uppercase tracking-tight group-hover:text-red-600 transition-colors">
+                            <h3 className="text-[12px] font-bold text-slate-900 leading-tight uppercase tracking-tight group-hover:text-green-600 transition-colors">
                               {item.name}
                             </h3>
                             {(item.color || item.size) && (
@@ -213,14 +213,14 @@ const Cart = () => {
                           </div>
                           <button
                             onClick={() => removeFromCart(item.id)}
-                            className="w-5 h-5 rounded-full border border-slate-100 flex items-center justify-center text-slate-300 hover:text-red-600 hover:border-red-100 hover:bg-red-50 transition-all shrink-0"
+                            className="w-5 h-5 rounded-full border border-slate-100 flex items-center justify-center text-slate-300 hover:text-green-600 hover:border-blue-100 hover:bg-blue-50 transition-all shrink-0"
                           >
                             <Trash2 size={10} />
                           </button>
                         </div>
 
                         <div className="flex items-center gap-1.5 mb-1.5">
-                          <div className="flex text-amber-400">
+                          <div className="flex text-green-400">
                             {[...Array(5)].map((_, i) => <Star key={i} size={7} fill="currentColor" />)}
                           </div>
                           <span className="text-[6px] font-bold text-slate-400 tracking-wider">{t('premiumQuality')}</span>
@@ -303,7 +303,7 @@ const Cart = () => {
                 <button
                   onClick={handleCheckout}
                   disabled={selectedItems.length === 0}
-                  className="w-full bg-red-600 hover:bg-red-500 disabled:bg-slate-800 disabled:text-slate-600 text-white py-4 rounded-xl font-bold text-[10px] uppercase tracking-[0.2em] transition-all duration-500 flex items-center justify-center gap-2 shadow-xl shadow-red-900/20 active:scale-[0.98]"
+                  className="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white py-4 rounded-xl font-bold text-[10px] uppercase tracking-[0.2em] transition-all duration-500 flex items-center justify-center gap-2 shadow-xl shadow-blue-900/20 active:scale-[0.98]"
                 >
                   {t('proceedToCheckout')} <ArrowRight size={14} />
                 </button>
@@ -312,7 +312,7 @@ const Cart = () => {
               {/* Trust Badges */}
               <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm space-y-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-blue-50 text-green-600 flex items-center justify-center">
                     <ShieldCheck size={16} />
                   </div>
                   <div>

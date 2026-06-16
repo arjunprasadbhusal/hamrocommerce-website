@@ -41,9 +41,9 @@ export default function Testimonials() {
     <div className="bg-gradient-to-br from-slate-50 via-white to-slate-50/40 min-h-screen">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 mb-3">
-            <Star className="w-4 h-4 text-red-500 fill-red-500" />
-            <span className="text-xs font-bold text-red-600 tracking-wide">{t('testimonialsBadge')}</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 mb-3">
+            <Star className="w-4 h-4 text-green-500 fill-blue-500" />
+            <span className="text-xs font-bold text-green-600 tracking-wide">{t('testimonialsBadge')}</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-black text-slate-900">{t('testimonialsTitle')}</h1>
           <p className="text-slate-500 mt-2">{t('testimonialsSubtitle')}</p>
@@ -51,7 +51,7 @@ export default function Testimonials() {
 
         {loading ? (
           <div className="flex justify-center py-20">
-            <div className="w-12 h-12 border-4 border-red-500 border-t-transparent rounded-full animate-spin" />
+            <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
           </div>
         ) : testimonials.length === 0 ? (
           <div className="text-center py-20 bg-white rounded-2xl border-2 border-dashed border-slate-200">

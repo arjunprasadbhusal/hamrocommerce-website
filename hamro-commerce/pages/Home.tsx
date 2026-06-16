@@ -63,8 +63,8 @@ const Home = () => {
       accent: 1,
       discount: "UP TO 70% OFF",
       cta: "Explore Now",
-      bg: "from-[#0f0c29] via-[#1a1040] to-[#24243e]",
-      accentColor: "#e879f9",
+      bg: "linear-gradient(135deg, #0a56bd 0%, #0d62cc 50%, #08489c 100%)",
+      accentColor: "#22c55e",
       img: "/image/styles.png",
     },
     {
@@ -73,8 +73,8 @@ const Home = () => {
       accent: 1,
       discount: "SAVE $200+",
       cta: "Shop Flash Sale",
-      bg: "from-[#0a1628] via-[#0d2040] to-[#0a1628]",
-      accentColor: "#38bdf8",
+      bg: "linear-gradient(135deg, #08489c 0%, #0a56bd 50%, #0a56bd 100%)",
+      accentColor: "#22c55e",
       img: "/image/electric.png",
     },
     {
@@ -83,8 +83,8 @@ const Home = () => {
       accent: 2,
       discount: "FREE SHIPPING",
       cta: "Browse Deals",
-      bg: "from-[#1a0a00] via-[#2d1200] to-[#1a0a00]",
-      accentColor: "#fb923c",
+      bg: "linear-gradient(135deg, #0a56bd 0%, #08489c 50%, #0a56bd 100%)",
+      accentColor: "#22c55e",
       img: "/image/women1.png",
     },
   ];
@@ -312,12 +312,12 @@ const Home = () => {
         .section-eyebrow {
           display: inline-flex; align-items: center; gap: 8px;
           font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
-          text-transform: uppercase; color: #dc2626;
+          text-transform: uppercase; color: #0a56bd;
           margin-bottom: 12px;
         }
 
         .section-eyebrow::before {
-          content: ''; display: block; width: 24px; height: 2px; background: #dc2626;
+          content: ''; display: block; width: 24px; height: 2px; background: #0a56bd;
         }
 
         .dot-indicator {
@@ -332,7 +332,7 @@ const Home = () => {
         /* Fancy scrollbar for sidebar */
         .sidebar-scroll::-webkit-scrollbar { width: 3px; }
         .sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
-        .sidebar-scroll::-webkit-scrollbar-thumb { background: #fca5a5; border-radius: 2px; }
+        .sidebar-scroll::-webkit-scrollbar-thumb { background: #86efac; border-radius: 2px; }
 
         /* INCREASED IMAGE SIZES FOR ALL SCREENS */
         .hero-image-large {
@@ -379,7 +379,7 @@ const Home = () => {
             style={{ animation: 'scaleIn 0.5s cubic-bezier(0.34, 1.2, 0.64, 1) forwards', background: '#0f0a1e' }}
           >
             {/* Decorative ring */}
-            <div className="absolute -top-24 -right-24 w-64 h-64 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, #e879f9, transparent)' }} />
+            <div className="absolute -top-24 -right-24 w-64 h-64 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, #22c55e, transparent)' }} />
 
             <button
               type="button"
@@ -403,7 +403,7 @@ const Home = () => {
               <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)' }} />
 
               <div className="absolute bottom-0 left-0 w-full p-4 sm:p-6">
-                <span className="badge-pill mb-2 sm:mb-3 text-[10px] sm:text-xs" style={{ background: 'rgba(232, 121, 249, 0.2)', color: '#e879f9', border: '1px solid rgba(232,121,249,0.35)' }}>
+                <span className="badge-pill mb-2 sm:mb-3 text-[10px] sm:text-xs" style={{ background: 'rgba(34, 197, 94, 0.2)', color: '#22c55e', border: '1px solid rgba(34,197,94,0.35)' }}>
                   <Sparkles size={10} className="sm:w-3 sm:h-3" /> Special Offer
                 </span>
                 <h3 className="font-display text-lg sm:text-2xl md:text-3xl font-black text-white leading-tight mb-3 sm:mb-4">
@@ -413,7 +413,7 @@ const Home = () => {
                   to="/shop"
                   onClick={closeBanner}
                   className="inline-flex items-center gap-2 px-4 py-2 sm:px-6 sm:py-3 rounded-full text-xs sm:text-sm font-semibold"
-                  style={{ background: 'linear-gradient(135deg, #e879f9, #c026d3)', color: 'white' }}
+                  style={{ background: 'linear-gradient(135deg, #22c55e, #0a56bd)', color: 'white' }}
                 >
                   {t("shopNow") || "Shop Now"} <ArrowRight size={14} className="sm:w-4 sm:h-4" />
                 </Link>
@@ -440,111 +440,102 @@ const Home = () => {
       )}
 
       {/* ─── HOME CONTENT CONTAINER ─── */}
-      <div className=" bg-gradient-to-br from-[#F8F7F4] via-[#F1EDE9] to-[#F7F6F2] sm:py-4 lg:py-4">
+      <div className=" bg-gradient-to-br from-[#F8F7F4] via-[#F1EDE9] to-[#F7F6F2] pb-4 sm:pb-6 lg:pb-8">
         {/* ─── HERO + SIDEBAR (Mobile Responsive) ─── */}
-        <section className="w-full px-3 sm:px-6 lg:px-8 sm:pt-0 pb-2 sm:pb-4">
+        <section className="w-full sm:pt-0 pb-2 sm:pb-4">
         <div className="relative space-y-3">
           {/* Hero Banner (Full Width) */}
-          <div className="w-full relative overflow-hidden rounded-xl sm:rounded-2xl lg:rounded-3xl" style={{ minHeight: '400px', background: `linear-gradient(135deg, ${slide.bg.replace('from-', '').replace('via-', '').replace('to-', '').split(' ').join(', ')})` }}>
-            {/* Animated bg blobs */}
-            <div key={activeHeroSlide} className="absolute inset-0" style={{ animation: 'fadeIn 0.6s ease' }}>
-              <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, #0f0c29 0%, #1a1040 50%, #24243e 100%)` }} />
-              <div className="absolute top-0 right-0 w-1/2 h-full opacity-30" style={{ background: `radial-gradient(ellipse at top right, ${slide.accentColor}40, transparent 60%)` }} />
-              <div className="absolute bottom-0 left-0 w-1/3 h-1/2 opacity-20" style={{ background: `radial-gradient(ellipse at bottom left, ${slide.accentColor}60, transparent 60%)` }} />
-              {/* Geometric decoration */}
-              <div className="absolute top-4 right-4 sm:top-8 sm:right-8 w-24 h-24 sm:w-40 sm:h-40 rounded-full border opacity-10" style={{ borderColor: slide.accentColor, animation: 'spin-slow 20s linear infinite' }} />
-              <div className="absolute top-8 right-8 sm:top-16 sm:right-16 w-16 h-16 sm:w-24 sm:h-24 rounded-full border opacity-10" style={{ borderColor: slide.accentColor }} />
-            </div>
+          <div className="w-full relative overflow-hidden h-[300px] sm:h-[350px] md:h-[380px]">
+            {heroSlides.map((s, index) => {
+              const isActive = index === activeHeroSlide;
+              return (
+                <div
+                  key={index}
+                  className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                    isActive ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+                  }`}
+                  style={{
+                    background: s.bg
+                  }}
+                >
+                  {/* Animated bg blobs */}
+                  <div className="absolute inset-0 overflow-hidden">
+                    <div className="absolute inset-0" style={{ background: s.bg }} />
+                    {/* Yellow/orange circle in top right (matches screenshot) */}
+                    <div className="absolute -top-20 -right-20 w-56 h-56 sm:w-80 sm:h-80 rounded-full opacity-90" style={{ background: `radial-gradient(circle, ${s.accentColor} 0%, ${s.accentColor}dd 70%, transparent 100%)` }} />
+                    {/* Yellow/orange circle in bottom right (matches screenshot) */}
+                    <div className="absolute -bottom-16 right-12 w-36 h-36 sm:w-52 sm:h-52 rounded-full opacity-90" style={{ background: `radial-gradient(circle, ${s.accentColor} 0%, ${s.accentColor}dd 70%, transparent 100%)` }} />
+                    {/* Concentric white lines (matches screenshot) */}
+                    <div className="absolute -top-28 -right-28 w-72 h-72 sm:w-[400px] sm:h-[400px] rounded-full border border-white/20 pointer-events-none" />
+                    <div className="absolute -top-36 -right-36 w-88 h-88 sm:w-[480px] sm:h-[480px] rounded-full border border-white/10 pointer-events-none" />
+                    <div className="absolute -top-44 -right-44 w-104 h-104 sm:w-[560px] sm:h-[560px] rounded-full border border-white/5 pointer-events-none" />
+                  </div>
 
-            <div key={`content-${activeHeroSlide}`} className="relative z-10 flex flex-col sm:flex-row items-center justify-center sm:justify-between h-full px-4 sm:px-6 lg:px-10 py-6 sm:py-8 lg:py-10 pb-14 sm:pb-16 gap-6 sm:gap-0" style={{ animation: 'fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) forwards' }}>
-              <div className="flex-1 flex flex-col items-center text-center sm:items-start sm:text-left">
-                {/* Eyebrow */}
-                <div className="flex items-center gap-2 mb-3 sm:mb-5">
-                  <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full animate-pulse" style={{ background: slide.accentColor }} />
-                  <span className="text-[10px] sm:text-xs font-bold tracking-[0.1em] sm:tracking-[0.15em] uppercase" style={{ color: slide.accentColor }}>
-                    {slide.tag}
-                  </span>
-                </div>
+                  <div className="relative z-10 flex flex-col sm:flex-row items-center justify-center sm:justify-between h-full pl-4 sm:pl-6 lg:pl-10 pr-0 pt-6 sm:pt-8 lg:pt-10 pb-0 gap-6 sm:gap-0">
+                    <div className="flex-1 w-full sm:w-1/2 flex flex-col items-center text-center sm:items-start sm:text-left">
+                      {/* Eyebrow */}
+                      <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                        <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full animate-pulse" style={{ background: s.accentColor }} />
+                        <span className="text-[10px] sm:text-xs font-bold tracking-[0.1em] sm:tracking-[0.15em] uppercase" style={{ color: s.accentColor }}>
+                          {s.tag}
+                        </span>
+                      </div>
 
-                {/* Headline */}
-                <div className="mb-1 sm:mb-2 w-full">
-                  {slide.headline.map((word, i) => (
-                    <div key={i} className="overflow-hidden">
-                      <span
-                        className="font-display block font-black leading-[1]"
-                        style={{
-                          fontSize: 'clamp(2rem, 5vw, 5.5rem)',
-                          color: i === slide.accent ? slide.accentColor : 'white',
-                          animationDelay: `${i * 0.08}s`,
-                          animation: 'fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) both',
-                        }}
-                      >
-                        {word}
-                      </span>
+                      {/* Headline */}
+                      <div className="mb-1 sm:mb-2 w-full">
+                        {s.headline.map((word, i) => (
+                          <div key={i} className="overflow-hidden">
+                            <span
+                              className="font-display block font-black leading-[1]"
+                              style={{
+                                fontSize: 'clamp(1.8rem, 4.5vw, 4.5rem)',
+                                color: i === s.accent ? s.accentColor : 'white',
+                              }}
+                            >
+                              {word}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+
+
+                      {/* CTA Buttons */}
+                      <div className="flex flex-wrap justify-center sm:justify-start gap-2 sm:gap-3">
+                        <Link
+                          to="/shop"
+                          className="inline-flex items-center gap-1.5 sm:gap-2 px-6 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-semibold text-white transition-all duration-300 hover:opacity-90 hover:scale-[1.02]"
+                          style={{ background: `linear-gradient(135deg, ${s.accentColor}, ${s.accentColor}cc)`, boxShadow: `0 4px 12px ${s.accentColor}40` }}
+                        >
+                          {s.cta} <ArrowRight size={12} className="sm:w-4 sm:h-4" />
+                        </Link>
+                        <Link to="/shop" className="inline-flex items-center gap-1.5 sm:gap-2 px-6 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-semibold text-white border border-white/30 hover:bg-white/10 hover:border-white/50 transition-all duration-300 hover:scale-[1.02]">
+                          View All
+                        </Link>
+                      </div>
                     </div>
-                  ))}
-                </div>
 
-                {/* Discount badge */}
-                <div className="mt-3 sm:mt-5 mb-4 sm:mb-7 inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full" style={{ background: 'rgba(255,255,255,0.1)', border: `1px solid ${slide.accentColor}50`, backdropFilter: 'blur(8px)' }}>
-                  <Tag size={11} className="sm:w-3 sm:h-3" color={slide.accentColor} />
-                  <span className="text-white font-bold text-xs sm:text-sm">{slide.discount}</span>
+                    {/* Hero Image - equal layout */}
+                    <div className="flex-1 w-full sm:w-1/2 flex items-end justify-end h-full">
+                      <div className="relative animate-float w-full h-full flex items-end justify-end">
+                        <div className="absolute inset-0 rounded-full blur-3xl opacity-40" style={{ background: s.accentColor }} />
+                        <img
+                          src={s.img}
+                          alt="Featured"
+                          className="relative w-full h-[90%] object-contain drop-shadow-2xl hero-slide-img"
+                          onError={(e: any) => { (e.currentTarget as HTMLImageElement).src = "/image/shop.png"; }}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-
-                {/* CTA Buttons */}
-                <div className="flex flex-wrap justify-center sm:justify-start gap-2 sm:gap-3">
-                  <Link
-                    to="/shop"
-                    className="inline-flex items-center gap-1.5 sm:gap-2 px-4 py-2 sm:px-5 sm:py-3 rounded-full text-xs sm:text-sm font-semibold text-white"
-                    style={{ background: `linear-gradient(135deg, ${slide.accentColor}, ${slide.accentColor}cc)`, boxShadow: `0 4px 12px ${slide.accentColor}40` }}
-                  >
-                    {slide.cta} <ArrowRight size={12} className="sm:w-4 sm:h-4" />
-                  </Link>
-                  <Link to="/shop" className="inline-flex items-center gap-1.5 sm:gap-2 px-4 py-2 sm:px-5 sm:py-3 rounded-full text-xs sm:text-sm font-semibold text-white border border-white/30 hover:bg-white/10 transition-colors">
-                    View All
-                  </Link>
-                </div>
-              </div>
-
-              {/* Hero Image - INCREASED SIZE for all screens */}
-              <div className="hero-image-large flex-shrink-0 flex items-center justify-center sm:ml-4 md:ml-6 lg:ml-8 w-full sm:w-auto">
-                <div className="relative animate-float w-full">
-                  <div className="absolute inset-0 rounded-full blur-3xl opacity-40" style={{ background: slide.accentColor }} />
-                  <img
-                    key={activeHeroSlide}
-                    src={slide.img}
-                    alt="Featured"
-                    className="relative w-full h-auto object-contain drop-shadow-2xl hero-slide-img"
-                    onError={(e: any) => { (e.currentTarget as HTMLImageElement).src = "/image/shop.png"; }}
-                  />
-                </div>
-              </div>
-            </div>
+              );
+            })}
 
             {/* Slide controls */}
-            <div className="absolute bottom-3 left-3 sm:bottom-5 sm:left-6 lg:left-10 flex items-center gap-2 sm:gap-3 z-10">
+            <div className="absolute bottom-3 left-3 sm:bottom-5 sm:left-6 lg:left-10 flex items-center gap-2 sm:gap-3 z-20">
               {heroSlides.map((_, i) => (
                 <button key={i} onClick={() => setActiveHeroSlide(i)} className={`dot-indicator w-1.5 h-1.5 sm:w-2 sm:h-2 ${i === activeHeroSlide ? 'active' : ''}`} />
               ))}
-            </div>
-
-            {/* Value Props Bar - scrollable on mobile */}
-            <div className="absolute bottom-0 right-0 left-0 overflow-x-auto" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(12px)', WebkitOverflowScrolling: 'touch' }}>
-              <div className="flex whitespace-nowrap">
-                {[
-                  { icon: Truck, label: "Free Shipping", sub: "$50+" },
-                  { icon: ShieldCheck, label: "Secure Pay", sub: "100% safe" },
-                  { icon: HeadphonesIcon, label: "24/7 Support", sub: "Always on" },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5">
-                    <item.icon size={12} className="sm:w-3.5 sm:h-3.5" color={slide.accentColor} />
-                    <div>
-                      <p className="text-white font-semibold text-[10px] sm:text-xs leading-none">{item.label}</p>
-                      <p className="text-white/50 text-[8px] sm:text-[10px] mt-0.5">{item.sub}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </div>
@@ -567,8 +558,8 @@ const Home = () => {
                 { icon: Star, label: "Rated 4.9/5", sub: "10k+ reviews" },
               ].map((f, i) => (
                 <div key={i} className="ticker-item px-4 sm:px-8">
-                  <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: '#FEF2F2' }}>
-                    <f.icon size={14} className="sm:w-4 sm:h-4" color="#dc2626" />
+                  <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: '#EFF6FF' }}>
+                    <f.icon size={14} className="sm:w-4 sm:h-4" color="#0a56bd" />
                   </div>
                   <div className="hidden sm:block">
                     <p className="font-bold text-gray-900 text-sm leading-none">{f.label}</p>
@@ -586,13 +577,13 @@ const Home = () => {
       </div>
 
       {/* ─── CATEGORY CHIPS (Mobile Scrollable) ─── */}
-      <section className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8">
+      <section className="w-full pl-4 sm:pl-6 lg:pl-10 pr-4 sm:pr-6 lg:pr-10 py-4 sm:py-8">
         <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide" style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}>
           <Link to="/shop" className="flex-shrink-0 flex items-center gap-1.5 sm:gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-gray-900 text-white">
             All
           </Link>
           {categories.slice(0, 8).map((cat, i) => {
-            const textColors = ['#dc2626', '#2563eb', '#16a34a', '#d97706', '#9333ea', '#ea580c', '#0d9488', '#e11d48'];
+            const textColors = ['#0a56bd', '#2563eb', '#16a34a', '#16a34a', '#0a56bd', '#16a34a', '#0d9488', '#0a56bd'];
             return (
               <Link
                 key={cat.id}
@@ -608,45 +599,45 @@ const Home = () => {
       </section>
 
       {/* ─── FLASH SALE (Mobile Responsive) ─── */}
-      <section className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pb-6 sm:pb-10">
-        <div className="relative overflow-hidden rounded-xl sm:rounded-2xl lg:rounded-3xl p-4 sm:p-6 lg:p-10" style={{ background: 'linear-gradient(135deg, #1a0505 0%, #3d0000 40%, #7f1d1d 100%)' }}>
+      <section className="w-full pl-4 sm:pl-6 lg:pl-10 pr-4 sm:pr-6 lg:pr-10 pb-6 sm:pb-10">
+        <div className="relative overflow-hidden rounded-xl sm:rounded-2xl lg:rounded-3xl p-4 sm:p-6 lg:p-10" style={{ background: 'linear-gradient(135deg, #0a56bd 0%, #08489c 50%, #0a56bd 100%)' }}>
           {/* Pattern */}
           <div className="absolute inset-0 opacity-10" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M20 20.5V18H0v-2h20v-2H0v-2h20v-2H0V8h20V6H0V4h20V2H0V0h22v20h2V0h2v20h2V0h2v20h2V0h2v20h2V0h2v20h2v2H20v-.5zM0 20h2v20H0V20zm4 0h2v20H4V20zm4 0h2v20H8V20zm4 0h2v20h-2V20zm4 0h2v20h-2V20zm4 4h20v2H20v-2zm0 4h20v2H20v-2zm0 4h20v2H20v-2zm0 4h20v2H20v-2z'/%3E%3C/g%3E%3C/svg%3E")`
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M20 20.5V18H0v-2h20v-2H0v-2h20v-2H0V8h20V6H0V4h20V2H0V0h22v20h2V0h2v20h2V0h2v20h2V0h2v20h2V0h2v20h2V0h2v20h2v2H20v-.5zM0 20h2v20H0V20zm4 0h2v20H4V20zm4 0h2v20H8V20zm4 0h2v20h-2V20zm4 0h2v20h-2V20zm4 4h20v2H20v-2zm0 4h20v2H20v-2zm0 4h20v2H20v-2zm0 4h20v2H20v-2z'/%3E%3C/g%3E%3C/svg%3E")`
           }} />
-          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 30% 50%, rgba(239,68,68,0.3), transparent 60%)' }} />
+          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 30% 50%, rgba(34,197,94,0.3), transparent 60%)' }} />
 
           <div className="relative flex flex-col items-center text-center lg:flex-row lg:justify-between lg:text-left gap-4 sm:gap-6">
             {/* Left */}
             <div>
               <div className="flex items-center justify-center lg:justify-start gap-2 mb-2 sm:mb-3">
-                <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(239,68,68,0.3)' }}>
-                  <Flame size={14} className="sm:w-4 sm:h-4" color="#fca5a5" />
+                <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(34,197,94,0.3)' }}>
+                  <Flame size={14} className="sm:w-4 sm:h-4" color="#22c55e" />
                 </div>
-                <span className="text-[10px] sm:text-xs font-bold tracking-widest uppercase" style={{ color: '#fca5a5' }}>Flash Sale</span>
+                <span className="text-[10px] sm:text-xs font-bold tracking-widest uppercase" style={{ color: '#22c55e' }}>Flash Sale</span>
               </div>
               <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-white leading-tight">
                 Today's Best<br className="hidden sm:block" />
-                <span style={{ color: '#fca5a5' }}>Deals</span>
+                <span style={{ color: '#22c55e' }}>Deals</span>
               </h2>
-              <p className="text-red-200/70 text-xs sm:text-sm mt-1 sm:mt-2 max-w-xs mx-auto lg:mx-0">Don't miss out — these deals expire soon!</p>
+              <p className="text-green-100/70 text-xs sm:text-sm mt-1 sm:mt-2 max-w-xs mx-auto lg:mx-0">Don't miss out — these deals expire soon!</p>
             </div>
 
             {/* Countdown - Centered on mobile */}
             <div className="flex items-center justify-center gap-2 sm:gap-3 my-3 sm:my-4 lg:my-0">
               <div className="countdown-box px-3 py-1.5 sm:px-4 sm:py-2">
                 <span className="block text-xl sm:text-2xl lg:text-3xl font-black text-white leading-none">{String(timeLeft.hours).padStart(2, '0')}</span>
-                <span className="text-red-300/70 text-[8px] sm:text-[10px] font-semibold uppercase tracking-wider mt-0.5 block">Hours</span>
+                <span className="text-green-200/70 text-[8px] sm:text-[10px] font-semibold uppercase tracking-wider mt-0.5 block">Hours</span>
               </div>
-              <span className="text-xl sm:text-2xl font-black text-red-400">:</span>
+              <span className="text-xl sm:text-2xl font-black text-green-400">:</span>
               <div className="countdown-box px-3 py-1.5 sm:px-4 sm:py-2">
                 <span className="block text-xl sm:text-2xl lg:text-3xl font-black text-white leading-none">{String(timeLeft.minutes).padStart(2, '0')}</span>
-                <span className="text-red-300/70 text-[8px] sm:text-[10px] font-semibold uppercase tracking-wider mt-0.5 block">Mins</span>
+                <span className="text-green-200/70 text-[8px] sm:text-[10px] font-semibold uppercase tracking-wider mt-0.5 block">Mins</span>
               </div>
-              <span className="text-xl sm:text-2xl font-black text-red-400">:</span>
+              <span className="text-xl sm:text-2xl font-black text-green-400">:</span>
               <div className="countdown-box px-3 py-1.5 sm:px-4 sm:py-2">
                 <span className="block text-xl sm:text-2xl lg:text-3xl font-black text-white leading-none">{String(timeLeft.seconds).padStart(2, '0')}</span>
-                <span className="text-red-300/70 text-[8px] sm:text-[10px] font-semibold uppercase tracking-wider mt-0.5 block">Secs</span>
+                <span className="text-green-200/70 text-[8px] sm:text-[10px] font-semibold uppercase tracking-wider mt-0.5 block">Secs</span>
               </div>
             </div>
 
@@ -654,7 +645,7 @@ const Home = () => {
             <Link
               to="/shop"
               className="inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-full text-xs sm:text-sm font-bold flex-shrink-0 w-full sm:w-auto"
-              style={{ background: 'white', color: '#dc2626', fontWeight: '700', gap: '8px', boxShadow: '0 8px 24px rgba(0,0,0,0.3)' }}
+              style={{ background: 'white', color: '#0a56bd', fontWeight: '700', gap: '8px', boxShadow: '0 8px 24px rgba(0,0,0,0.3)' }}
             >
               Shop Flash Sale <ArrowRight size={14} className="sm:w-4 sm:h-4" />
             </Link>
@@ -663,45 +654,45 @@ const Home = () => {
       </section>
 
       {/* ─── PROMO BANNERS (2-col - Stack on mobile) - INCREASED IMAGE SIZES ─── */}
-      <section className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pb-6 sm:pb-10">
+      <section className="w-full pl-4 sm:pl-6 lg:pl-10 pr-4 sm:pr-6 lg:pr-10 pb-6 sm:pb-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           {/* Promo 1 */}
-          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl" style={{ background: 'linear-gradient(135deg, #0a0a1a 0%, #1a1040 100%)', minHeight: '220px' }}>
-            <div className="absolute inset-0 opacity-20" style={{ background: 'radial-gradient(ellipse at top right, #818cf8, transparent 60%)' }} />
+          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl" style={{ background: 'linear-gradient(135deg, #0a56bd 0%, #08489c 100%)', minHeight: '220px' }}>
+            <div className="absolute inset-0 opacity-20" style={{ background: 'radial-gradient(ellipse at top right, #22c55e, transparent 60%)' }} />
             <div className="promo-image-large absolute right-0 top-0 bottom-0 w-2/5 flex items-center justify-end pr-3 sm:pr-6">
               <img src="/image/phone.png" alt="Electronics" className="w-full h-auto object-contain drop-shadow-2xl opacity-90"
                 onError={(e: any) => { (e.currentTarget as HTMLImageElement).src = "/image/shop.png"; }} />
             </div>
             <div className="relative z-10 p-4 sm:p-7">
-              <span className="badge-pill mb-2 sm:mb-3 text-[10px] sm:text-xs" style={{ background: 'rgba(129,140,248,0.2)', color: '#a5b4fc', border: '1px solid rgba(129,140,248,0.3)' }}>
+              <span className="badge-pill mb-2 sm:mb-3 text-[10px] sm:text-xs" style={{ background: 'rgba(34,197,94,0.2)', color: '#22c55e', border: '1px solid rgba(34,197,94,0.3)' }}>
                 New Arrivals
               </span>
               <h3 className="font-display text-lg sm:text-2xl font-black text-white leading-tight mt-1 sm:mt-2">
                 Latest Tech<br />Gadgets
               </h3>
-              <p className="text-indigo-200/70 text-xs sm:text-sm mt-1 sm:mt-2 mb-2 sm:mb-4">Starting from $29</p>
-              <Link to="/shop" className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-semibold" style={{ background: 'rgba(129,140,248,0.25)', border: '1px solid rgba(129,140,248,0.4)', backdropFilter: 'blur(8px)', color: 'white' }}>
+              <p className="text-green-100/70 text-xs sm:text-sm mt-1 sm:mt-2 mb-2 sm:mb-4">Starting from $29</p>
+              <Link to="/shop" className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-semibold" style={{ background: 'rgba(34,197,94,0.25)', border: '1px solid rgba(34,197,94,0.4)', backdropFilter: 'blur(8px)', color: 'white' }}>
                 Shop Electronics <ArrowRight size={12} className="sm:w-3.5 sm:h-3.5" />
               </Link>
             </div>
           </div>
 
           {/* Promo 2 */}
-          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl" style={{ background: 'linear-gradient(135deg, #0a1a0a 0%, #14401a 100%)', minHeight: '220px' }}>
-            <div className="absolute inset-0 opacity-20" style={{ background: 'radial-gradient(ellipse at top right, #4ade80, transparent 60%)' }} />
+          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl" style={{ background: 'linear-gradient(135deg, #08489c 0%, #0a56bd 100%)', minHeight: '220px' }}>
+            <div className="absolute inset-0 opacity-20" style={{ background: 'radial-gradient(ellipse at top right, #22c55e, transparent 60%)' }} />
             <div className="promo-image-large absolute right-0 top-0 bottom-0 w-2/5 flex items-center justify-end pr-3 sm:pr-6">
               <img src="/image/clothes.png" alt="Fashion" className="w-full h-auto object-contain drop-shadow-2xl opacity-90"
                 onError={(e: any) => { (e.currentTarget as HTMLImageElement).src = "/image/shop.png"; }} />
             </div>
             <div className="relative z-10 p-4 sm:p-7">
-              <span className="badge-pill mb-2 sm:mb-3 text-[10px] sm:text-xs" style={{ background: 'rgba(74,222,128,0.2)', color: '#86efac', border: '1px solid rgba(74,222,128,0.3)' }}>
+              <span className="badge-pill mb-2 sm:mb-3 text-[10px] sm:text-xs" style={{ background: 'rgba(34,197,94,0.2)', color: '#22c55e', border: '1px solid rgba(34,197,94,0.3)' }}>
                 <Sparkles size={10} className="sm:w-2.5 sm:h-2.5" /> Trending
               </span>
               <h3 className="font-display text-lg sm:text-2xl font-black text-white leading-tight mt-1 sm:mt-2">
                 Fashion<br />Forward
               </h3>
-              <p className="text-green-200/70 text-xs sm:text-sm mt-1 sm:mt-2 mb-2 sm:mb-4">Up to 20% off</p>
-              <Link to="/shop" className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-semibold" style={{ background: 'rgba(74,222,128,0.2)', border: '1px solid rgba(74,222,128,0.35)', backdropFilter: 'blur(8px)', color: 'white' }}>
+              <p className="text-green-100/70 text-xs sm:text-sm mt-1 sm:mt-2 mb-2 sm:mb-4">Up to 20% off</p>
+              <Link to="/shop" className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-semibold" style={{ background: 'rgba(34,197,94,0.25)', border: '1px solid rgba(34,197,94,0.4)', backdropFilter: 'blur(8px)', color: 'white' }}>
                 Shop Fashion <ArrowRight size={12} className="sm:w-3.5 sm:h-3.5" />
               </Link>
             </div>
@@ -710,7 +701,7 @@ const Home = () => {
       </section>
 
       {/* ─── FEATURED PRODUCTS (Mobile Grid Optimized) ─── */}
-      <section className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pb-10 sm:pb-14">
+      <section className="w-full pl-4 sm:pl-6 lg:pl-10 pr-4 sm:pr-6 lg:pr-10 pb-10 sm:pb-14">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 mb-5 sm:mb-8">
           <div>
             <div className="section-eyebrow text-xs">
@@ -723,14 +714,14 @@ const Home = () => {
           </div>
           <Link
             to="/shop"
-            className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold bg-gray-900 text-white hover:bg-red-600 transition-colors"
+            className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold bg-gray-900 text-white hover:bg-blue-600 transition-colors"
           >
             View All Products <ArrowRight size={14} />
           </Link>
         </div>
 
         {loadingProducts ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-3 md:gap-4">
             {Array.from({ length: 8 }).map((_, i) => (
               <div key={i} className="rounded-xl sm:rounded-2xl overflow-hidden bg-white">
                 <div className="shimmer-loading aspect-square" />
@@ -742,7 +733,7 @@ const Home = () => {
             ))}
           </div>
         ) : featuredProducts.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-3 md:gap-4 lg:gap-5">
             {featuredProducts.map((product: any) => (
               <div key={product.id} className="product-card-wrap">
                 <ProductCard product={product} />
@@ -766,7 +757,7 @@ const Home = () => {
 
       {/* ─── TRUST STRIP (Mobile Grid) ─── */}
       {(recommendedForYou.length > 0 || loadingRecommendations) && (
-        <section className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pb-10 sm:pb-14">
+        <section className="w-full pl-4 sm:pl-6 lg:pl-10 pr-4 sm:pr-6 lg:pr-10 pb-10 sm:pb-14">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 mb-5 sm:mb-8">
             <div>
               <div className="section-eyebrow text-xs">Recommended</div>
@@ -777,7 +768,7 @@ const Home = () => {
             </div>
             <Link
               to="/shop"
-              className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold bg-gray-900 text-white hover:bg-red-600 transition-colors"
+              className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold bg-gray-900 text-white hover:bg-blue-600 transition-colors"
             >
               View More <ArrowRight size={14} />
             </Link>
@@ -808,7 +799,7 @@ const Home = () => {
       )}
 
       {recentlyViewed.length > 0 && (
-        <section className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pb-10 sm:pb-14">
+        <section className="w-full pl-4 sm:pl-6 lg:pl-10 pr-4 sm:pr-6 lg:pr-10 pb-10 sm:pb-14">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 mb-5 sm:mb-8">
             <div>
               <div className="section-eyebrow text-xs">History</div>
@@ -819,7 +810,7 @@ const Home = () => {
             </div>
             <Link
               to="/shop"
-              className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold bg-white text-gray-900 border border-gray-200 hover:bg-red-600 hover:text-white transition-colors"
+              className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold bg-white text-gray-900 border border-gray-200 hover:bg-blue-600 hover:text-white transition-colors"
             >
               Browse More <ArrowRight size={14} />
             </Link>
@@ -835,13 +826,13 @@ const Home = () => {
       )}
 
       <section className="border-y border-gray-100 bg-white">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-8">
+        <div className="w-full pl-4 sm:pl-6 lg:pl-10 pr-4 sm:pr-6 lg:pr-10 py-5 sm:py-8">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6">
             {[
               { icon: Truck, title: "Free Shipping", desc: "On all orders above $50", color: "#EFF6FF", accent: "#2563eb" },
               { icon: ShieldCheck, title: "Money Back", desc: "30-day return policy", color: "#F0FDF4", accent: "#16a34a" },
-              { icon: HeadphonesIcon, title: "24/7 Support", desc: "Expert help anytime", color: "#FEF2F2", accent: "#dc2626" },
-              { icon: Zap, title: "Fast Delivery", desc: "2–3 business days", color: "#FFFBEB", accent: "#d97706" },
+              { icon: HeadphonesIcon, title: "24/7 Support", desc: "Expert help anytime", color: "#EFF6FF", accent: "#0a56bd" },
+              { icon: Zap, title: "Fast Delivery", desc: "2–3 business days", color: "#FFFBEB", accent: "#16a34a" },
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-2 sm:gap-3">
                 <div className="w-8 h-8 sm:w-11 sm:h-11 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: item.color }}>

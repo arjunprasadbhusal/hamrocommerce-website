@@ -208,9 +208,9 @@ const ProductDetail = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-white flex flex-col items-center justify-center">
         <div className="relative">
-          <div className="w-16 h-16 border-4 border-slate-200 border-t-red-600 rounded-full animate-spin"></div>
+          <div className="w-16 h-16 border-4 border-slate-200 border-t-blue-600 rounded-full animate-spin"></div>
           <div className="absolute inset-0 flex items-center justify-center">
-            <Sparkles className="w-6 h-6 text-red-600 animate-pulse" />
+            <Sparkles className="w-6 h-6 text-green-600 animate-pulse" />
           </div>
         </div>
         <p className="mt-4 text-slate-500 font-medium text-sm">Loading amazing products...</p>
@@ -221,12 +221,12 @@ const ProductDetail = () => {
   if (!product) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-white flex flex-col items-center justify-center p-6 text-center">
-        <div className="w-24 h-24 bg-gradient-to-br from-red-50 to-rose-50 rounded-full flex items-center justify-center mb-6">
-          <Package className="w-10 h-10 text-red-600" />
+        <div className="w-24 h-24 bg-gradient-to-br from-blue-50 to-green-50 rounded-full flex items-center justify-center mb-6">
+          <Package className="w-10 h-10 text-green-600" />
         </div>
         <h2 className="text-2xl font-black text-slate-900 mb-2">Product Not Found</h2>
         <p className="text-slate-500 mb-6 max-w-md text-sm">The product you're looking for isn't available. Let's find something amazing for you!</p>
-        <Link to="/shop" className="bg-gradient-to-r from-red-600 to-rose-600 text-white px-6 py-2.5 rounded-full font-bold text-sm shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-2">
+        <Link to="/shop" className="bg-gradient-to-r from-blue-600 to-green-600 text-white px-6 py-2.5 rounded-full font-bold text-sm shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-2">
           <ArrowLeft size={16} /> Browse Collection
         </Link>
       </div>
@@ -239,9 +239,9 @@ const ProductDetail = () => {
       <div className="bg-white/60 backdrop-blur-sm border-b border-slate-100 sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <div className="flex items-center gap-2 text-xs font-medium">
-            <Link to="/" className="text-slate-500 hover:text-red-600 transition-colors">Home</Link>
+            <Link to="/" className="text-slate-500 hover:text-green-600 transition-colors">Home</Link>
             <ChevronRight size={10} className="text-slate-400" />
-            <Link to="/shop" className="text-slate-500 hover:text-red-600 transition-colors">Shop</Link>
+            <Link to="/shop" className="text-slate-500 hover:text-green-600 transition-colors">Shop</Link>
             <ChevronRight size={10} className="text-slate-400" />
             <span className="text-slate-900 font-semibold truncate max-w-[200px] text-xs">{product.name}</span>
           </div>
@@ -268,7 +268,7 @@ const ProductDetail = () => {
               {/* Minimal Status Badges */}
               <div className="absolute top-3 left-3 flex gap-2">
                 {product.stock <= 5 && product.stock > 0 && (
-                  <span className="bg-gradient-to-r from-red-600 to-rose-600 text-white px-2 py-0.5 rounded-full text-[9px] font-bold uppercase shadow-lg">
+                  <span className="bg-gradient-to-r from-blue-600 to-green-600 text-white px-2 py-0.5 rounded-full text-[9px] font-bold uppercase shadow-lg">
                     🔥 Limited
                   </span>
                 )}
@@ -298,7 +298,7 @@ const ProductDetail = () => {
                         key={variant.id}
                         onClick={() => handleColorChange(variant)}
                         className={`group relative rounded-lg overflow-hidden transition-all duration-200
-                          ${isActive ? 'ring-2 ring-red-600 ring-offset-1 shadow-md' : 'hover:shadow-md'}`}
+                          ${isActive ? 'ring-2 ring-blue-600 ring-offset-1 shadow-md' : 'hover:shadow-md'}`}
                       >
                         <div className="aspect-square bg-gradient-to-br from-slate-50 to-white p-1.5">
                           <img
@@ -309,7 +309,7 @@ const ProductDetail = () => {
                           />
                         </div>
                         <div className={`text-center py-0.5 text-[8px] font-medium uppercase truncate px-1
-                          ${isActive ? 'bg-red-600 text-white' : 'bg-slate-100 text-slate-600'}`}>
+                          ${isActive ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600'}`}>
                           {variant.color?.substring(0, 8) || 'Color'}
                         </div>
                       </button>
@@ -327,10 +327,10 @@ const ProductDetail = () => {
               <div className="flex items-center gap-2 mb-2">
                 <div className="flex gap-0.5">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={12} className={`${i < Math.floor(averageRating) ? 'fill-amber-400 text-amber-400' : 'fill-slate-200 text-slate-200'}`} />
+                    <Star key={i} size={12} className={`${i < Math.floor(averageRating) ? 'fill-green-400 text-green-400' : 'fill-slate-200 text-slate-200'}`} />
                   ))}
                 </div>
-                <span className="text-xs font-bold text-amber-600">{averageRating}</span>
+                <span className="text-xs font-bold text-green-600">{averageRating}</span>
                 <span className="text-[10px] text-slate-400">({reviewCount})</span>
                 <span className="w-px h-3 bg-slate-200" />
                 <span className="text-emerald-600 text-[10px] font-bold flex items-center gap-1">
@@ -379,7 +379,7 @@ const ProductDetail = () => {
               <div className="bg-white rounded-xl p-4 shadow-lg shadow-slate-200/50 border border-slate-100">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Select Size</span>
-                  <button className="text-[9px] font-bold text-red-600 uppercase">Size Chart</button>
+                  <button className="text-[9px] font-bold text-green-600 uppercase">Size Chart</button>
                 </div>
                 <div className="grid grid-cols-5 sm:grid-cols-7 gap-1.5">
                   {sizeOptions.map((size) => (
@@ -427,7 +427,7 @@ const ProductDetail = () => {
                     {availableStock > 0 ? (
                       <span className="text-emerald-600 font-medium">{availableStock} left</span>
                     ) : (
-                      <span className="text-red-600 font-medium">Out of stock</span>
+                      <span className="text-green-600 font-medium">Out of stock</span>
                     )}
                   </p>
                 </div>
@@ -440,7 +440,7 @@ const ProductDetail = () => {
                   className={`flex-1 py-2.5 rounded-lg font-bold text-xs uppercase tracking-wide transition-all duration-300 flex items-center justify-center gap-2
                     ${availableStock <= 0
                       ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-red-600 to-rose-600 text-white hover:shadow-lg hover:scale-[1.02] active:scale-95'
+                      : 'bg-gradient-to-r from-blue-600 to-green-600 text-white hover:shadow-lg hover:scale-[1.02] active:scale-95'
                     }`}
                 >
                   <ShoppingBag size={14} /> 
@@ -465,22 +465,22 @@ const ProductDetail = () => {
             {/* Features Icons - Clean Grid */}
             <div className="grid grid-cols-4 gap-2">
               <div className="bg-white rounded-lg p-2 shadow-md border border-slate-100 text-center">
-                <Truck className="w-3.5 h-3.5 text-red-600 mx-auto mb-1" />
+                <Truck className="w-3.5 h-3.5 text-green-600 mx-auto mb-1" />
                 <p className="text-[8px] font-bold text-slate-700">Free Delivery</p>
                 <p className="text-[7px] text-slate-400">₹5000+</p>
               </div>
               <div className="bg-white rounded-lg p-2 shadow-md border border-slate-100 text-center">
-                <RotateCcw className="w-3.5 h-3.5 text-red-600 mx-auto mb-1" />
+                <RotateCcw className="w-3.5 h-3.5 text-green-600 mx-auto mb-1" />
                 <p className="text-[8px] font-bold text-slate-700">Easy Return</p>
                 <p className="text-[7px] text-slate-400">30 days</p>
               </div>
               <div className="bg-white rounded-lg p-2 shadow-md border border-slate-100 text-center">
-                <Shield className="w-3.5 h-3.5 text-red-600 mx-auto mb-1" />
+                <Shield className="w-3.5 h-3.5 text-green-600 mx-auto mb-1" />
                 <p className="text-[8px] font-bold text-slate-700">Secure</p>
                 <p className="text-[7px] text-slate-400">Payment</p>
               </div>
               <div className="bg-white rounded-lg p-2 shadow-md border border-slate-100 text-center">
-                <Award className="w-3.5 h-3.5 text-red-600 mx-auto mb-1" />
+                <Award className="w-3.5 h-3.5 text-green-600 mx-auto mb-1" />
                 <p className="text-[8px] font-bold text-slate-700">Premium</p>
                 <p className="text-[7px] text-slate-400">Quality</p>
               </div>
@@ -490,14 +490,14 @@ const ProductDetail = () => {
             <div className="flex gap-2">
               <button
                 onClick={() => handleShare('native')}
-                className="flex-1 py-2 rounded-lg border border-slate-200 text-slate-600 hover:border-red-500 hover:text-red-500 transition-all duration-300 flex items-center justify-center gap-1.5 text-[11px] font-medium"
+                className="flex-1 py-2 rounded-lg border border-slate-200 text-slate-600 hover:border-blue-500 hover:text-green-500 transition-all duration-300 flex items-center justify-center gap-1.5 text-[11px] font-medium"
               >
                 <Share2 size={12} />
                 Share
               </button>
               <button
                 onClick={() => handleShare('facebook')}
-                className="py-2 px-3 rounded-lg border border-slate-200 text-slate-600 hover:border-blue-500 hover:text-blue-600 transition-all duration-300"
+                className="py-2 px-3 rounded-lg border border-slate-200 text-slate-600 hover:border-blue-500 hover:text-green-600 transition-all duration-300"
               >
                 <Facebook size={14} />
               </button>
@@ -546,7 +546,7 @@ const ProductDetail = () => {
                 </div>
                 <div className="flex py-1.5 border-b border-slate-100">
                   <span className="w-24 font-bold text-slate-900 text-xs">Stock</span>
-                  <span className={`text-xs font-medium ${product.stock > 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+                  <span className={`text-xs font-medium ${product.stock > 0 ? 'text-emerald-600' : 'text-green-600'}`}>
                     {product.stock > 0 ? `${product.stock} units` : 'Out of Stock'}
                   </span>
                 </div>
@@ -569,7 +569,7 @@ const ProductDetail = () => {
               <div className="text-center py-6">
                 <MessageCircle className="w-8 h-8 text-slate-400 mx-auto mb-2" />
                 <p className="text-slate-500 text-sm">No reviews yet</p>
-                <button className="mt-2 px-4 py-1.5 bg-red-600 text-white rounded-lg font-bold text-xs hover:bg-red-700 transition-colors">
+                <button className="mt-2 px-4 py-1.5 bg-blue-600 text-white rounded-lg font-bold text-xs hover:bg-blue-700 transition-colors">
                   Write Review
                 </button>
               </div>
@@ -583,12 +583,12 @@ const ProductDetail = () => {
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h2 className="text-base font-black text-slate-900 flex items-center gap-1.5">
-                  <Sparkles className="w-4 h-4 text-red-600" />
+                  <Sparkles className="w-4 h-4 text-green-600" />
                   You May Also Like
                 </h2>
                 <p className="text-slate-500 text-[10px] mt-0.5">Complete your style</p>
               </div>
-              <Link to="/shop" className="text-[10px] font-bold text-red-600 hover:text-slate-900 transition-colors flex items-center gap-1">
+              <Link to="/shop" className="text-[10px] font-bold text-green-600 hover:text-slate-900 transition-colors flex items-center gap-1">
                 View All <ArrowRight size={10} />
               </Link>
             </div>

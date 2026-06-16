@@ -59,7 +59,7 @@ const Wishlist = () => {
     return (
       <div className="min-h-screen bg-[#f7f4f1] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin w-12 h-12 border-4 border-amber-600 border-t-transparent rounded-full mx-auto mb-3"></div>
+          <div className="animate-spin w-12 h-12 border-4 border-green-600 border-t-transparent rounded-full mx-auto mb-3"></div>
           <p className="text-slate-700 font-semibold tracking-wide">{t('wishlistLoading')}</p>
         </div>
       </div>
@@ -71,14 +71,14 @@ const Wishlist = () => {
       <div className="min-h-screen bg-[#f7f4f1] flex items-center justify-center">
         <div className="max-w-md mx-auto px-4 py-12 text-center">
           <style>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');`}</style>
-          <div className="w-28 h-28 bg-[radial-gradient(circle_at_30%_30%,#fde68a,transparent_55%),radial-gradient(circle_at_70%_70%,#fecaca,transparent_60%)] rounded-full flex items-center justify-center mx-auto mb-6 border border-amber-200">
-            <Heart size={50} strokeWidth={1.5} className="text-amber-600" />
+          <div className="w-28 h-28 bg-[radial-gradient(circle_at_30%_30%,#bbf7d0,transparent_55%),radial-gradient(circle_at_70%_70%,#bfdbfe,transparent_60%)] rounded-full flex items-center justify-center mx-auto mb-6 border border-green-200">
+            <Heart size={50} strokeWidth={1.5} className="text-green-600" />
           </div>
           <h2 className="text-3xl font-['Playfair_Display'] font-bold text-slate-900 mb-3">{t('wishlistEmptyTitle')}</h2>
           <p className="text-slate-600 mb-8 font-['Space_Grotesk']">
             {t('wishlistEmptyDesc')}
           </p>
-          <Link to="/shop" className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-600 to-rose-600 text-white px-8 py-4 rounded-full hover:from-amber-700 hover:to-rose-700 transition-all font-semibold shadow-lg">
+          <Link to="/shop" className="inline-flex items-center gap-2 bg-gradient-to-r from-green-600 to-green-600 text-white px-8 py-4 rounded-full hover:from-green-700 hover:to-green-700 transition-all font-semibold shadow-lg">
             {t('startShopping')} <ArrowRight size={20} />
           </Link>
         </div>
@@ -103,13 +103,13 @@ const Wishlist = () => {
                   {t('myWishlist')}
                 </h1>
                 <p className="text-sm text-slate-600 mt-2 flex items-center gap-2 font-['Space_Grotesk']">
-                  <Heart size={16} className="text-red-500" fill="currentColor" />
+                  <Heart size={16} className="text-green-500" fill="currentColor" />
                   {wishlist.length} {wishlist.length === 1 ? t('item') : t('items')} {t('itemsSavedForYou')}
                 </p>
               </div>
             </div>
             <div className="hidden md:flex items-center gap-3 bg-white px-5 py-3 rounded-2xl border border-slate-200 shadow-sm">
-              <Heart size={20} className="text-red-500" fill="currentColor" />
+              <Heart size={20} className="text-green-500" fill="currentColor" />
               <div>
                 <p className="text-xs text-slate-900 font-semibold font-['Space_Grotesk']">{t('yourFavorites')}</p>
                 <p className="text-xs text-slate-500 font-['Space_Grotesk']">{t('curatedPicks')}</p>
@@ -144,7 +144,7 @@ const Wishlist = () => {
                 {/* Premium Remove Button */}
                 <button
                   onClick={() => handleRemove(item.product.id, item.product.name)}
-                  className="absolute top-1.5 right-1.5 p-1 bg-white/95 backdrop-blur-md text-red-600 rounded-full hover:bg-red-600 hover:text-white transition-all shadow-md hover:scale-105"
+                  className="absolute top-1.5 right-1.5 p-1 bg-white/95 backdrop-blur-md text-green-600 rounded-full hover:bg-blue-600 hover:text-white transition-all shadow-md hover:scale-105"
                 >
                   <Trash2 size={11} />
                 </button>
@@ -153,11 +153,11 @@ const Wishlist = () => {
               {/* Product Info */}
               <div className="p-2 font-['Space_Grotesk']">
                 <div className="mb-1">
-                  <span className="inline-block text-[7px] font-bold text-red-600 bg-red-50 px-1.5 py-0.5 rounded-full mb-1 border border-red-100">
+                  <span className="inline-block text-[7px] font-bold text-green-600 bg-blue-50 px-1.5 py-0.5 rounded-full mb-1 border border-blue-100">
                     {item.product.category?.name || t('product')}
                   </span>
                   <Link to={`/product/${item.product.id}`}>
-                    <h3 className="font-bold text-[11px] text-slate-900 line-clamp-2 hover:text-red-600 transition-colors leading-tight">
+                    <h3 className="font-bold text-[11px] text-slate-900 line-clamp-2 hover:text-green-600 transition-colors leading-tight">
                       {item.product.name}
                     </h3>
                   </Link>
@@ -177,7 +177,7 @@ const Wishlist = () => {
                       {item.product.stock} {t('unitsAvailable')}
                     </div>
                   ) : (
-                    <div className="flex items-center gap-1 text-[7px] text-red-700 bg-red-50 font-semibold px-1.5 py-0.5 rounded-md border border-red-200">
+                    <div className="flex items-center gap-1 text-[7px] text-green-700 bg-blue-50 font-semibold px-1.5 py-0.5 rounded-md border border-blue-200">
                       <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                       </svg>
@@ -193,7 +193,7 @@ const Wishlist = () => {
                     disabled={item.product.stock <= 0}
                     className={`flex-1 py-1.5 rounded-md font-bold text-[9px] tracking-wide transition-all duration-300 flex items-center justify-center gap-1 ${item.product.stock <= 0
                       ? 'bg-gradient-to-r from-gray-200 to-gray-300 text-gray-500 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 shadow-lg shadow-red-200/50 hover:shadow-xl hover:-translate-y-0.5'
+                      : 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 shadow-lg shadow-blue-200/50 hover:shadow-xl hover:-translate-y-0.5'
                       }`}
                   >
                     <ShoppingCart size={12} strokeWidth={2.5} />

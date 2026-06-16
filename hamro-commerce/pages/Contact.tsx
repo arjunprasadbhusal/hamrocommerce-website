@@ -68,11 +68,11 @@ const Contact: React.FC = () => {
   return (
     <div className="bg-slate-50 min-h-screen">
       {/* Clean Hero Section */}
-      <section className="bg-slate-900 text-white py-10 md:py-16 overflow-hidden">
+      <section className="bg-gradient-to-br from-[#0a56bd] via-[#0d62cc] to-[#08489c] text-white py-10 md:py-16 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div className="max-w-xl">
-              <p className="text-red-500 font-bold uppercase tracking-widest text-[10px] mb-3">{t('getInTouch')}</p>
+              <p className="text-green-500 font-bold uppercase tracking-widest text-[10px] mb-3">{t('getInTouch')}</p>
               <h1 className="text-3xl md:text-5xl font-black mb-4 leading-tight">
                 {t('contactHeroTitle')}
               </h1>
@@ -94,7 +94,7 @@ const Contact: React.FC = () => {
             </div>
 
             <div className="relative flex justify-center lg:justify-end">
-              <div className="absolute -inset-4 bg-red-600/10 blur-2xl rounded-full"></div>
+              <div className="absolute -inset-4 bg-blue-600/10 blur-2xl rounded-full"></div>
               <div className="relative w-full max-w-sm bg-slate-800 rounded-2xl overflow-hidden border border-white/10 shadow-xl">
                 <img 
                   src="/image/shop.png" 
@@ -119,7 +119,7 @@ const Contact: React.FC = () => {
               
               <div className="space-y-8">
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center text-red-600 shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-green-600 shrink-0">
                     <Phone size={20} />
                   </div>
                   <div>
@@ -130,7 +130,7 @@ const Contact: React.FC = () => {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center text-red-600 shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-green-600 shrink-0">
                     <Mail size={20} />
                   </div>
                   <div>
@@ -140,7 +140,7 @@ const Contact: React.FC = () => {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center text-red-600 shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-green-600 shrink-0">
                     <MapPin size={20} />
                   </div>
                   <div>
@@ -167,7 +167,7 @@ const Contact: React.FC = () => {
               <div className="mt-8 pt-6 border-t border-slate-100">
                 <div className="flex gap-4">
                   {[Facebook, Twitter, Instagram, Linkedin].map((Icon, idx) => (
-                    <a key={idx} href="#" className="text-slate-400 hover:text-red-600 transition-colors">
+                    <a key={idx} href="#" className="text-slate-400 hover:text-green-600 transition-colors">
                       <Icon size={20} />
                     </a>
                   ))}
@@ -188,7 +188,7 @@ const Contact: React.FC = () => {
               )}
               
               {error && (
-                <div className="mb-6 p-4 bg-red-50 border border-red-100 rounded-xl text-red-700 text-sm">
+                <div className="mb-6 p-4 bg-blue-50 border border-blue-100 rounded-xl text-green-700 text-sm">
                   {error}
                 </div>
               )}
@@ -203,7 +203,7 @@ const Contact: React.FC = () => {
                       value={formData.first_name}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-red-600 focus:bg-white focus:ring-0 text-slate-900 transition-all outline-none text-sm font-medium" 
+                      className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-600 focus:bg-white focus:ring-0 text-slate-900 transition-all outline-none text-sm font-medium" 
                       placeholder="John" 
                     />
                   </div>
@@ -215,7 +215,7 @@ const Contact: React.FC = () => {
                       value={formData.last_name}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-red-600 focus:bg-white focus:ring-0 text-slate-900 transition-all outline-none text-sm font-medium" 
+                      className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-600 focus:bg-white focus:ring-0 text-slate-900 transition-all outline-none text-sm font-medium" 
                       placeholder="Doe" 
                     />
                   </div>
@@ -229,7 +229,7 @@ const Contact: React.FC = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-red-600 focus:bg-white focus:ring-0 text-slate-900 transition-all outline-none text-sm font-medium" 
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-600 focus:bg-white focus:ring-0 text-slate-900 transition-all outline-none text-sm font-medium" 
                     placeholder="john@example.com" 
                   />
                 </div>
@@ -241,7 +241,7 @@ const Contact: React.FC = () => {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-red-600 focus:bg-white focus:ring-0 text-slate-900 transition-all outline-none text-sm font-medium cursor-pointer"
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-600 focus:bg-white focus:ring-0 text-slate-900 transition-all outline-none text-sm font-medium cursor-pointer"
                   >
                       <option value="General Inquiry">{t('generalInquiry')}</option>
                       <option value="Order Status">{t('orderStatus')}</option>
@@ -258,7 +258,7 @@ const Contact: React.FC = () => {
                     onChange={handleChange}
                     required
                     rows={5} 
-                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-red-600 focus:bg-white focus:ring-0 text-slate-900 transition-all outline-none text-sm font-medium resize-none" 
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-600 focus:bg-white focus:ring-0 text-slate-900 transition-all outline-none text-sm font-medium resize-none" 
                     placeholder="How can we help you?"
                   ></textarea>
                 </div>
@@ -266,7 +266,7 @@ const Contact: React.FC = () => {
                 <button 
                   type="submit"
                   disabled={loading}
-                  className="w-full md:w-auto px-10 py-4 bg-red-600 text-white rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-red-700 transition-all shadow-lg shadow-red-200 disabled:bg-slate-400 disabled:shadow-none flex items-center justify-center gap-2"
+                  className="w-full md:w-auto px-10 py-4 bg-blue-600 text-white rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 disabled:bg-slate-400 disabled:shadow-none flex items-center justify-center gap-2"
                 >
                     {loading ? t('sending') : t('sendMessageBtn')} <Send size={16} />
                 </button>
@@ -284,7 +284,7 @@ const Contact: React.FC = () => {
             { icon: HeadphonesIcon, title: t('expertGuidanceTitle'), desc: t('expertGuidanceDesc') },
           ].map((item, idx) => (
             <div key={idx} className="bg-white p-6 rounded-2xl border border-slate-200 text-center">
-              <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center text-red-600 mx-auto mb-4">
+              <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-green-600 mx-auto mb-4">
                 <item.icon size={24} />
               </div>
               <h4 className="font-bold text-slate-900 mb-2">{item.title}</h4>

@@ -34,13 +34,13 @@ const EsewaFailure = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-orange-50 flex items-center justify-center py-12 px-4">
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 flex items-center justify-center py-12 px-4">
             <div className="max-w-md w-full bg-white rounded-3xl shadow-2xl p-8 text-center">
                 {/* Error Icon */}
                 <div className="mb-6 flex justify-center">
                     <div className="relative">
-                        <div className="absolute inset-0 bg-red-400 rounded-full blur-2xl opacity-30 animate-pulse"></div>
-                        <div className="relative bg-gradient-to-br from-red-400 to-red-600 rounded-full p-6 shadow-lg">
+                        <div className="absolute inset-0 bg-blue-400 rounded-full blur-2xl opacity-30 animate-pulse"></div>
+                        <div className="relative bg-gradient-to-br from-blue-400 to-blue-600 rounded-full p-6 shadow-lg">
                             <XCircle className="w-20 h-20 text-white" strokeWidth={2.5} />
                         </div>
                     </div>
@@ -55,8 +55,8 @@ const EsewaFailure = () => {
                     Your eSewa payment was not completed. This could be due to:
                 </p>
 
-                <div className="bg-red-50 border-2 border-red-200 rounded-xl p-4 mb-8 text-left">
-                    <ul className="list-disc list-inside text-sm text-red-800 space-y-2">
+                <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-4 mb-8 text-left">
+                    <ul className="list-disc list-inside text-sm text-green-800 space-y-2">
                         <li>Payment was cancelled</li>
                         <li>Insufficient balance in eSewa wallet</li>
                         <li>Network connectivity issues</li>
@@ -68,7 +68,7 @@ const EsewaFailure = () => {
                 <div className="flex flex-col gap-4">
                     <button
                         onClick={handleRetry}
-                        className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl font-semibold hover:from-red-600 hover:to-red-700 transform hover:scale-105 transition-all shadow-lg hover:shadow-xl"
+                        className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-semibold hover:from-blue-600 hover:to-blue-700 transform hover:scale-105 transition-all shadow-lg hover:shadow-xl"
                     >
                         Try Again
                     </button>
@@ -85,7 +85,7 @@ const EsewaFailure = () => {
                 {/* Support Info */}
                 <div className="mt-8 text-sm text-gray-600">
                     Need help? Contact us at{' '}
-                    <span className="text-red-600 font-semibold">support@hamro-commerce.com</span>
+                    <span className="text-green-600 font-semibold">support@hamro-commerce.com</span>
                 </div>
             </div>
         </div>
