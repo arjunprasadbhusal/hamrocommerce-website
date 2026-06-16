@@ -220,10 +220,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
                         return (
                           <div key={cat.id} className="p-2">
-                            <div className="flex items-center justify-between rounded-xl hover:bg-blue-50 transition-colors group">
+                            <div className="flex items-center justify-between rounded-xl hover:bg-blue-500 transition-colors group">
                               <Link
                                 to={`/shop?category=${cat.id}`}
-                                className="flex-1 px-3 py-2.5 text-sm font-semibold text-slate-700 group-hover:text-green-600"
+                                className="flex-1 px-3 py-2.5 text-sm font-semibold text-slate-700 group-hover:text-blue-600"
                               >
                                 {cat.name}
                               </Link>
@@ -231,7 +231,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                                 <button
                                   type="button"
                                   onClick={() => setExpandedCategory(isExpanded ? null : cat.id)}
-                                  className="mr-2 p-1.5 rounded-lg text-slate-400 hover:text-green-500"
+                                  className="mr-2 p-1.5 rounded-lg text-slate-400 hover:text-blue-50"
                                   aria-label={`Toggle ${cat.name} subcategories`}
                                 >
                                   <ChevronRight size={14} className={`transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
@@ -245,7 +245,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                                   <Link
                                     key={sub.id}
                                     to={`/shop?category=${cat.id}&subcategory=${sub.id}`}
-                                    className="block py-1.5 text-xs font-medium text-slate-500 hover:text-green-600"
+                                    className="block py-1.5 text-xs font-medium text-slate-500 hover:text-blue-600"
                                   >
                                     {sub.name}
                                   </Link>
@@ -273,7 +273,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   className={`relative px-3 lg:px-4 py-2 text-sm font-semibold transition-all duration-300 rounded-full flex items-center gap-1.5 ${
                     isPagesDropdownOpen || pageLinks.some((link) => location.pathname === link.path)
                       ? 'text-green-600 bg-blue-50'
-                      : 'text-slate-600 hover:text-green-600 hover:bg-blue-50/50'
+                      : 'text-slate-600 hover:text-blue-600 hover:bg-blue-50/50'
                   }`}
                   aria-expanded={isPagesDropdownOpen}
                 >
@@ -290,7 +290,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                         className={`flex items-center justify-between px-4 py-3 text-sm font-semibold transition-colors ${
                           location.pathname === link.path
                             ? 'text-green-600 bg-blue-50'
-                            : 'text-slate-700 hover:text-green-600 hover:bg-blue-50'
+                            : 'text-slate-700 hover:text-blue -600 hover:bg-blue-50'
                         }`}
                       >
                         {t(link.name)}
@@ -306,7 +306,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className="flex items-center gap-1 sm:gap-2">
               {/* Mobile Search Button */}
               <button 
-                className="lg:hidden p-2 text-slate-600 hover:text-green-600 hover:bg-blue-50 rounded-full transition-colors"
+                className="lg:hidden p-2 text-slate-600 hover:text-blue-50 hover:bg-blue-50 rounded-full transition-colors"
                 onClick={() => searchInputRef.current?.focus()}
               >
                 <Search size={18} />
@@ -316,7 +316,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <div className="hidden sm:block relative">
                 <button
                   onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
-                  className="flex items-center gap-1.5 px-3 py-2 text-slate-600 hover:text-green-600 hover:bg-blue-50 rounded-full transition-all duration-300"
+                  className="flex items-center gap-1.5 px-3 py-2 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-all duration-300"
                 >
                   <Globe size={18} />
                   <span className="text-xs font-bold tracking-wide">{language === 'en' ? 'EN' : 'ने'}</span>
@@ -341,7 +341,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 )}
               </div>
 
-              <Link to="/wishlist" className="hidden sm:flex p-2 text-slate-600 hover:text-green-600 hover:bg-blue-50 rounded-full transition-all relative group">
+              <Link to="/wishlist" className="hidden sm:flex p-2 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-all relative group">
                 <Heart size={19} />
                 {wishlistCount > 0 && (
                   <span className="absolute -top-1 -right-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-[10px] font-bold min-w-[18px] h-[18px] flex items-center justify-center rounded-full ring-2 ring-white shadow-md">
@@ -350,7 +350,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 )}
               </Link>
 
-              <Link to="/cart" className="p-2 text-slate-600 hover:text-green-600 hover:bg-blue-50 rounded-full transition-all relative group">
+              <Link to="/cart" className="p-2 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-all relative group">
                 <ShoppingCart size={19} />
                 {cartCount > 0 && (
                   <span className="absolute -top-1 -right-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-[10px] font-bold min-w-[18px] h-[18px] flex items-center justify-center rounded-full ring-2 ring-white shadow-md">
@@ -372,7 +372,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                         localStorage.removeItem('user');
                         window.location.href = '/login';
                       }}
-                      className="text-[10px] text-slate-500 hover:text-green-600 font-medium text-left"
+                      className="text-[10px] text-slate-500 hover:text-blue-600 font-medium text-left"
                     >
                       {t('logout')}
                     </button>
@@ -386,7 +386,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               )}
 
               <button
-                className="md:hidden p-2 text-slate-700 hover:text-green-600 rounded-full hover:bg-blue-50 transition-all"
+                className="md:hidden p-2 text-slate-700 hover:text-blue-600 rounded-full hover:bg-blue-50 transition-all"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 aria-label="Toggle Menu"
               >
@@ -466,7 +466,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                               <Link
                                 key={sub.id}
                                 to={`/shop?category=${cat.id}&subcategory=${sub.id}`}
-                                className="block py-1.5 text-xs font-medium text-slate-500 hover:text-green-600"
+                                className="block py-1.5 text-xs font-medium text-slate-500 hover:text-blue-600"
                                 onClick={() => setIsMobileMenuOpen(false)}
                               >
                                 {sub.name}
@@ -566,7 +566,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <Link
                   to="/wishlist"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center justify-center gap-2 py-3.5 bg-slate-50 rounded-xl text-slate-700 font-semibold hover:bg-blue-50 hover:text-green-600 transition-all relative"
+                  className="flex items-center justify-center gap-2 py-3.5 bg-slate-50 rounded-xl text-slate-700 font-semibold hover:bg-blue-50 hover:text-blue-600 transition-all relative"
                 >
                   <Heart size={18} />
                   {wishlistCount > 0 && (
@@ -579,7 +579,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <Link
                   to="/contact"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center justify-center gap-2 py-3.5 bg-slate-50 rounded-xl text-slate-700 font-semibold hover:bg-blue-50 hover:text-green-600 transition-all"
+                  className="flex items-center justify-center gap-2 py-3.5 bg-slate-50 rounded-xl text-slate-700 font-semibold hover:bg-blue-50 hover:text-blue-600 transition-all"
                 >
                   <Phone size={18} />
                   <span>{t('support')}</span>
@@ -666,10 +666,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 {t('shopAndLearn')}
               </h4>
               <ul className="space-y-3 text-sm">
-                <li><Link to="/shop" className="hover:text-green-400 transition-colors flex items-center gap-2 group"><span className="w-1 h-1 bg-slate-500 group-hover:bg-blue-400 rounded-full transition-colors"></span> {t('shopAll')}</Link></li>
-                <li><Link to="/blog" className="hover:text-green-400 transition-colors flex items-center gap-2 group"><span className="w-1 h-1 bg-slate-500 group-hover:bg-blue-400 rounded-full transition-colors"></span> {t('latestNews')}</Link></li>
-                <li><Link to="/about" className="hover:text-green-400 transition-colors flex items-center gap-2 group"><span className="w-1 h-1 bg-slate-500 group-hover:bg-blue-400 rounded-full transition-colors"></span> {t('aboutUs')}</Link></li>
-                <li><Link to="/contact" className="hover:text-green-400 transition-colors flex items-center gap-2 group"><span className="w-1 h-1 bg-slate-500 group-hover:bg-blue-400 rounded-full transition-colors"></span> {t('support')}</Link></li>
+                <li><Link to="/shop" className="hover:text-blue-400 transition-colors flex items-center gap-2 group"><span className="w-1 h-1 bg-slate-500 group-hover:bg-blue-400 rounded-full transition-colors"></span> {t('shopAll')}</Link></li>
+                <li><Link to="/blog" className="hover:text-blue-400 transition-colors flex items-center gap-2 group"><span className="w-1 h-1 bg-slate-500 group-hover:bg-blue-400 rounded-full transition-colors"></span> {t('latestNews')}</Link></li>
+                <li><Link to="/about" className="hover:text-blue-400 transition-colors flex items-center gap-2 group"><span className="w-1 h-1 bg-slate-500 group-hover:bg-blue-400 rounded-full transition-colors"></span> {t('aboutUs')}</Link></li>
+                <li><Link to="/contact" className="hover:text-blue-400 transition-colors flex items-center gap-2 group"><span className="w-1 h-1 bg-slate-500 group-hover:bg-blue-400 rounded-full transition-colors"></span> {t('support')}</Link></li>
               </ul>
             </div>
 
@@ -723,9 +723,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
             <div>© {new Date().getFullYear()} Hamro Commerce Pvt. Ltd. {t('allRightsReserved')}.</div>
             <div className="flex gap-6">
-              <a href="#" className="hover:text-green-400 transition-colors">{t('privacyPolicy')}</a>
-              <a href="#" className="hover:text-green-400 transition-colors">{t('termsOfService')}</a>
-              <a href="#" className="hover:text-green-400 transition-colors">{t('returns')}</a>
+              <a href="#" className="hover:text-blue-400 transition-colors">{t('privacyPolicy')}</a>
+              <a href="#" className="hover:text-blue-400 transition-colors">{t('termsOfService')}</a>
+              <a href="#" className="hover:text-blue-400 transition-colors">{t('returns')}</a>
             </div>
           </div>
         </div>
