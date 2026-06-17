@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ShoppingCart, Menu, X, Search, User, Phone, Heart, ChevronRight, ChevronDown, LogIn, LogOut, Globe, Check, Sparkles, Tag, Truck, Shield, Star, ArrowRight } from 'lucide-react';
+import { ShoppingCart, Menu, X, Search, User, Phone, Heart, ChevronRight, ChevronDown, LogIn, LogOut, Globe, Check, Sparkles, Tag, Truck, Shield, Star, ArrowRight, Facebook, Instagram, Github, MessageCircle } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -128,6 +128,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { name: 'blog', path: '/blog' },
     { name: 'about', path: '/about' },
     { name: 'contact', path: '/contact' },
+  ];
+
+  const socialLinks = [
+    { name: 'WhatsApp', href: 'https://wa.me/9779800000000', icon: MessageCircle },
+    { name: 'Facebook', href: 'https://facebook.com', icon: Facebook },
+    { name: 'Instagram', href: 'https://instagram.com', icon: Instagram },
+    { name: 'GitHub', href: 'https://github.com', icon: Github },
   ];
 
   const handleSearch = (e: React.FormEvent) => {
@@ -537,37 +544,21 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 {location.pathname === '/' && <ChevronRight size={18} className="text-[#0a56bd]" />}
               </Link>
 
-              <div className="rounded-2xl border border-slate-100 bg-white" data-layout-dropdown>
-                <button
-                  type="button"
-                  onClick={() => setIsPagesDropdownOpen((open) => !open)}
-                  className="w-full flex items-center justify-between p-4 rounded-xl text-base font-semibold text-slate-700"
-                  aria-expanded={isPagesDropdownOpen}
+              {pageLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  to={link.path}
+                  className={`flex items-center justify-between p-4 rounded-xl text-base font-semibold transition-all duration-300 ${
+                    location.pathname === link.path
+                      ? 'bg-gradient-to-r from-blue-50 to-transparent text-[#0a56bd] border-l-4 border-blue-500 pl-4'
+                      : 'text-slate-700 hover:text-[#0a56bd] hover:bg-blue-50'
+                  }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <span>Pages</span>
-                  <ChevronDown size={18} className={`text-slate-400 transition-transform ${isPagesDropdownOpen ? 'rotate-180' : ''}`} />
-                </button>
-
-                {isPagesDropdownOpen && (
-                  <div className="px-2 pb-2 space-y-1">
-                    {pageLinks.map((link) => (
-                      <Link
-                        key={link.name}
-                        to={link.path}
-                        className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
-                          location.pathname === link.path
-                            ? 'bg-blue-50 text-[#0a56bd]'
-                            : 'text-slate-600 hover:text-[#0a56bd] hover:bg-blue-50'
-                        }`}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        <span>{t(link.name)}</span>
-                        {location.pathname === link.path && <ChevronRight size={16} className="text-[#0a56bd]" />}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
+                  <span>{t(link.name)}</span>
+                  {location.pathname === link.path && <ChevronRight size={18} className="text-[#0a56bd]" />}
+                </Link>
+              ))}
             </div>
 
             <div className="mt-auto pt-8 space-y-4">
@@ -698,9 +689,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 {t('footerTagline')}
               </p>
               <div className="flex gap-3">
-                {['Fb', 'Ig', 'Tw', 'Ln'].map((social, i) => (
-                  <a key={i} href="#" className="w-9 h-9 rounded-full bg-white/10 hover:bg-gradient-to-r hover:from-[#22c55e] hover:to-[#0d62cc] flex items-center justify-center text-xs font-bold transition-all duration-300 hover:scale-110">
-                    {social}
+                {socialLinks.map(({ name, href, icon: Icon }) => (
+                  <a
+                    key={name}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={name}
+                    title={name}
+                    className="w-9 h-9 rounded-full bg-white/10 hover:bg-gradient-to-r hover:from-[#22c55e] hover:to-[#0d62cc] flex items-center justify-center transition-all duration-300 hover:scale-110"
+                  >
+                    <Icon size={17} strokeWidth={2.2} />
                   </a>
                 ))}
               </div>

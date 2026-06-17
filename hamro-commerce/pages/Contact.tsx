@@ -76,7 +76,7 @@ const Contact: React.FC = () => {
               <h1 className="text-3xl md:text-5xl font-black mb-4 leading-tight">
                 {t('contactHeroTitle')}
               </h1>
-              <p className="text-slate-400 text-sm md:text-base leading-relaxed mb-6">
+              <p className="text-blue-50/95 text-sm md:text-base leading-relaxed mb-6">
                 {t('contactHeroSubtitle')}
               </p>
               <div className="flex items-center gap-3">
