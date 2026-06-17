@@ -91,6 +91,10 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::post('orders', [OrderController::class, 'store']);
     Route::get('myorders', [OrderController::class, 'myOrders']);
     Route::post('orders/esewa/{cartid}', [OrderController::class, 'storeEsewa']);
+
+    // User Profile (Authenticated User)
+    Route::get('user', [UserController::class, 'profile']);
+    Route::put('user/update', [UserController::class, 'updateProfile']);
 });
 
 // Admin Protected Routes (Auth + Admin role required)
@@ -150,10 +154,6 @@ Route::prefix('v1')->middleware(['auth:sanctum', 'isAdmin'])->group(function () 
     Route::get('orders', [OrderController::class, 'index']);
     Route::put('orders/{id}/status/{status}', [OrderController::class, 'status']);
     Route::delete('orders/{id}', [OrderController::class, 'destroy']);
-    
-    // User Profile (Authenticated User)
-    Route::get('user', [UserController::class, 'profile']);
-    Route::put('user/update', [UserController::class, 'updateProfile']);
     
     // Notifications
     Route::get('notifications', [NotificationController::class, 'index']);

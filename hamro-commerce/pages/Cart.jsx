@@ -98,40 +98,41 @@ const Cart = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50/50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
 
       {/* Premium Header & Breadcrumbs */}
-      <div className="bg-white border-b border-slate-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
+      <div className="bg-gradient-to-br from-[#0a56bd] via-[#0d62cc] to-[#08489c] text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-2">
-                <Link to="/" className="hover:text-green-600 transition-colors">{t('home')}</Link>
+              <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-slate-200 mb-3">
+                <Link to="/" className="hover:text-white transition-colors">{t('home')}</Link>
                 <ChevronRight size={10} />
-                <span className="text-slate-900">{t('yourCart')}</span>
+                <span className="text-white">{t('yourCart')}</span>
               </div>
-              <h1 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight leading-none uppercase">
-                {t('yourSelection')} <span className="text-green-600">({cart.length})</span>
+              <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-none uppercase">
+                {t('yourSelection')} <span className="text-green-300">({cart.length})</span>
               </h1>
+              <p className="mt-3 text-sm md:text-base text-slate-200">Review your products and checkout securely.</p>
             </div>
             <div className="flex items-center gap-4">
-              <div className="bg-emerald-50 text-emerald-600 px-3 py-1.5 rounded-xl flex items-center gap-2 border border-emerald-100">
-                <ShieldCheck size={14} />
-                <span className="text-[9px] font-bold uppercase tracking-wider">{t('secureCheckout')}</span>
+              <div className="bg-white/10 text-white px-4 py-2.5 rounded-2xl flex items-center gap-2 border border-white/10 backdrop-blur">
+                <ShieldCheck size={18} />
+                <span className="text-xs font-bold uppercase tracking-wider">{t('secureCheckout')}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
           {/* Cart Items List */}
           <div className="lg:col-span-8 space-y-6">
 
             {/* Control Bar */}
-            <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
+            <div className="bg-white p-4 md:p-5 rounded-2xl border border-slate-100 shadow-lg shadow-slate-200/50 flex items-center justify-between">
               <label className="flex items-center gap-3 cursor-pointer group">
                 <div className="relative flex items-center justify-center">
                   <input
@@ -144,7 +145,7 @@ const Cart = () => {
                     <Plus size={12} className="rotate-45" />
                   </div>
                 </div>
-                <span className="text-[11px] font-bold text-slate-900 uppercase tracking-widest">
+                <span className="text-xs font-bold text-slate-900 uppercase tracking-widest">
                   {selectedItems.length === cart.length ? t('deselectAll') : t('selectAll')}
                 </span>
               </label>
@@ -153,28 +154,28 @@ const Cart = () => {
                 className="text-slate-400 hover:text-green-600 transition-all flex items-center gap-2 group"
               >
                 <Trash2 size={14} className="group-hover:scale-110 transition-transform" />
-                <span className="text-[10px] font-bold uppercase tracking-widest">{t('clearCart')}</span>
+                <span className="text-xs font-bold uppercase tracking-widest">{t('clearCart')}</span>
               </button>
             </div>
 
-            <div className="space-y-1.5">
+            <div className="space-y-4">
               {cart.map((item) => (
                 <div
                   key={item.id}
-                  className={`group relative bg-white rounded-2xl border transition-all duration-500 overflow-hidden ${selectedItems.includes(item.id)
-                    ? 'border-blue-100 shadow-lg shadow-slate-200/40 ring-1 ring-blue-50'
-                    : 'border-slate-100 hover:border-slate-200 hover:shadow-md shadow-sm'
+                  className={`group relative bg-white rounded-3xl border transition-all duration-500 overflow-hidden ${selectedItems.includes(item.id)
+                    ? 'border-blue-200 shadow-xl shadow-blue-100/40 ring-1 ring-blue-100'
+                    : 'border-slate-100 hover:border-blue-100 hover:shadow-xl hover:shadow-slate-200/50 shadow-sm'
                     }`}
                 >
                   <div className="flex flex-col sm:flex-row">
                     {/* Item Image Section */}
-                    <div className="relative w-full sm:w-20 aspect-square sm:aspect-auto bg-slate-50 p-2 flex items-center justify-center overflow-hidden">
+                    <div className="relative w-full sm:w-36 md:w-44 aspect-square sm:aspect-auto bg-gradient-to-br from-slate-50 to-blue-50 p-5 flex items-center justify-center overflow-hidden">
                       <div className="absolute top-2 left-2 z-10">
                         <input
                           type="checkbox"
                           checked={selectedItems.includes(item.id)}
                           onChange={() => toggleSelectItem(item.id)}
-                          className="peer appearance-none w-3 h-3 border-2 border-slate-200 rounded-md checked:bg-blue-600 checked:border-blue-600 bg-white transition-all duration-300 cursor-pointer shadow-lg"
+                          className="peer appearance-none w-5 h-5 border-2 border-slate-200 rounded-lg checked:bg-blue-600 checked:border-blue-600 bg-white transition-all duration-300 cursor-pointer shadow-lg"
                         />
                       </div>
                       <img
@@ -186,25 +187,25 @@ const Cart = () => {
                     </div>
 
                     {/* Item Details Section */}
-                    <div className="flex-1 p-2.5 md:p-3 flex flex-col justify-between">
+                    <div className="flex-1 p-4 md:p-5 flex flex-col justify-between">
                       <div>
                         <div className="flex justify-between items-start gap-3 mb-1.5">
                           <div>
-                            <span className="text-[6px] font-bold text-green-600 bg-blue-50 px-2 py-0.5 rounded-full uppercase tracking-widest mb-1 inline-block">
+                            <span className="text-[10px] font-bold text-green-700 bg-blue-50 px-3 py-1 rounded-full uppercase tracking-widest mb-2 inline-block border border-blue-100">
                               {item.category?.name || t('handcraftedLabel')}
                             </span>
-                            <h3 className="text-[12px] font-bold text-slate-900 leading-tight uppercase tracking-tight group-hover:text-green-600 transition-colors">
+                            <h3 className="text-base md:text-lg font-black text-slate-900 leading-tight uppercase tracking-tight group-hover:text-green-600 transition-colors">
                               {item.name}
                             </h3>
                             {(item.color || item.size) && (
                               <div className="flex flex-wrap gap-1 mt-1.5">
                                 {item.color && (
-                                  <span className="text-[6px] font-semibold text-slate-500 bg-slate-50 px-1.5 py-0.5 rounded-md border border-slate-100 flex items-center gap-1 uppercase">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-slate-400" /> {t('colorLabel')}: {item.color}
+                                  <span className="text-[10px] font-semibold text-slate-500 bg-slate-50 px-2 py-1 rounded-lg border border-slate-100 flex items-center gap-1 uppercase">
+                                    <div className="w-2 h-2 rounded-full bg-slate-400" /> {t('colorLabel')}: {item.color}
                                   </span>
                                 )}
                                 {item.size && (
-                                  <span className="text-[6px] font-semibold text-slate-500 bg-slate-50 px-1.5 py-0.5 rounded-md border border-slate-100 uppercase">
+                                  <span className="text-[10px] font-semibold text-slate-500 bg-slate-50 px-2 py-1 rounded-lg border border-slate-100 uppercase">
                                     {t('sizeLabel')}: {item.size}
                                   </span>
                                 )}
@@ -213,9 +214,9 @@ const Cart = () => {
                           </div>
                           <button
                             onClick={() => removeFromCart(item.id)}
-                            className="w-5 h-5 rounded-full border border-slate-100 flex items-center justify-center text-slate-300 hover:text-green-600 hover:border-blue-100 hover:bg-blue-50 transition-all shrink-0"
+                            className="w-9 h-9 rounded-full border border-slate-100 flex items-center justify-center text-slate-400 hover:text-red-500 hover:border-red-100 hover:bg-red-50 transition-all shrink-0"
                           >
-                            <Trash2 size={10} />
+                            <Trash2 size={16} />
                           </button>
                         </div>
 
@@ -223,24 +224,24 @@ const Cart = () => {
                           <div className="flex text-green-400">
                             {[...Array(5)].map((_, i) => <Star key={i} size={7} fill="currentColor" />)}
                           </div>
-                          <span className="text-[6px] font-bold text-slate-400 tracking-wider">{t('premiumQuality')}</span>
+                          <span className="text-[10px] font-bold text-slate-400 tracking-wider">{t('premiumQuality')}</span>
                         </div>
                       </div>
 
-                      <div className="flex items-end justify-between gap-3 mt-1.5 pt-1.5 border-t border-slate-50">
+                      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mt-4 pt-4 border-t border-slate-100">
                         <div>
-                          <p className="text-[6px] font-bold text-slate-400 uppercase tracking-widest mb-1">{t('itemTotal')}</p>
-                          <p className="text-[13px] font-bold text-slate-900 tracking-tighter">NPR {(parseFloat(item.price) * item.quantity).toLocaleString()}</p>
+                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">{t('itemTotal')}</p>
+                          <p className="text-xl font-black text-slate-900 tracking-tight">NPR {(parseFloat(item.price) * item.quantity).toLocaleString()}</p>
                         </div>
 
                         {/* Modern Quantity Controls */}
-                        <div className="flex items-center gap-1 bg-slate-50 p-1 rounded-md border border-slate-100">
+                        <div className="flex items-center gap-1 bg-slate-50 p-1.5 rounded-xl border border-slate-100">
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
                             disabled={item.quantity <= 1 || loading}
-                            className="w-5 h-5 rounded-sm bg-white flex items-center justify-center text-slate-900 shadow-sm border border-slate-100 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all disabled:opacity-30 disabled:cursor-not-allowed active:scale-90"
+                            className="w-9 h-9 rounded-lg bg-white flex items-center justify-center text-slate-900 shadow-sm border border-slate-100 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all disabled:opacity-30 disabled:cursor-not-allowed active:scale-90"
                           >
-                            <Minus size={9} />
+                            <Minus size={15} />
                           </button>
                           <input
                             type="number"
@@ -251,14 +252,14 @@ const Cart = () => {
                                 updateQuantity(item.id, val);
                               }
                             }}
-                            className="text-[10px] font-bold w-5 text-center bg-transparent border-none focus:ring-0 p-0 text-slate-900 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                            className="text-base font-black w-12 text-center bg-transparent border-none focus:ring-0 p-0 text-slate-900 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                           />
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
                             disabled={loading || (item.stock !== undefined && item.quantity >= item.stock)}
-                            className="w-5 h-5 rounded-sm bg-white flex items-center justify-center text-slate-900 shadow-sm border border-slate-100 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all disabled:opacity-30 disabled:cursor-not-allowed active:scale-90"
+                            className="w-9 h-9 rounded-lg bg-white flex items-center justify-center text-slate-900 shadow-sm border border-slate-100 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all disabled:opacity-30 disabled:cursor-not-allowed active:scale-90"
                           >
-                            <Plus size={9} />
+                            <Plus size={15} />
                           </button>
                         </div>
                       </div>
@@ -272,52 +273,52 @@ const Cart = () => {
           {/* Checkout Summary Section */}
           <div className="lg:col-span-4">
             <div className="sticky top-24 space-y-4">
-              <div className="bg-slate-900 rounded-[1.5rem] p-6 text-white shadow-2xl shadow-slate-200">
-                <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] mb-6 text-slate-400">{t('orderSummary')}</h3>
+              <div className="bg-slate-900 rounded-3xl p-6 md:p-7 text-white shadow-2xl shadow-slate-300/70 border border-slate-800">
+                <h3 className="text-sm font-black uppercase tracking-[0.22em] mb-6 text-white">{t('orderSummary')}</h3>
 
                 <div className="space-y-3 mb-6">
                   <div className="flex justify-between items-center group">
-                    <span className="text-[11px] font-medium text-slate-400">{t('subtotal')}</span>
-                    <span className="text-xs font-bold tracking-tight">NPR {selectedTotal.toLocaleString()}</span>
+                    <span className="text-sm font-medium text-slate-400">{t('subtotal')}</span>
+                    <span className="text-sm font-bold tracking-tight">NPR {selectedTotal.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between items-center group">
-                    <span className="text-[11px] font-medium text-slate-400 flex items-center gap-2">
-                      <Truck size={12} /> {t('shipping')}
+                    <span className="text-sm font-medium text-slate-400 flex items-center gap-2">
+                      <Truck size={15} /> {t('shipping')}
                     </span>
-                    <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">{t('free')}</span>
+                    <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">{t('free')}</span>
                   </div>
                   <div className="flex justify-between items-center group">
-                    <span className="text-[11px] font-medium text-slate-400">{t('estimatedTax')}</span>
-                    <span className="text-[10px] font-bold uppercase tracking-widest">{t('included')}</span>
+                    <span className="text-sm font-medium text-slate-400">{t('estimatedTax')}</span>
+                    <span className="text-xs font-bold uppercase tracking-widest">{t('included')}</span>
                   </div>
                 </div>
 
                 <div className="pt-6 border-t border-slate-800 mb-8">
                   <div className="flex justify-between items-end mb-1">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{t('totalAmount')}</span>
-                    <span className="text-xl font-bold tracking-tighter text-white">NPR {selectedTotal.toLocaleString()}</span>
+                    <span className="text-xs font-bold uppercase tracking-widest text-slate-400">{t('totalAmount')}</span>
+                    <span className="text-3xl font-black tracking-tight text-white">NPR {selectedTotal.toLocaleString()}</span>
                   </div>
-                  <p className="text-[9px] text-slate-500 font-medium leading-none">{t('vatIncluded')}</p>
+                  <p className="text-xs text-emerald-300 font-semibold leading-none">{t('vatIncluded')}</p>
                 </div>
 
                 <button
                   onClick={handleCheckout}
                   disabled={selectedItems.length === 0}
-                  className="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white py-4 rounded-xl font-bold text-[10px] uppercase tracking-[0.2em] transition-all duration-500 flex items-center justify-center gap-2 shadow-xl shadow-blue-900/20 active:scale-[0.98]"
+                  className="w-full bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-500 hover:to-green-500 disabled:from-slate-800 disabled:to-slate-800 disabled:text-slate-600 text-white py-4 rounded-2xl font-black text-sm uppercase tracking-[0.16em] transition-all duration-500 flex items-center justify-center gap-2 shadow-xl shadow-blue-900/20 active:scale-[0.98]"
                 >
-                  {t('proceedToCheckout')} <ArrowRight size={14} />
+                  {t('proceedToCheckout')} <ArrowRight size={18} />
                 </button>
               </div>
 
               {/* Trust Badges */}
-              <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm space-y-4">
+              <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-lg shadow-slate-200/50 space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-lg bg-blue-50 text-green-600 flex items-center justify-center">
                     <ShieldCheck size={16} />
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold text-slate-900 uppercase tracking-tight">{t('purchaseProtection')}</p>
-                    <p className="text-[9px] text-slate-400 font-medium uppercase tracking-tighter">{t('dataEncrypted')}</p>
+                    <p className="text-xs font-bold text-slate-900 uppercase tracking-tight">{t('purchaseProtection')}</p>
+                    <p className="text-[11px] text-slate-400 font-medium uppercase tracking-tighter">{t('dataEncrypted')}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -325,8 +326,8 @@ const Cart = () => {
                     <Truck size={16} />
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold text-slate-900 uppercase tracking-tight">{t('expressDelivery')}</p>
-                    <p className="text-[9px] text-slate-400 font-medium uppercase tracking-tighter">{t('quickShipping')}</p>
+                    <p className="text-xs font-bold text-slate-900 uppercase tracking-tight">{t('expressDelivery')}</p>
+                    <p className="text-[11px] text-slate-400 font-medium uppercase tracking-tighter">{t('quickShipping')}</p>
                   </div>
                 </div>
               </div>

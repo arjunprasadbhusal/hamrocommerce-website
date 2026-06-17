@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X, Search, User, Phone, Heart, ChevronRight, ChevronDown, LogIn, Globe, Check, Sparkles, Tag, Truck, Shield, Star, ArrowRight } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { ShoppingCart, Menu, X, Search, User, Phone, Heart, ChevronRight, ChevronDown, LogIn, LogOut, Globe, Check, Sparkles, Tag, Truck, Shield, Star, ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -17,6 +17,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isPagesDropdownOpen, setIsPagesDropdownOpen] = useState(false);
+  const [isAccountDropdownOpen, setIsAccountDropdownOpen] = useState(false);
   const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
   const [categories, setCategories] = useState<any[]>([]);
   const [subcategories, setSubcategories] = useState<any[]>([]);
@@ -25,6 +26,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { wishlistCount, fetchWishlist } = useWishlist();
   const { language, setLanguage, t } = useLanguage();
   const location = useLocation();
+  const navigate = useNavigate();
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -87,15 +89,38 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   useEffect(() => {
     setIsCategoryDropdownOpen(false);
     setIsPagesDropdownOpen(false);
+    setIsAccountDropdownOpen(false);
     setIsMobileMenuOpen(false);
   }, [location.pathname, location.search]);
 
   useEffect(() => {
+    const closeDropdownsOnOutsideClick = (event: PointerEvent) => {
+      if (event.target instanceof Element && event.target.closest('[data-layout-dropdown]')) {
+        return;
+      }
+
+      setIsLangDropdownOpen(false);
+      setIsCategoryDropdownOpen(false);
+      setIsPagesDropdownOpen(false);
+      setIsAccountDropdownOpen(false);
+    };
+
+    document.addEventListener('pointerdown', closeDropdownsOnOutsideClick);
+    return () => document.removeEventListener('pointerdown', closeDropdownsOnOutsideClick);
+  }, []);
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = previousOverflow || '';
     }
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
   }, [isMobileMenuOpen]);
 
   const pageLinks = [
@@ -107,13 +132,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      window.location.href = `/shop?search=${encodeURIComponent(searchQuery)}`;
+    const query = searchQuery.trim();
+    if (query) {
+      navigate(`/shop?search=${encodeURIComponent(query)}`);
+      setIsMobileMenuOpen(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-slate-50 via-white to-slate-50/30">
+    <div className="min-h-screen flex flex-col overflow-x-hidden bg-gradient-to-b from-blue-50 via-white to-green-50/40">
       
       {/* <div className="relative bg-gradient-to-r from-[#0a56bd] via-[#0d62cc] to-[#08489c] text-white text-xs py-2.5 overflow-hidden group">
         <div className="absolute inset-0 bg-white/5 skew-y-2"></div>
@@ -141,7 +168,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </div> */}
 
       {/* Header */}
-      <header className={`sticky top-0 z-50 transition-all duration-500 ${
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled 
           ? 'bg-white/90 backdrop-blur-xl shadow-lg shadow-slate-200/50 border-b border-slate-200/50' 
           : 'bg-white border-b border-slate-200/60'
@@ -156,7 +183,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <img
                   src="/image/logo.png"
                   alt="Hamro Commerce"
-                  className="h-10 md:h-12 w-auto object-contain transition-all duration-300 group-hover:scale-105"
+                  className="h-9 sm:h-10 md:h-12 w-auto max-w-[150px] sm:max-w-none object-contain transition-all duration-300 group-hover:scale-105"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
                     const fallback = e.currentTarget.parentElement?.querySelector('.logo-fallback');
@@ -195,14 +222,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-1 lg:gap-2">
-              <div className="relative">
+              <div className="relative" data-layout-dropdown>
                 <button
                   type="button"
                   onClick={() => setIsCategoryDropdownOpen((open) => !open)}
                   className={`relative px-3 lg:px-4 py-2 text-sm font-semibold transition-all duration-300 rounded-full flex items-center gap-1.5 ${
                     isCategoryDropdownOpen
-                      ? 'text-[#22c55e] bg-blue-50'
-                      : 'text-slate-600 hover:text-[#22c55e] hover:bg-blue-50/50'
+                      ? 'text-[#0a56bd] bg-transparent'
+                      : 'text-slate-600 hover:text-[#0a56bd] hover:bg-transparent'
                   }`}
                   aria-expanded={isCategoryDropdownOpen}
                 >
@@ -220,10 +247,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
                         return (
                           <div key={cat.id} className="p-2">
-                            <div className="flex items-center justify-between rounded-xl hover:bg-blue-500 transition-colors group">
+                            <div className="flex items-center justify-between rounded-xl hover:bg-blue-50 transition-colors group">
                               <Link
                                 to={`/shop?category=${cat.id}`}
-                                className="flex-1 px-3 py-2.5 text-sm font-semibold text-slate-700 group-hover:text-blue-600"
+                                className="flex-1 px-3 py-2.5 text-sm font-semibold text-slate-700 group-hover:text-[#0a56bd]"
                               >
                                 {cat.name}
                               </Link>
@@ -231,7 +258,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                                 <button
                                   type="button"
                                   onClick={() => setExpandedCategory(isExpanded ? null : cat.id)}
-                                  className="mr-2 p-1.5 rounded-lg text-slate-400 hover:text-blue-50"
+                                  className="mr-2 p-1.5 rounded-lg text-slate-400 hover:text-[#0a56bd] hover:bg-white"
                                   aria-label={`Toggle ${cat.name} subcategories`}
                                 >
                                   <ChevronRight size={14} className={`transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
@@ -266,14 +293,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 )}
               </div>
 
-              <div className="relative">
+              <div className="relative" data-layout-dropdown>
                 <button
                   type="button"
                   onClick={() => setIsPagesDropdownOpen((open) => !open)}
                   className={`relative px-3 lg:px-4 py-2 text-sm font-semibold transition-all duration-300 rounded-full flex items-center gap-1.5 ${
                     isPagesDropdownOpen || pageLinks.some((link) => location.pathname === link.path)
-                      ? 'text-green-600 bg-blue-50'
-                      : 'text-slate-600 hover:text-blue-600 hover:bg-blue-50/50'
+                      ? 'text-[#0a56bd] bg-transparent'
+                      : 'text-slate-600 hover:text-[#0a56bd] hover:bg-transparent'
                   }`}
                   aria-expanded={isPagesDropdownOpen}
                 >
@@ -289,8 +316,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                         to={link.path}
                         className={`flex items-center justify-between px-4 py-3 text-sm font-semibold transition-colors ${
                           location.pathname === link.path
-                            ? 'text-green-600 bg-blue-50'
-                            : 'text-slate-700 hover:text-blue -600 hover:bg-blue-50'
+                            ? 'text-[#0a56bd] bg-blue-50'
+                            : 'text-slate-700 hover:text-[#0a56bd] hover:bg-blue-50'
                         }`}
                       >
                         {t(link.name)}
@@ -306,14 +333,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className="flex items-center gap-1 sm:gap-2">
               {/* Mobile Search Button */}
               <button 
-                className="lg:hidden p-2 text-slate-600 hover:text-blue-50 hover:bg-blue-50 rounded-full transition-colors"
+                className="lg:hidden p-2 text-slate-600 hover:text-[#0a56bd] hover:bg-blue-50 rounded-full transition-colors"
                 onClick={() => searchInputRef.current?.focus()}
               >
                 <Search size={18} />
               </button>
 
               {/* Language Selector - Desktop */}
-              <div className="hidden sm:block relative">
+              <div className="hidden sm:block relative" data-layout-dropdown>
                 <button
                   onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
                   className="flex items-center gap-1.5 px-3 py-2 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-all duration-300"
@@ -360,26 +387,34 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               </Link>
 
               {user ? (
-                <div className="hidden md:flex items-center gap-2 pl-2 pr-4 py-1.5 bg-slate-100 rounded-full hover:bg-slate-200 transition-all cursor-pointer group">
-                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-md">
-                    {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="font-semibold text-slate-800 text-xs">{t('hi')}, {user.name?.split(' ')[0] || t('userLabel')}</span>
-                    <button
-                      onClick={() => {
-                        localStorage.removeItem('token');
-                        localStorage.removeItem('user');
-                        window.location.href = '/login';
-                      }}
-                      className="text-[10px] text-slate-500 hover:text-blue-600 font-medium text-left"
-                    >
-                      {t('logout')}
-                    </button>
-                  </div>
+                <div className="hidden md:flex items-center gap-2 pl-1">
+                  <Link
+                    to="/account"
+                    className="flex items-center gap-2 rounded-full border border-blue-100 bg-white py-1.5 pl-1.5 pr-3 shadow-sm shadow-blue-100/60 transition-all hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50"
+                  >
+                    <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-md">
+                      {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                    </div>
+                    <div className="flex flex-col leading-none">
+                      <span className="font-bold text-slate-800 text-xs">{user.name?.split(' ')[0] || t('userLabel')}</span>
+                      <span className="mt-1 text-[10px] text-blue-600 font-bold uppercase tracking-wide">My Account</span>
+                    </div>
+                  </Link>
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem('token');
+                      localStorage.removeItem('user');
+                      window.location.href = '/login';
+                    }}
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600"
+                    aria-label={t('logout')}
+                    title={t('logout')}
+                  >
+                    <LogOut size={18} />
+                  </button>
                 </div>
               ) : (
-                <Link to="/login" className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 transition-all text-white rounded-full text-sm font-semibold shadow-md shadow-blue-500/20 hover:shadow-blue-500/40 active:scale-95">
+                <Link to="/login" className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#0a56bd] to-[#22c55e] hover:from-[#08489c] hover:to-[#16a34a] transition-all text-white rounded-full text-sm font-bold shadow-lg shadow-blue-500/20 hover:shadow-green-500/25 hover:-translate-y-0.5 active:scale-95 border border-white/40">
                   <User size={16} />
                   <span>{t('login')}</span>
                 </Link>
@@ -403,7 +438,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           }`}
           style={{ top: 0, paddingTop: '80px' }}
         >
-          <div className="flex flex-col h-full px-6 pb-8 overflow-y-auto">
+          <div className="flex flex-col h-full px-4 sm:px-6 pb-8 overflow-y-auto">
             {/* Mobile Search Bar */}
             <div className="mb-6">
               <form onSubmit={handleSearch} className="relative">
@@ -418,7 +453,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               </form>
             </div>
 
-            <div className="mb-6 rounded-2xl border border-slate-100 bg-slate-50/80 p-2">
+            <div className="mb-6 rounded-2xl border border-slate-100 bg-slate-50/80 p-2" data-layout-dropdown>
               <button
                 type="button"
                 onClick={() => setIsCategoryDropdownOpen((open) => !open)}
@@ -426,7 +461,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 aria-expanded={isCategoryDropdownOpen}
               >
                 <span className="flex items-center gap-2">
-                  <Menu size={18} className="text-green-500" />
+                  <Menu size={18} className="text-[#0a56bd]" />
                   All Categories
                 </span>
                 <ChevronDown size={18} className={`text-slate-400 transition-transform ${isCategoryDropdownOpen ? 'rotate-180' : ''}`} />
@@ -440,10 +475,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
                     return (
                       <div key={cat.id} className="border-b border-slate-50 last:border-b-0">
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between hover:bg-blue-50 transition-colors">
                           <Link
                             to={`/shop?category=${cat.id}`}
-                            className="flex-1 px-4 py-3 text-sm font-semibold text-slate-700"
+                            className="flex-1 px-4 py-3 text-sm font-semibold text-slate-700 hover:text-[#0a56bd]"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
                             {cat.name}
@@ -452,7 +487,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                             <button
                               type="button"
                               onClick={() => setExpandedCategory(isExpanded ? null : cat.id)}
-                              className="mr-3 p-1.5 text-slate-400"
+                              className="mr-3 p-1.5 text-slate-400 hover:text-[#0a56bd]"
                               aria-label={`Toggle ${cat.name} subcategories`}
                             >
                               <ChevronRight size={15} className={`transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
@@ -479,7 +514,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   })}
                   <Link
                     to="/shop"
-                    className="flex items-center justify-center gap-2 px-4 py-3 text-green-600 font-bold text-xs uppercase"
+                    className="flex items-center justify-center gap-2 px-4 py-3 text-[#0a56bd] hover:bg-blue-50 font-bold text-xs uppercase transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     View All <ArrowRight size={12} />
@@ -493,16 +528,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 to="/"
                 className={`flex items-center justify-between p-4 rounded-xl text-base font-semibold transition-all duration-300 ${
                   location.pathname === '/'
-                    ? 'bg-gradient-to-r from-blue-50 to-transparent text-green-600 border-l-4 border-blue-500 pl-4'
-                    : 'text-slate-700 hover:bg-slate-50'
+                    ? 'bg-gradient-to-r from-blue-50 to-transparent text-[#0a56bd] border-l-4 border-blue-500 pl-4'
+                    : 'text-slate-700 hover:text-[#0a56bd] hover:bg-blue-50'
                 }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 <span>{t('home')}</span>
-                {location.pathname === '/' && <ChevronRight size={18} className="text-green-500" />}
+                {location.pathname === '/' && <ChevronRight size={18} className="text-[#0a56bd]" />}
               </Link>
 
-              <div className="rounded-2xl border border-slate-100 bg-white">
+              <div className="rounded-2xl border border-slate-100 bg-white" data-layout-dropdown>
                 <button
                   type="button"
                   onClick={() => setIsPagesDropdownOpen((open) => !open)}
@@ -521,13 +556,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                         to={link.path}
                         className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
                           location.pathname === link.path
-                            ? 'bg-blue-50 text-green-600'
-                            : 'text-slate-600 hover:bg-slate-50'
+                            ? 'bg-blue-50 text-[#0a56bd]'
+                            : 'text-slate-600 hover:text-[#0a56bd] hover:bg-blue-50'
                         }`}
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         <span>{t(link.name)}</span>
-                        {location.pathname === link.path && <ChevronRight size={16} className="text-green-500" />}
+                        {location.pathname === link.path && <ChevronRight size={16} className="text-[#0a56bd]" />}
                       </Link>
                     ))}
                   </div>
@@ -597,22 +632,34 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                       <span className="text-xs text-slate-500">{user.email}</span>
                     </div>
                   </div>
-                  <button
-                    onClick={() => {
-                      localStorage.removeItem('token');
-                      localStorage.removeItem('user');
-                      setIsMobileMenuOpen(false);
-                      window.location.href = '/login';
-                    }}
-                    className="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition-all"
-                  >
-                    {t('logout')}
-                  </button>
+                  <div className="grid grid-cols-[1fr_auto] gap-3">
+                    <Link
+                      to="/account"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center justify-center gap-2 rounded-xl border border-blue-100 bg-white py-3 font-bold text-blue-600 shadow-sm transition-all hover:bg-blue-50"
+                    >
+                      <User size={17} />
+                      My Account
+                    </Link>
+                    <button
+                      onClick={() => {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('user');
+                        setIsMobileMenuOpen(false);
+                        window.location.href = '/login';
+                      }}
+                      className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 text-white shadow-sm transition-all hover:bg-blue-700"
+                      aria-label={t('logout')}
+                      title={t('logout')}
+                    >
+                      <LogOut size={20} />
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <Link
                   to="/login"
-                  className="flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold shadow-lg shadow-blue-500/20 active:scale-95"
+                  className="flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-gradient-to-r from-[#0a56bd] to-[#22c55e] text-white font-bold shadow-lg shadow-blue-500/20 active:scale-95"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <LogIn size={18} />
@@ -625,34 +672,34 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </header>
 
       {/* Main Content */}
-      <main className="flex-grow">
+      <main className="flex-grow min-w-0 pt-16 md:pt-20">
         {children}
       </main>
 
       {/* Footer */}
-      <footer className="relative bg-slate-900 text-slate-300 pt-16 pb-10 mt-12 overflow-hidden">
+      <footer className="relative bg-gradient-to-br from-[#08489c] via-[#0a56bd] to-[#063872] text-blue-50 pt-12 sm:pt-16 pb-8 sm:pb-10 mt-10 sm:mt-12 overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-blue-500 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-500 rounded-full blur-3xl"></div>
+          <div className="absolute top-0 left-0 w-56 h-56 sm:w-96 sm:h-96 bg-green-400 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-56 h-56 sm:w-96 sm:h-96 bg-blue-300 rounded-full blur-3xl"></div>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-10 sm:mb-12">
             {/* Brand Column */}
             <div className="space-y-5">
               <div className="flex items-center gap-2">
                 <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
                   <span className="text-white font-black text-xl">H</span>
                 </div>
-                <span className="text-white font-bold text-xl">Hamro Commerce</span>
+                <span className="text-white font-bold text-lg sm:text-xl break-words">Hamro Commerce</span>
               </div>
-              <p className="text-sm text-slate-400 leading-relaxed">
+              <p className="text-sm text-blue-100/80 leading-relaxed">
                 {t('footerTagline')}
               </p>
               <div className="flex gap-3">
                 {['Fb', 'Ig', 'Tw', 'Ln'].map((social, i) => (
-                  <a key={i} href="#" className="w-9 h-9 rounded-full bg-slate-800 hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-600 flex items-center justify-center text-xs font-bold transition-all duration-300 hover:scale-110">
+                  <a key={i} href="#" className="w-9 h-9 rounded-full bg-white/10 hover:bg-gradient-to-r hover:from-[#22c55e] hover:to-[#0d62cc] flex items-center justify-center text-xs font-bold transition-all duration-300 hover:scale-110">
                     {social}
                   </a>
                 ))}
@@ -666,10 +713,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 {t('shopAndLearn')}
               </h4>
               <ul className="space-y-3 text-sm">
-                <li><Link to="/shop" className="hover:text-blue-400 transition-colors flex items-center gap-2 group"><span className="w-1 h-1 bg-slate-500 group-hover:bg-blue-400 rounded-full transition-colors"></span> {t('shopAll')}</Link></li>
-                <li><Link to="/blog" className="hover:text-blue-400 transition-colors flex items-center gap-2 group"><span className="w-1 h-1 bg-slate-500 group-hover:bg-blue-400 rounded-full transition-colors"></span> {t('latestNews')}</Link></li>
-                <li><Link to="/about" className="hover:text-blue-400 transition-colors flex items-center gap-2 group"><span className="w-1 h-1 bg-slate-500 group-hover:bg-blue-400 rounded-full transition-colors"></span> {t('aboutUs')}</Link></li>
-                <li><Link to="/contact" className="hover:text-blue-400 transition-colors flex items-center gap-2 group"><span className="w-1 h-1 bg-slate-500 group-hover:bg-blue-400 rounded-full transition-colors"></span> {t('support')}</Link></li>
+                <li><Link to="/shop" className="hover:text-green-300 transition-colors flex items-center gap-2 group"><span className="w-1 h-1 bg-blue-200 group-hover:bg-green-300 rounded-full transition-colors"></span> {t('shopAll')}</Link></li>
+                <li><Link to="/blog" className="hover:text-green-300 transition-colors flex items-center gap-2 group"><span className="w-1 h-1 bg-blue-200 group-hover:bg-green-300 rounded-full transition-colors"></span> {t('latestNews')}</Link></li>
+                <li><Link to="/about" className="hover:text-green-300 transition-colors flex items-center gap-2 group"><span className="w-1 h-1 bg-blue-200 group-hover:bg-green-300 rounded-full transition-colors"></span> {t('aboutUs')}</Link></li>
+                <li><Link to="/contact" className="hover:text-green-300 transition-colors flex items-center gap-2 group"><span className="w-1 h-1 bg-blue-200 group-hover:bg-green-300 rounded-full transition-colors"></span> {t('support')}</Link></li>
               </ul>
             </div>
 
@@ -703,16 +750,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <span className="w-1.5 h-5 bg-blue-500 rounded-full"></span>
                 {t('newsletter')}
               </h4>
-              <p className="text-sm text-slate-400 mb-4">{t('subscribeNewsletter')}</p>
+              <p className="text-sm text-blue-100/80 mb-4">{t('subscribeNewsletter')}</p>
               <form className="flex flex-col gap-3">
                 <div className="relative">
                   <input
                     type="email"
                     placeholder={t('yourEmail')}
-                    className="w-full bg-slate-800/80 border border-slate-700 rounded-xl text-sm px-4 py-3 focus:ring-2 focus:ring-blue-500/50 focus:outline-none text-white placeholder-slate-500 transition-all"
+                    className="w-full bg-white/10 border border-white/15 rounded-xl text-sm px-4 py-3 focus:ring-2 focus:ring-green-400/50 focus:outline-none text-white placeholder-blue-100/50 transition-all"
                   />
                 </div>
-                <button className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-3 rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all font-semibold flex items-center justify-center gap-2 group">
+                <button className="bg-gradient-to-r from-[#22c55e] to-[#0d62cc] text-white px-4 py-3 rounded-xl hover:from-[#16a34a] hover:to-[#0a56bd] transition-all font-semibold flex items-center justify-center gap-2 group">
                   <span>{t('subscribeNow')}</span>
                   <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </button>
@@ -720,12 +767,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </div>
           </div>
 
-          <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
-            <div>© {new Date().getFullYear()} Hamro Commerce Pvt. Ltd. {t('allRightsReserved')}.</div>
-            <div className="flex gap-6">
-              <a href="#" className="hover:text-blue-400 transition-colors">{t('privacyPolicy')}</a>
-              <a href="#" className="hover:text-blue-400 transition-colors">{t('termsOfService')}</a>
-              <a href="#" className="hover:text-blue-400 transition-colors">{t('returns')}</a>
+          <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left text-xs text-blue-100/70">
+            <div className="max-w-full">© {new Date().getFullYear()} Hamro Commerce Pvt. Ltd. {t('allRightsReserved')}.</div>
+            <div className="flex flex-wrap justify-center md:justify-end gap-x-5 gap-y-2">
+              <a href="#" className="hover:text-green-300 transition-colors">{t('privacyPolicy')}</a>
+              <a href="#" className="hover:text-green-300 transition-colors">{t('termsOfService')}</a>
+              <a href="#" className="hover:text-green-300 transition-colors">{t('returns')}</a>
             </div>
           </div>
         </div>

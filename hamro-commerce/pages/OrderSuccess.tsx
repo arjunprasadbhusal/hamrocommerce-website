@@ -109,11 +109,11 @@ const OrderSuccess = () => {
 
     return (
         <div
-            className="min-h-screen relative overflow-hidden bg-gradient-to-br from-[#fff7f0] via-[#f9fafb] to-[#fff1f2] flex items-center justify-center py-12 px-4 print:bg-white print:p-0"
+            className="min-h-screen relative overflow-hidden bg-gradient-to-br from-[#f8fbff] via-[#eff6ff] to-[#f0fdf4] flex items-center justify-center py-12 px-4 print:bg-white print:p-0"
             style={{
                 ['--ink' as any]: '#0f172a',
                 ['--accent' as any]: '#0a56bd',
-                ['--accent-soft' as any]: '#fde2e2'
+                ['--accent-soft' as any]: '#dbeafe'
             }}
         >
             <style>{`@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
@@ -121,8 +121,8 @@ const OrderSuccess = () => {
                 @keyframes receiptFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
             `}</style>
 
-            <div className="absolute -top-24 -left-24 w-64 h-64 rounded-full bg-[#ffedd5] blur-3xl opacity-70"></div>
-            <div className="absolute -bottom-28 -right-28 w-72 h-72 rounded-full bg-[#fee2e2] blur-3xl opacity-70"></div>
+            <div className="absolute -top-24 -left-24 w-64 h-64 rounded-full bg-blue-200 blur-3xl opacity-70"></div>
+            <div className="absolute -bottom-28 -right-28 w-72 h-72 rounded-full bg-green-200 blur-3xl opacity-70"></div>
 
             <div className="max-w-md w-full relative">
                 {/* Header - Hidden on Print */}
@@ -139,7 +139,7 @@ const OrderSuccess = () => {
                     ref={receiptRef}
                     className="receipt-float bg-white rounded-3xl border border-white/40 shadow-2xl shadow-green-100/60 overflow-hidden print:border-none print:shadow-none"
                 >
-                    <div className="px-6 py-4 bg-gradient-to-r from-[#111827] via-[#1f2937] to-[#111827] text-white">
+                    <div className="px-6 py-4 bg-gradient-to-r from-[#08489c] via-[#0a56bd] to-[#08489c] text-white">
                         <div className="flex items-center justify-between">
                             <div>
                                 <h2 className="text-xs font-['Cinzel'] font-bold uppercase tracking-[0.35em]">Hamro Commerce</h2>
@@ -213,7 +213,7 @@ const OrderSuccess = () => {
                     </button>
                     <button
                         onClick={handleDownloadPDF}
-                        className="flex items-center gap-2 px-6 py-3 bg-[#111827] text-white rounded-xl font-semibold text-[10px] uppercase tracking-widest hover:bg-[#0a56bd] transition-all"
+                        className="flex items-center gap-2 px-6 py-3 bg-[#0a56bd] text-white rounded-xl font-semibold text-[10px] uppercase tracking-widest hover:bg-[#22c55e] transition-all"
                     >
                         <Download size={14} /> PDF
                     </button>

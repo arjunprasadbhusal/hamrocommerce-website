@@ -23,6 +23,22 @@ class Product extends Model
     ];
     
     protected $appends = ['photo_url'];
+
+    public function getDescriptionAttribute($value): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        return trim(html_entity_decode(strip_tags($value), ENT_QUOTES, 'UTF-8'));
+    }
+
+    public function setDescriptionAttribute($value): void
+    {
+        $this->attributes['description'] = $value === null
+            ? null
+            : trim(html_entity_decode(strip_tags($value), ENT_QUOTES, 'UTF-8'));
+    }
     
     public function getPhotoUrlAttribute(): ?string
     {

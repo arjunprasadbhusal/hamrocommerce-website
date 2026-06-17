@@ -57,9 +57,9 @@ const Wishlist = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#f7f4f1] flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin w-12 h-12 border-4 border-green-600 border-t-transparent rounded-full mx-auto mb-3"></div>
+          <div className="animate-spin w-12 h-12 border-4 border-blue-600 border-t-green-400 rounded-full mx-auto mb-3"></div>
           <p className="text-slate-700 font-semibold tracking-wide">{t('wishlistLoading')}</p>
         </div>
       </div>
@@ -68,17 +68,17 @@ const Wishlist = () => {
 
   if (wishlist.length === 0) {
     return (
-      <div className="min-h-screen bg-[#f7f4f1] flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 flex items-center justify-center">
         <div className="max-w-md mx-auto px-4 py-12 text-center">
           <style>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');`}</style>
-          <div className="w-28 h-28 bg-[radial-gradient(circle_at_30%_30%,#bbf7d0,transparent_55%),radial-gradient(circle_at_70%_70%,#bfdbfe,transparent_60%)] rounded-full flex items-center justify-center mx-auto mb-6 border border-green-200">
+          <div className="w-28 h-28 bg-[radial-gradient(circle_at_30%_30%,#22c55e33,transparent_55%),radial-gradient(circle_at_70%_70%,#0a56bd33,transparent_60%)] rounded-full flex items-center justify-center mx-auto mb-6 border border-blue-200">
             <Heart size={50} strokeWidth={1.5} className="text-green-600" />
           </div>
           <h2 className="text-3xl font-['Playfair_Display'] font-bold text-slate-900 mb-3">{t('wishlistEmptyTitle')}</h2>
           <p className="text-slate-600 mb-8 font-['Space_Grotesk']">
             {t('wishlistEmptyDesc')}
           </p>
-          <Link to="/shop" className="inline-flex items-center gap-2 bg-gradient-to-r from-green-600 to-green-600 text-white px-8 py-4 rounded-full hover:from-green-700 hover:to-green-700 transition-all font-semibold shadow-lg">
+          <Link to="/shop" className="inline-flex items-center gap-2 bg-gradient-to-r from-[#0a56bd] to-[#22c55e] text-white px-8 py-4 rounded-full hover:from-[#08489c] hover:to-[#16a34a] transition-all font-semibold shadow-lg">
             {t('startShopping')} <ArrowRight size={20} />
           </Link>
         </div>
@@ -87,7 +87,7 @@ const Wishlist = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       <style>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');`}</style>
 
       {/* Header */}
@@ -192,8 +192,8 @@ const Wishlist = () => {
                     onClick={() => handleAddToCart(item.product)}
                     disabled={item.product.stock <= 0}
                     className={`flex-1 py-1.5 rounded-md font-bold text-[9px] tracking-wide transition-all duration-300 flex items-center justify-center gap-1 ${item.product.stock <= 0
-                      ? 'bg-gradient-to-r from-gray-200 to-gray-300 text-gray-500 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 shadow-lg shadow-blue-200/50 hover:shadow-xl hover:-translate-y-0.5'
+                      ? 'bg-gradient-to-r from-blue-100 to-green-100 text-slate-500 cursor-not-allowed'
+                      : 'bg-gradient-to-r from-[#0a56bd] to-[#22c55e] text-white hover:from-[#08489c] hover:to-[#16a34a] shadow-lg shadow-blue-200/50 hover:shadow-xl hover:-translate-y-0.5'
                       }`}
                   >
                     <ShoppingCart size={12} strokeWidth={2.5} />
@@ -209,7 +209,7 @@ const Wishlist = () => {
         <div className="mt-12 text-center font-['Space_Grotesk']">
           <Link
             to="/shop"
-            className="inline-flex items-center gap-3 bg-slate-900 text-white font-bold px-8 py-4 rounded-full hover:bg-slate-800 transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-0.5"
+            className="inline-flex items-center gap-3 bg-gradient-to-r from-[#08489c] to-[#0a56bd] text-white font-bold px-8 py-4 rounded-full hover:from-[#0a56bd] hover:to-[#22c55e] transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-0.5"
           >
             <ArrowLeft size={20} strokeWidth={2.5} />
             {t('continueShopping')}

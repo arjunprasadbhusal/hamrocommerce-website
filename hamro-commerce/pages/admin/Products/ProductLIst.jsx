@@ -10,6 +10,13 @@ import { API_ENDPOINTS, resolveImageUrl } from '../../../src/constant/api';
 const initialNotification = { show: false, message: '', type: 'success' }
 const initialDeleteState = { show: false, id: null, name: '' }
 
+const cleanText = (value) => {
+  if (!value) return ''
+  const parser = new DOMParser()
+  const decoded = parser.parseFromString(String(value), 'text/html').documentElement.textContent || ''
+  return decoded.replace(/\s+/g, ' ').trim()
+}
+
 export default function ProductList() {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
@@ -124,7 +131,7 @@ export default function ProductList() {
       const searchStr = filterText.toLowerCase();
       return (
         product.name?.toLowerCase().includes(searchStr) ||
-        product.description?.toLowerCase().includes(searchStr) ||
+        cleanText(product.description).toLowerCase().includes(searchStr) ||
         product.brand?.toLowerCase().includes(searchStr) ||
         product.category?.name?.toLowerCase().includes(searchStr) ||
         product.subcategory?.name?.toLowerCase().includes(searchStr) ||
@@ -164,12 +171,12 @@ export default function ProductList() {
     },
     {
       name: 'Description',
-      selector: row => row.description,
+      selector: row => cleanText(row.description),
       wrap: true,
       minWidth: '250px',
       cell: row => (
-        <div className="text-sm text-gray-600 py-2" title={row.description}>
-          {row.description || '-'}
+        <div className="text-sm text-gray-600 py-2 line-clamp-3" title={cleanText(row.description)}>
+          {cleanText(row.description) || '-'}
         </div>
       ),
     },

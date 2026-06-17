@@ -43,6 +43,7 @@ export const API_ENDPOINTS = {
   LOGIN: `${API_BASE_URL}/login`,
   LOGOUT: `${API_BASE_URL}/logout`,
   USER: `${API_BASE_URL}/user`,
+  USER_UPDATE: `${API_BASE_URL}/user/update`,
 
   // Notifications
   NOTIFICATIONS: `${API_BASE_URL}/notifications`,

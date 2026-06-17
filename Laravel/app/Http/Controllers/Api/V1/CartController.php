@@ -34,15 +34,52 @@ class CartController extends Controller
         $data = $validator->validated();
         $data['user_id'] = auth()->user()->id;
         
-        $check = Cart::where('user_id', $data['user_id'])
+        $existingCartItem = Cart::where('user_id', $data['user_id'])
             ->where('product_id', $data['product_id'])
-            ->count();
+            ->first();
             
-        if ($check > 0) {
+        if ($existingCartItem) {
+            $product = Product::find($data['product_id']);
+            $newQuantity = $existingCartItem->quantity + $data['quantity'];
+
+            if ($product && $newQuantity > $product->stock) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Insufficient stock. Only ' . $product->stock . ' units available.'
+                ], 400);
+            }
+
+            $existingCartItem->quantity = $newQuantity;
+            if (array_key_exists('color', $data)) {
+                $existingCartItem->color = $data['color'];
+            }
+            if (array_key_exists('size', $data)) {
+                $existingCartItem->size = $data['size'];
+            }
+            $existingCartItem->save();
+            $existingCartItem->load(['product.category']);
+
             return response()->json([
-                'success' => false,
-                'message' => 'Product Already in Cart'
-            ], 400);
+                'success' => true,
+                'message' => 'Cart quantity updated successfully',
+                'cart_item' => [
+                    'id' => $existingCartItem->id,
+                    'quantity' => $existingCartItem->quantity,
+                    'product' => [
+                        'id' => $existingCartItem->product->id,
+                        'name' => $existingCartItem->product->name,
+                        'description' => $existingCartItem->product->description,
+                        'price' => $existingCartItem->product->price,
+                        'stock' => $existingCartItem->product->stock,
+                        'photo_url' => $existingCartItem->product->photo_url,
+                        'brand' => $existingCartItem->product->brand,
+                        'category' => $existingCartItem->product->category ? [
+                            'id' => $existingCartItem->product->category->id,
+                            'name' => $existingCartItem->product->category->name,
+                        ] : null,
+                    ]
+                ]
+            ], 200);
         }
         
         $cartItem = Cart::create($data);
@@ -166,7 +203,7 @@ class CartController extends Controller
         $cart->quantity = $request->quantity;
         $cart->save();
         
-        $cart->load(['product.category', 'product.brand']);
+        $cart->load(['product.category']);
         
         return response()->json([
             'success' => true,
@@ -185,10 +222,7 @@ class CartController extends Controller
                         'id' => $cart->product->category->id,
                         'name' => $cart->product->category->name,
                     ] : null,
-                    'brand' => $cart->product->brand ? [
-                        'id' => $cart->product->brand->id,
-                        'name' => $cart->product->brand->name,
-                    ] : null,
+                    'brand' => $cart->product->brand,
                 ]
             ]
         ]);
@@ -240,7 +274,7 @@ class CartController extends Controller
      */
     public function checkout($id)
     {
-        $cart = Cart::with(['product.category', 'product.brand'])->find($id);
+        $cart = Cart::with(['product.category'])->find($id);
         
         if (!$cart) {
             return response()->json([
@@ -272,10 +306,7 @@ class CartController extends Controller
                         'id' => $cart->product->category->id,
                         'name' => $cart->product->category->name,
                     ] : null,
-                    'brand' => $cart->product->brand ? [
-                        'id' => $cart->product->brand->id,
-                        'name' => $cart->product->brand->name,
-                    ] : null,
+                    'brand' => $cart->product->brand,
                 ]
             ]
         ]);

@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { Search, X, Grid3x3, LayoutList, ChevronDown } from 'lucide-react';
 import { API_ENDPOINTS } from '../src/constant/api';
@@ -7,6 +7,7 @@ import { useLanguage } from '../context/LanguageContext';
 
 const Shop = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { t } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState(() => {
     const params = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
@@ -16,7 +17,10 @@ const Shop = () => {
     const params = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
     return params.get('subcategory') || 'All';
   });
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(() => {
+    const params = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
+    return params.get('search') || '';
+  });
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,6 +31,7 @@ const Shop = () => {
     const params = new URLSearchParams(location.search);
     setSelectedCategory(params.get('category') || 'All');
     setSelectedSubCategory(params.get('subcategory') || 'All');
+    setSearchQuery(params.get('search') || '');
   }, [location.search]);
 
   const fetchData = useCallback(async () => {
@@ -93,6 +98,14 @@ const Shop = () => {
     setSelectedSubCategory('All');
     setSearchQuery('');
     setSortBy('newest');
+    navigate('/shop', { replace: true });
+  };
+
+  const clearSearch = () => {
+    const params = new URLSearchParams(location.search);
+    params.delete('search');
+    setSearchQuery('');
+    navigate(params.toString() ? `/shop?${params.toString()}` : '/shop', { replace: true });
   };
 
   const getCategoryName = () => {
@@ -173,7 +186,7 @@ const Shop = () => {
                   )}
                   {searchQuery && (
                     <button
-                      onClick={() => setSearchQuery('')}
+                      onClick={clearSearch}
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 text-slate-700 rounded-full text-xs font-medium hover:bg-slate-200 transition-colors"
                     >
                       Search: {searchQuery}
@@ -201,7 +214,7 @@ const Shop = () => {
               </div>
             ) : filteredProducts.length > 0 ? (
               <div className={viewMode === 'grid' 
-                ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-8 gap-4 md:gap-6"
+                ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6"
                 : "space-y-4"
               }>
                 {filteredProducts.map(product => (

@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { 
-  ShoppingBag, Star, Share2, ArrowLeft, Truck, Shield, 
+import {
+  ShoppingBag, Star, Share2, ArrowLeft, Truck, Shield, Heart,
   CheckCircle2, ChevronRight, Zap, ArrowRight, Minus, Plus,
-  Sparkles, Package, RotateCcw, MessageCircle, CreditCard,
-  Award, ThumbsUp, Facebook, Twitter, Instagram, Mail, Clock,
-  MapPin, Calendar, Box, Tag, TrendingUp, ShieldCheck
+  Sparkles, Package, RotateCcw, MessageCircle,
+  Award, Facebook, Twitter
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
@@ -17,6 +16,13 @@ const SIZE_CATEGORIES = {
   fashion: ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
   electronics: ['64GB', '128GB', '256GB', '512GB', '1TB'],
   footwear: ['6', '7', '8', '9', '10', '11', '12']
+};
+
+const cleanText = (value) => {
+  if (!value) return '';
+  const parser = new DOMParser();
+  const decoded = parser.parseFromString(String(value), 'text/html').documentElement.textContent || '';
+  return decoded.replace(/\s+/g, ' ').trim();
 };
 
 const ProductDetail = () => {
@@ -35,6 +41,7 @@ const ProductDetail = () => {
   const [activeImage, setActiveImage] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
+  const [isTogglingWishlist, setIsTogglingWishlist] = useState(false);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -163,9 +170,47 @@ const ProductDetail = () => {
       } else if (result?.success) {
         showAlert({ type: 'success', title: 'Added to Cart', message: `${quantity}x ${product.name} added to cart` });
       }
+      return result;
     } catch (error) {
       console.error('Error:', error);
       showAlert({ type: 'error', title: 'Error', message: 'Failed to add to cart' });
+    }
+  };
+
+  const handleToggleWishlist = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      showAlert({ type: 'warning', title: 'Login Required', message: 'Please login to add products to wishlist' });
+      navigate('/login');
+      return;
+    }
+
+    if (!product) return;
+
+    try {
+      setIsTogglingWishlist(true);
+
+      if (isInWishlist(product.id)) {
+        await removeFromWishlist(product.id);
+        showAlert({ type: 'success', title: 'Removed from Wishlist', message: `${product.name} removed from wishlist` });
+        return;
+      }
+
+      const result = await addToWishlist(product);
+      if (result?.success || result?.alreadyInWishlist) {
+        showAlert({
+          type: result?.alreadyInWishlist ? 'info' : 'success',
+          title: result?.alreadyInWishlist ? 'Already in Wishlist' : 'Added to Wishlist',
+          message: result?.alreadyInWishlist ? 'This product is already in your wishlist' : `${product.name} added to wishlist`
+        });
+      } else {
+        showAlert({ type: 'error', title: 'Error', message: result?.message || 'Failed to update wishlist' });
+      }
+    } catch (error) {
+      console.error('Error updating wishlist:', error);
+      showAlert({ type: 'error', title: 'Error', message: 'Failed to update wishlist' });
+    } finally {
+      setIsTogglingWishlist(false);
     }
   };
 
@@ -197,12 +242,13 @@ const ProductDetail = () => {
   };
 
   const cartItem = cart.find(item => item.product_id === product?.id || item.product?.id === product?.id);
-  const availableStock = product ? product.stock - (cartItem?.quantity || 0) : 0;
+  const availableStock = product ? Number(product.stock || 0) - (cartItem?.quantity || 0) : 0;
   const price = Number(product?.price) || 0;
   const oldPrice = price * 1.2;
   const discount = Math.round(((oldPrice - price) / oldPrice) * 100);
   const averageRating = 4.8;
   const reviewCount = 128;
+  const cleanDescription = cleanText(product?.description);
 
   if (loading) {
     return (
@@ -248,32 +294,32 @@ const ProductDetail = () => {
         </div>
       </div>
 
-      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
           
           {/* LEFT COLUMN - Compact Gallery Section */}
-          <div className="space-y-2">
+          <div className="lg:col-span-7 space-y-4">
             {/* Main Image - Much Smaller, Positioned 17% from top */}
-            <div className="relative bg-gradient-to-br from-slate-50 to-white rounded-2xl overflow-hidden shadow-xl shadow-slate-200/50 border border-slate-100">
+            <div className="relative bg-white rounded-3xl overflow-hidden shadow-xl shadow-slate-200/60 border border-slate-100 min-h-[360px] md:min-h-[560px] flex items-center justify-center p-8 md:p-12">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-green-50" />
             
                 <img
                   src={activeImage || '/image/image.jpg'}
                   alt={product.name}
-                  className="max-w-full max-h-full object-contain align-top mx-auto my-4"
-                  style={{ maxHeight: '300px', width: '240px' }}
+                  className="relative z-10 w-full max-w-[520px] h-[300px] md:h-[470px] object-contain drop-shadow-2xl"
                   onError={(e) => { e.currentTarget.src = '/image/image.jpg'; }}
                 />
               
               
               {/* Minimal Status Badges */}
-              <div className="absolute top-3 left-3 flex gap-2">
+              <div className="absolute top-5 left-5 z-20 flex gap-2">
                 {product.stock <= 5 && product.stock > 0 && (
-                  <span className="bg-gradient-to-r from-blue-600 to-green-600 text-white px-2 py-0.5 rounded-full text-[9px] font-bold uppercase shadow-lg">
+                  <span className="bg-gradient-to-r from-blue-600 to-green-600 text-white px-3 py-1.5 rounded-full text-[10px] font-bold uppercase shadow-lg">
                     🔥 Limited
                   </span>
                 )}
                 {discount > 0 && (
-                  <span className="bg-emerald-500 text-white px-2 py-0.5 rounded-full text-[9px] font-bold uppercase shadow-lg">
+                  <span className="bg-emerald-500 text-white px-3 py-1.5 rounded-full text-[10px] font-bold uppercase shadow-lg">
                     -{discount}%
                   </span>
                 )}
@@ -282,7 +328,7 @@ const ProductDetail = () => {
 
             {/* Color Variants - Clean Grid */}
             {colorVariants.length > 1 && (
-              <div className="bg-white rounded-xl p-3 shadow-lg shadow-slate-200/50 border border-slate-100">
+              <div className="bg-white rounded-2xl p-4 shadow-lg shadow-slate-200/50 border border-slate-100">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
                     {colorVariants.length} Colors Available
@@ -321,37 +367,37 @@ const ProductDetail = () => {
           </div>
 
           {/* RIGHT COLUMN - Product Info - Clean & Attractive */}
-          <div className="space-y-4">
+          <div className="lg:col-span-5 space-y-4 lg:sticky lg:top-24">
             {/* Product Header */}
-            <div className="bg-white rounded-xl p-4 shadow-lg shadow-slate-200/50 border border-slate-100">
-              <div className="flex items-center gap-2 mb-2">
+            <div className="bg-white rounded-3xl p-5 md:p-6 shadow-xl shadow-slate-200/50 border border-slate-100">
+              <div className="flex flex-wrap items-center gap-2 mb-3">
                 <div className="flex gap-0.5">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={12} className={`${i < Math.floor(averageRating) ? 'fill-green-400 text-green-400' : 'fill-slate-200 text-slate-200'}`} />
+                    <Star key={i} size={14} className={`${i < Math.floor(averageRating) ? 'fill-green-400 text-green-400' : 'fill-slate-200 text-slate-200'}`} />
                   ))}
                 </div>
-                <span className="text-xs font-bold text-green-600">{averageRating}</span>
-                <span className="text-[10px] text-slate-400">({reviewCount})</span>
+                <span className="text-sm font-bold text-green-600">{averageRating}</span>
+                <span className="text-xs text-slate-400">({reviewCount} reviews)</span>
                 <span className="w-px h-3 bg-slate-200" />
-                <span className="text-emerald-600 text-[10px] font-bold flex items-center gap-1">
-                  <CheckCircle2 size={10} />
-                  In Stock
+                <span className={`text-xs font-bold flex items-center gap-1 ${availableStock > 0 ? 'text-emerald-600' : 'text-red-500'}`}>
+                  <CheckCircle2 size={13} />
+                  {availableStock > 0 ? 'In Stock' : 'Out of Stock'}
                 </span>
               </div>
               
-              <h1 className="text-lg md:text-xl font-black text-slate-900 leading-tight mb-2">
+              <h1 className="text-2xl md:text-3xl font-black text-slate-900 leading-tight mb-3">
                 {product.name}
               </h1>
               
-              <p className="text-slate-500 text-xs leading-relaxed">
-                {product.description?.substring(0, 120) || 'Premium quality product with exceptional design and craftsmanship.'}
-              </p>
+              <div className="text-slate-500 text-sm leading-relaxed">
+                {cleanDescription.substring(0, 120) || 'Premium quality product with exceptional design and craftsmanship.'}
+              </div>
             </div>
 
             {/* Price Section - Bold & Clean */}
-            <div className="bg-white rounded-xl p-4 shadow-lg shadow-slate-200/50 border border-slate-100">
+            <div className="bg-slate-900 text-white rounded-3xl p-5 md:p-6 shadow-xl shadow-slate-200/50 border border-slate-800">
               <div className="flex items-baseline gap-3 flex-wrap">
-                <span className="text-2xl font-black text-slate-900">
+                <span className="text-3xl md:text-4xl font-black">
                   NPR {price.toLocaleString()}
                 </span>
                 {discount > 0 && (
@@ -359,24 +405,24 @@ const ProductDetail = () => {
                     <span className="text-slate-400 text-sm line-through">
                       NPR {oldPrice.toFixed(0)}
                     </span>
-                    <span className="bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded text-[10px] font-bold">
+                    <span className="bg-emerald-400/15 text-emerald-300 px-2 py-1 rounded-full text-xs font-bold">
                       Save NPR {(oldPrice - price).toFixed(0)}
                     </span>
                   </>
                 )}
               </div>
-              <div className="flex items-center gap-2 mt-1.5 text-[10px]">
-                <span className="text-emerald-600 font-medium flex items-center gap-1">
-                  <Truck size={10} /> Free Shipping
+              <div className="flex items-center gap-2 mt-3 text-xs">
+                <span className="text-emerald-300 font-medium flex items-center gap-1">
+                  <Truck size={14} /> Free Shipping
                 </span>
                 <span className="text-slate-300">•</span>
-                <span className="text-slate-500">Tax included</span>
+                <span className="text-slate-300">Tax included</span>
               </div>
             </div>
 
             {/* Size Selection - If available */}
             {sizeOptions.length > 0 && (
-              <div className="bg-white rounded-xl p-4 shadow-lg shadow-slate-200/50 border border-slate-100">
+              <div className="bg-white rounded-2xl p-4 shadow-lg shadow-slate-200/50 border border-slate-100">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Select Size</span>
                   <button className="text-[9px] font-bold text-green-600 uppercase">Size Chart</button>
@@ -400,34 +446,34 @@ const ProductDetail = () => {
             )}
 
             {/* Quantity & Add to Cart */}
-            <div className="bg-white rounded-xl p-4 shadow-lg shadow-slate-200/50 border border-slate-100">
-              <div className="flex items-center justify-between gap-3 mb-3">
+            <div className="bg-white rounded-3xl p-5 md:p-6 shadow-xl shadow-slate-200/50 border border-slate-100">
+              <div className="flex items-center justify-between gap-3 mb-4">
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Qty</span>
-                  <div className="flex items-center bg-slate-100 rounded-lg overflow-hidden">
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Qty</span>
+                  <div className="flex items-center bg-slate-100 rounded-xl overflow-hidden border border-slate-200">
                     <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
                       disabled={quantity <= 1}
-                      className="w-7 h-7 flex items-center justify-center hover:bg-slate-200 transition-colors disabled:opacity-50"
+                      className="w-10 h-10 flex items-center justify-center hover:bg-slate-200 transition-colors disabled:opacity-50"
                     >
-                      <Minus size={10} />
+                      <Minus size={14} />
                     </button>
-                    <span className="w-8 text-center font-bold text-sm text-slate-900">{quantity}</span>
+                    <span className="w-12 text-center font-black text-base text-slate-900">{quantity}</span>
                     <button
                       onClick={() => setQuantity(Math.min(availableStock, quantity + 1))}
                       disabled={quantity >= availableStock}
-                      className="w-7 h-7 flex items-center justify-center hover:bg-slate-200 transition-colors disabled:opacity-50"
+                      className="w-10 h-10 flex items-center justify-center hover:bg-slate-200 transition-colors disabled:opacity-50"
                     >
-                      <Plus size={10} />
+                      <Plus size={14} />
                     </button>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-[10px] text-slate-500">
+                  <p className="text-xs text-slate-500">
                     {availableStock > 0 ? (
-                      <span className="text-emerald-600 font-medium">{availableStock} left</span>
+                      <span className="text-emerald-600 font-bold">{availableStock} left</span>
                     ) : (
-                      <span className="text-green-600 font-medium">Out of stock</span>
+                      <span className="text-red-500 font-bold">Out of stock</span>
                     )}
                   </p>
                 </div>
@@ -437,28 +483,39 @@ const ProductDetail = () => {
                 <button
                   onClick={handleAddToCart}
                   disabled={availableStock <= 0}
-                  className={`flex-1 py-2.5 rounded-lg font-bold text-xs uppercase tracking-wide transition-all duration-300 flex items-center justify-center gap-2
+                  className={`flex-1 py-3.5 rounded-xl font-bold text-sm uppercase tracking-wide transition-all duration-300 flex items-center justify-center gap-2
                     ${availableStock <= 0
                       ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
                       : 'bg-gradient-to-r from-blue-600 to-green-600 text-white hover:shadow-lg hover:scale-[1.02] active:scale-95'
                     }`}
                 >
-                  <ShoppingBag size={14} /> 
+                  <ShoppingBag size={17} />
                   {availableStock <= 0 ? 'Sold Out' : `Add • NPR ${(price * quantity).toLocaleString()}`}
                 </button>
                 
                 {availableStock > 0 && (
                   <button 
-                    onClick={() => {
-                      handleAddToCart();
-                      setTimeout(() => navigate('/cart'), 300);
+                    onClick={async () => {
+                      const result = await handleAddToCart();
+                      if (result?.success) navigate('/cart');
                     }}
-                    className="px-4 py-2.5 bg-slate-900 text-white rounded-lg font-bold text-xs uppercase tracking-wide hover:bg-slate-800 transition-all duration-300 flex items-center gap-1.5"
+                    className="px-5 py-3.5 bg-slate-900 text-white rounded-xl font-bold text-sm uppercase tracking-wide hover:bg-slate-800 transition-all duration-300 flex items-center gap-1.5"
                   >
-                    <Zap size={14} />
+                    <Zap size={16} />
                     Buy
                   </button>
                 )}
+                <button
+                  onClick={handleToggleWishlist}
+                  disabled={isTogglingWishlist}
+                  className={`px-4 py-3.5 rounded-xl border font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed ${isInWishlist(product.id) ? 'bg-blue-50 border-blue-200 text-blue-600' : 'border-slate-200 text-slate-600 hover:border-blue-300 hover:text-blue-600'}`}
+                  title={isInWishlist(product.id) ? 'Remove from wishlist' : 'Add to wishlist'}
+                >
+                  <Heart size={17} fill={isInWishlist(product.id) ? 'currentColor' : 'none'} />
+                  <span className="hidden sm:inline">
+                    {isInWishlist(product.id) ? 'Wishlisted' : 'Add to Wishlist'}
+                  </span>
+                </button>
               </div>
             </div>
 
@@ -533,9 +590,9 @@ const ProductDetail = () => {
           
           <div className="p-4">
             {activeTab === 'description' && (
-              <p className="text-slate-600 leading-relaxed text-sm">
-                {product.description || 'No description available for this product.'}
-              </p>
+              <div className="text-slate-600 leading-relaxed text-sm">
+                {cleanDescription || 'No description available for this product.'}
+              </div>
             )}
             
             {activeTab === 'specs' && (

@@ -186,7 +186,7 @@ const Home = () => {
   const closeBanner = () => { setIsBannerOpen(false); setBannerDismissed(true); };
   const nextSlide = (e?: React.MouseEvent) => { e?.stopPropagation(); setActiveBannerIndex((c) => (c + 1 >= banners.length ? 0 : c + 1)); };
   const prevSlide = (e?: React.MouseEvent) => { e?.stopPropagation(); setActiveBannerIndex((c) => (c - 1 < 0 ? banners.length - 1 : c - 1)); };
-  const featuredProducts = useMemo(() => products.slice(0, 8), [products]);
+  const featuredProducts = useMemo(() => products.slice(0, 6), [products]);
 
   const [timeLeft, setTimeLeft] = useState({ hours: 23, minutes: 59, seconds: 59 });
   useEffect(() => {
@@ -204,7 +204,7 @@ const Home = () => {
   const slide = heroSlides[activeHeroSlide];
 
   return (
-    <div className="bg-[#F7F6F2] font-['DM_Sans',_system-ui,_sans-serif] overflow-x-hidden">
+    <div className="bg-[#F3F8FF] font-['DM_Sans',_system-ui,_sans-serif] overflow-x-hidden">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@700;800;900&display=swap');
 
@@ -283,7 +283,7 @@ const Home = () => {
           font-size: 14px; cursor: pointer; transition: all 0.2s;
           text-decoration: none;
         }
-        .btn-primary:hover { background: #222; transform: translateY(-1px); }
+        .btn-primary:hover { background: #0a56bd; transform: translateY(-1px); }
 
         .btn-outline {
           display: inline-flex; align-items: center; gap: 8px;
@@ -295,10 +295,10 @@ const Home = () => {
         }
         .btn-outline:hover { background: rgba(255,255,255,0.1); }
 
-        .category-link:hover { background: #fef2f2; }
+        .category-link:hover { background: #eff6ff; }
 
         .shimmer-loading {
-          background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+          background: linear-gradient(90deg, #eff6ff 25%, #dbeafe 50%, #eff6ff 75%);
           background-size: 200% 100%; animation: shimmer 1.5s infinite;
         }
 
@@ -440,12 +440,12 @@ const Home = () => {
       )}
 
       {/* ─── HOME CONTENT CONTAINER ─── */}
-      <div className=" bg-gradient-to-br from-[#F8F7F4] via-[#F1EDE9] to-[#F7F6F2] pb-4 sm:pb-6 lg:pb-8">
+      <div className=" bg-gradient-to-br from-[#F8FBFF] via-[#EFF6FF] to-[#F0FDF4] pb-4 sm:pb-6 lg:pb-8">
         {/* ─── HERO + SIDEBAR (Mobile Responsive) ─── */}
         <section className="w-full sm:pt-0 pb-2 sm:pb-4">
         <div className="relative space-y-3">
           {/* Hero Banner (Full Width) */}
-          <div className="w-full relative overflow-hidden h-[300px] sm:h-[350px] md:h-[380px]">
+          <div className="w-full relative overflow-hidden h-[360px] sm:h-[350px] md:h-[380px]">
             {heroSlides.map((s, index) => {
               const isActive = index === activeHeroSlide;
               return (
@@ -471,12 +471,12 @@ const Home = () => {
                     <div className="absolute -top-44 -right-44 w-104 h-104 sm:w-[560px] sm:h-[560px] rounded-full border border-white/5 pointer-events-none" />
                   </div>
 
-                  <div className="relative z-10 flex flex-col sm:flex-row items-center justify-center sm:justify-between h-full pl-4 sm:pl-6 lg:pl-10 pr-0 pt-6 sm:pt-8 lg:pt-10 pb-0 gap-6 sm:gap-0">
-                    <div className="flex-1 w-full sm:w-1/2 flex flex-col items-center text-center sm:items-start sm:text-left">
+                  <div className="relative z-10 flex h-full items-stretch justify-between pl-4 sm:pl-6 lg:pl-10 pr-0 pt-6 sm:pt-8 lg:pt-10 pb-0 gap-0">
+                    <div className="relative z-20 flex-none w-[58%] sm:flex-1 sm:w-1/2 flex flex-col items-start text-left">
                       {/* Eyebrow */}
                       <div className="flex items-center gap-2 mb-2 sm:mb-3">
                         <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full animate-pulse" style={{ background: s.accentColor }} />
-                        <span className="text-[10px] sm:text-xs font-bold tracking-[0.1em] sm:tracking-[0.15em] uppercase" style={{ color: s.accentColor }}>
+                        <span className="text-[9px] sm:text-xs font-bold tracking-[0.08em] sm:tracking-[0.15em] uppercase" style={{ color: s.accentColor }}>
                           {s.tag}
                         </span>
                       </div>
@@ -486,9 +486,8 @@ const Home = () => {
                         {s.headline.map((word, i) => (
                           <div key={i} className="overflow-hidden">
                             <span
-                              className="font-display block font-black leading-[1]"
+                              className="font-display block font-black leading-[1] text-[2rem] sm:text-[2.75rem] lg:text-[4.5rem]"
                               style={{
-                                fontSize: 'clamp(1.8rem, 4.5vw, 4.5rem)',
                                 color: i === s.accent ? s.accentColor : 'white',
                               }}
                             >
@@ -500,28 +499,28 @@ const Home = () => {
 
 
                       {/* CTA Buttons */}
-                      <div className="flex flex-wrap justify-center sm:justify-start gap-2 sm:gap-3">
+                      <div className="flex flex-wrap justify-start gap-2 sm:gap-3">
                         <Link
                           to="/shop"
-                          className="inline-flex items-center gap-1.5 sm:gap-2 px-6 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-semibold text-white transition-all duration-300 hover:opacity-90 hover:scale-[1.02]"
+                          className="inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-semibold text-white transition-all duration-300 hover:opacity-90 hover:scale-[1.02]"
                           style={{ background: `linear-gradient(135deg, ${s.accentColor}, ${s.accentColor}cc)`, boxShadow: `0 4px 12px ${s.accentColor}40` }}
                         >
                           {s.cta} <ArrowRight size={12} className="sm:w-4 sm:h-4" />
                         </Link>
-                        <Link to="/shop" className="inline-flex items-center gap-1.5 sm:gap-2 px-6 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-semibold text-white border border-white/30 hover:bg-white/10 hover:border-white/50 transition-all duration-300 hover:scale-[1.02]">
+                        <Link to="/shop" className="inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-semibold text-white border border-white/30 hover:bg-white/10 hover:border-white/50 transition-all duration-300 hover:scale-[1.02]">
                           View All
                         </Link>
                       </div>
                     </div>
 
                     {/* Hero Image - equal layout */}
-                    <div className="flex-1 w-full sm:w-1/2 flex items-end justify-end h-full">
+                    <div className="flex-1 min-w-0 w-[42%] sm:w-1/2 flex items-end justify-end h-full">
                       <div className="relative animate-float w-full h-full flex items-end justify-end">
                         <div className="absolute inset-0 rounded-full blur-3xl opacity-40" style={{ background: s.accentColor }} />
                         <img
                           src={s.img}
                           alt="Featured"
-                          className="relative w-full h-[90%] object-contain drop-shadow-2xl hero-slide-img"
+                          className="relative w-[130%] max-w-none sm:w-full h-[76%] sm:h-[90%] object-contain object-bottom drop-shadow-2xl hero-slide-img"
                           onError={(e: any) => { (e.currentTarget as HTMLImageElement).src = "/image/shop.png"; }}
                         />
                       </div>
@@ -707,8 +706,8 @@ const Home = () => {
             <div className="section-eyebrow text-xs">
               Bestsellers
             </div>
-            <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 leading-tight">
-              Top Picks For You
+            <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 leading-tight uppercase tracking-wide">
+              TOP PICKS FOR YOU
             </h2>
             <p className="text-gray-400 text-xs sm:text-sm mt-1 sm:mt-2">Hand-curated products our customers love</p>
           </div>
@@ -721,8 +720,8 @@ const Home = () => {
         </div>
 
         {loadingProducts ? (
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-3 md:gap-4">
-            {Array.from({ length: 8 }).map((_, i) => (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 md:gap-4">
+            {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="rounded-xl sm:rounded-2xl overflow-hidden bg-white">
                 <div className="shimmer-loading aspect-square" />
                 <div className="p-3 sm:p-4 space-y-2">
@@ -733,7 +732,7 @@ const Home = () => {
             ))}
           </div>
         ) : featuredProducts.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-3 md:gap-4 lg:gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 md:gap-4 lg:gap-5">
             {featuredProducts.map((product: any) => (
               <div key={product.id} className="product-card-wrap">
                 <ProductCard product={product} />
@@ -775,8 +774,8 @@ const Home = () => {
           </div>
 
           {loadingRecommendations ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
-              {Array.from({ length: 4 }).map((_, i) => (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 md:gap-4">
+              {Array.from({ length: 6 }).map((_, i) => (
                 <div key={i} className="rounded-xl sm:rounded-2xl overflow-hidden bg-white">
                   <div className="shimmer-loading aspect-square" />
                   <div className="p-3 sm:p-4 space-y-2">
@@ -787,8 +786,8 @@ const Home = () => {
               ))}
             </div>
           ) : recommendedForYou.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:gap-5">
-              {recommendedForYou.map((product: any) => (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 md:gap-4 lg:gap-5">
+              {recommendedForYou.slice(0, 6).map((product: any) => (
                 <div key={product.id} className="product-card-wrap">
                   <ProductCard product={product} />
                 </div>
@@ -815,8 +814,8 @@ const Home = () => {
               Browse More <ArrowRight size={14} />
             </Link>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:gap-5">
-            {recentlyViewed.map((product: any) => (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 md:gap-4 lg:gap-5">
+            {recentlyViewed.slice(0, 6).map((product: any) => (
               <div key={product.id} className="product-card-wrap">
                 <ProductCard product={product} />
               </div>

@@ -19,6 +19,7 @@ const BlogDetail = lazy(() => import('./pages/BlogDetail'));
 const Gallery = lazy(() => import('./pages/Gallery'));
 const Cart = lazy(() => import('./pages/Cart'));
 const Wishlist = lazy(() => import('./pages/Wishlist'));
+const Account = lazy(() => import('./pages/Account'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Checkout = lazy(() => import('./pages/Checkout'));
 const OrderSuccess = lazy(() => import('./pages/OrderSuccess'));
@@ -81,6 +82,7 @@ const AppContent = () => {
           <Route path="/contact" element={<Layout><Contact /></Layout>} />
           <Route path="/cart" element={<Layout><Cart /></Layout>} />
           <Route path="/wishlist" element={<Layout><Wishlist /></Layout>} />
+          <Route path="/account" element={<Layout><Account /></Layout>} />
           <Route path="/checkout" element={<Layout><Checkout /></Layout>} />
           <Route path="/order-success" element={<Layout><OrderSuccess /></Layout>} />
           <Route path="/testimonials" element={<Layout><Testimonials /></Layout>} />

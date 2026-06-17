@@ -4,7 +4,7 @@ import { API_ENDPOINTS } from '../src/constant/api';
 
 interface CartContextType {
   cart: CartItem[];
-  addToCart: (product: Product, size?: string, color?: string) => Promise<{ success: boolean; message: string; alreadyInCart?: boolean } | undefined>;
+  addToCart: (product: Product, size?: string, color?: string, quantity?: number) => Promise<{ success: boolean; message: string; alreadyInCart?: boolean; newQuantity?: number } | undefined>;
   removeFromCart: (productId: number) => Promise<void>;
   updateQuantity: (productId: number, quantity: number) => Promise<void>;
   cartTotal: number;
@@ -88,8 +88,9 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return () => window.removeEventListener('storage', handleStorageChange);
   }, [fetchCart]);
 
-  const addToCart = async (product: Product, size?: string, color?: string) => {
+  const addToCart = async (product: Product, size?: string, color?: string, quantity = 1) => {
     const token = localStorage.getItem('token');
+    const requestedQuantity = Math.max(1, Number(quantity) || 1);
     
     if (!token) {
       window.location.href = '/login';
@@ -99,7 +100,18 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     // Check if product already in cart
     const existingItem = cart.find(item => item.product_id === product.id);
     if (existingItem) {
-      return { success: false, message: 'Product already in cart', alreadyInCart: true };
+      const newQuantity = existingItem.quantity + requestedQuantity;
+      if (existingItem.stock !== undefined && newQuantity > existingItem.stock) {
+        return { success: false, message: `Only ${existingItem.stock} items available` };
+      }
+
+      await updateQuantity(existingItem.id, newQuantity);
+      return {
+        success: true,
+        message: 'Cart quantity updated',
+        alreadyInCart: true,
+        newQuantity
+      };
     }
 
     // Logged-in users: use API
@@ -107,7 +119,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setLoading(true);
       const requestBody: any = {
         product_id: product.id,
-        quantity: 1
+        quantity: requestedQuantity
       };
       
       if (size) requestBody.size = size;
