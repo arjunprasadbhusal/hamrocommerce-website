@@ -141,16 +141,17 @@ class OrderController extends Controller
         $order->status = $status;
         $order->save();
         
-        // Send order status update email to user
-        try {
-            Mail::send('emails.order-status-updated', ['order' => $order], function ($message) use ($order) {
-                $message->to($order->user->email, $order->user->name)
-                       ->subject('Order Status Update - ' . $order->status . ' - Hamro-commerce');
-            });
-        } catch (\Exception $e) {
-            // Log error but don't fail the status update
-            Log::error('Failed to send status update email: ' . $e->getMessage());
-        }
+        // Send the status email after the response so the admin UI updates immediately.
+        defer(function () use ($order) {
+            try {
+                Mail::send('emails.order-status-updated', ['order' => $order], function ($message) use ($order) {
+                    $message->to($order->user->email, $order->user->name)
+                           ->subject('Order Status Update - ' . $order->status . ' - Hamro-commerce');
+                });
+            } catch (\Exception $e) {
+                Log::error('Failed to send status update email: ' . $e->getMessage());
+            }
+        }, 'send-order-status-email-' . $order->id);
 
         Cache::forget('orders_all_admin');
         Cache::forget('orders_overview');

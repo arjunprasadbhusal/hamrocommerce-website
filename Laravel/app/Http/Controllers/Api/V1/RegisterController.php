@@ -38,14 +38,16 @@ class RegisterController extends Controller
         $user = User::create($data);
         $token = $user->createToken('hamro-commerce')->plainTextToken;
 
-        try {
-            Mail::send('emails.welcome', ['user' => $user], function ($message) use ($user) {
-                $message->to($user->email, $user->name)
-                    ->subject('Welcome to Hamro-commerce');
-            });
-        } catch (\Exception $e) {
-            Log::error('Failed to send welcome email: ' . $e->getMessage());
-        }
+        defer(function () use ($user) {
+            try {
+                Mail::send('emails.welcome', ['user' => $user], function ($message) use ($user) {
+                    $message->to($user->email, $user->name)
+                        ->subject('Welcome to Hamro-commerce');
+                });
+            } catch (\Exception $e) {
+                Log::error('Failed to send welcome email: ' . $e->getMessage());
+            }
+        }, 'send-welcome-email');
 
         return response()->json([
             'success' => true,

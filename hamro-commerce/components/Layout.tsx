@@ -180,7 +180,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           ? 'bg-white/90 backdrop-blur-xl shadow-lg shadow-slate-200/50 border-b border-slate-200/50' 
           : 'bg-white border-b border-slate-200/60'
       }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-2">
           <div className="flex justify-between items-center h-16 md:h-20">
 
             {/* Logo */}
@@ -190,7 +190,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <img
                   src="/image/logo.png"
                   alt="Hamro Commerce"
-                  className="h-9 sm:h-10 md:h-12 w-auto max-w-[150px] sm:max-w-none object-contain transition-all duration-300 group-hover:scale-105"
+                  className="h-9 sm:h-12 md:h-14 w-auto max-w-[200px] sm:max-w-none object-contain transition-all duration-300 group-hover:scale-105"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
                     const fallback = e.currentTarget.parentElement?.querySelector('.logo-fallback');
@@ -729,8 +729,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <li className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center flex-shrink-0 text-green-400">📍</div>
                   <div>
-                    <span className="block text-white text-sm font-medium">{t('addressLine')}</span>
-                    <span className="text-xs text-slate-400">{t('countryNepal')}</span>
+                    <span className="block text-white text-sm font-medium">Kawasoti</span>
+                    <span className="text-xs text-slate-400">nawalpur , Nepal</span>
                   </div>
                 </li>
                 <li className="flex items-center gap-3">
