@@ -110,7 +110,7 @@ const Cart = () => {
                 <ChevronRight size={10} />
                 <span className="text-white">{t('yourCart')}</span>
               </div>
-              <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-none uppercase">
+              <h1 className="text-3xl md:text-3xl font-black tracking-tight leading-none uppercase">
                 {t('yourSelection')} <span className="text-green-300">({cart.length})</span>
               </h1>
               <p className="mt-3 text-sm md:text-base text-slate-200">Review your products and checkout securely.</p>
@@ -231,7 +231,7 @@ const Cart = () => {
                       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mt-4 pt-4 border-t border-slate-100">
                         <div>
                           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">{t('itemTotal')}</p>
-                          <p className="text-xl font-black text-slate-900 tracking-tight">NPR {(parseFloat(item.price) * item.quantity).toLocaleString()}</p>
+                          <p className="text-[10px] font-black text-slate-900 tracking-tight">NPR {(parseFloat(item.price) * item.quantity).toLocaleString()}</p>
                         </div>
 
                         {/* Modern Quantity Controls */}
@@ -271,69 +271,117 @@ const Cart = () => {
           </div>
 
           {/* Checkout Summary Section */}
-          <div className="lg:col-span-4">
-            <div className="sticky top-24 space-y-4">
-              <div className="bg-slate-900 rounded-3xl p-6 md:p-7 text-white shadow-2xl shadow-slate-300/70 border border-slate-800">
-                <h3 className="text-sm font-black uppercase tracking-[0.22em] mb-6 text-white">{t('orderSummary')}</h3>
+         {/* Checkout Summary Section */}
+<div className="lg:col-span-4">
+  <div className="sticky top-24 space-y-4">
 
-                <div className="space-y-3 mb-6">
-                  <div className="flex justify-between items-center group">
-                    <span className="text-sm font-medium text-slate-400">{t('subtotal')}</span>
-                    <span className="text-sm font-bold tracking-tight">NPR {selectedTotal.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between items-center group">
-                    <span className="text-sm font-medium text-slate-400 flex items-center gap-2">
-                      <Truck size={15} /> {t('shipping')}
-                    </span>
-                    <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">{t('free')}</span>
-                  </div>
-                  <div className="flex justify-between items-center group">
-                    <span className="text-sm font-medium text-slate-400">{t('estimatedTax')}</span>
-                    <span className="text-xs font-bold uppercase tracking-widest">{t('included')}</span>
-                  </div>
-                </div>
+    {/* Order Summary Card */}
+    <div className="bg-slate-900 rounded-3xl p-6 md:p-7 text-white shadow-2xl shadow-slate-300/70 border border-slate-800">
 
-                <div className="pt-6 border-t border-slate-800 mb-8">
-                  <div className="flex justify-between items-end mb-1">
-                    <span className="text-xs font-bold uppercase tracking-widest text-slate-400">{t('totalAmount')}</span>
-                    <span className="text-3xl font-black tracking-tight text-white">NPR {selectedTotal.toLocaleString()}</span>
-                  </div>
-                  <p className="text-xs text-emerald-300 font-semibold leading-none">{t('vatIncluded')}</p>
-                </div>
+      <h3 className="text-lg font-bold mb-6 pb-4 border-b border-slate-700">
+        {t('orderSummary')}
+      </h3>
 
-                <button
-                  onClick={handleCheckout}
-                  disabled={selectedItems.length === 0}
-                  className="w-full bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-500 hover:to-green-500 disabled:from-slate-800 disabled:to-slate-800 disabled:text-slate-600 text-white py-4 rounded-2xl font-black text-sm uppercase tracking-[0.16em] transition-all duration-500 flex items-center justify-center gap-2 shadow-xl shadow-blue-900/20 active:scale-[0.98]"
-                >
-                  {t('proceedToCheckout')} <ArrowRight size={18} />
-                </button>
-              </div>
+      <div className="space-y-4">
 
-              {/* Trust Badges */}
-              <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-lg shadow-slate-200/50 space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-blue-50 text-green-600 flex items-center justify-center">
-                    <ShieldCheck size={16} />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-slate-900 uppercase tracking-tight">{t('purchaseProtection')}</p>
-                    <p className="text-[11px] text-slate-400 font-medium uppercase tracking-tighter">{t('dataEncrypted')}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                    <Truck size={16} />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-slate-900 uppercase tracking-tight">{t('expressDelivery')}</p>
-                    <p className="text-[11px] text-slate-400 font-medium uppercase tracking-tighter">{t('quickShipping')}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div className="flex items-center justify-between">
+          <span className="text-slate-400 text-sm">
+            {t('subtotal')}
+          </span>
+          <span className="font-semibold text-white">
+            NPR {selectedTotal.toLocaleString()}
+          </span>
+        </div>
 
+        <div className="flex items-center justify-between">
+          <span className="flex items-center gap-2 text-slate-400 text-sm">
+            <Truck size={16} />
+            {t('shipping')}
+          </span>
+          <span className="font-semibold text-emerald-400">
+            {t('free')}
+          </span>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <span className="text-slate-400 text-sm">
+            {t('estimatedTax')}
+          </span>
+          <span className="font-semibold text-white">
+            {t('included')}
+          </span>
+        </div>
+
+      </div>
+
+      <div className="border-t border-slate-700 mt-6 pt-6">
+
+        <div className="flex items-center justify-between">
+          <span className="text-base font-semibold text-xl text-white">
+            {t('totalAmount')}
+          </span>
+
+          <span className="text-xl font-black tracking-tight text-white">
+            NPR {selectedTotal.toLocaleString()}
+          </span>
+        </div>
+
+        <p className="text-xs text-emerald-400 mt-2">
+          {t('vatIncluded')}
+        </p>
+
+      </div>
+
+      <button
+        onClick={handleCheckout}
+        disabled={selectedItems.length === 0}
+        className="w-full mt-6 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-500 hover:to-green-500 disabled:from-slate-800 disabled:to-slate-800 disabled:text-slate-600 text-white py-4 rounded-2xl font-bold transition-all duration-300 flex items-center justify-center gap-2 shadow-lg active:scale-[0.98]"
+      >
+        {t('proceedToCheckout')}
+        <ArrowRight size={18} />
+      </button>
+
+    </div>
+
+    {/* Trust Badges */}
+    <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-lg shadow-slate-200/50 space-y-4">
+
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+          <ShieldCheck size={18} />
+        </div>
+
+        <div>
+          <p className="text-sm font-semibold text-slate-900">
+            {t('purchaseProtection')}
+          </p>
+
+          <p className="text-xs text-slate-500">
+            {t('dataEncrypted')}
+          </p>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+          <Truck size={18} />
+        </div>
+
+        <div>
+          <p className="text-sm font-semibold text-slate-900">
+            {t('expressDelivery')}
+          </p>
+
+          <p className="text-xs text-slate-500">
+            {t('quickShipping')}
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
         </div>
       </div>
     </div>
